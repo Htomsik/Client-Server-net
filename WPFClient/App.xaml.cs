@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
+using Core.Infrastucture.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using MVVMBase.IOC;
 
 namespace MVVMBase
 {
@@ -13,5 +12,20 @@ namespace MVVMBase
     /// </summary>
     public partial class App : Application
     {
+        private static IHost? _host;
+        public static IHost? Host => _host ??= HostCreator.GetHost(IOCworker.RegistredServies());
+        public static IServiceProvider Services => Host.Services;
+        
+        protected override async void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            
+            MainWindow = Services.GetRequiredService<MainWindow>();
+
+            MainWindow.Show();
+            
+            await Host.StartAsync();
+        }
+        
     }
 }

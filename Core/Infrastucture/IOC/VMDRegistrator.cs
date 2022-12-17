@@ -1,9 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Core.VMD;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Core.IOC;
 
 public partial class IocRegistrator
 {
     public static IServiceCollection VMDRegistrator(this IServiceCollection services) =>
-        services;
+        services
+            .AddSingleton<MainVmd>();
 }
