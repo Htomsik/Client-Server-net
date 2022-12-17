@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Core.IOC;
+namespace Core.Infrastructure.IOC;
 
 public partial class IocRegistrator
 {

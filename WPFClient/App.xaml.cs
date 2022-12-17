@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Windows;
-using Core.Infrastucture.Hosting;
+using Core.Infrastructure.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MVVMBase.IOC;
+using MVVMBase.Views;
 
 namespace MVVMBase
 {

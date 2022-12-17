@@ -1,5 +1,6 @@
 ﻿using Core.VMD;
 using Microsoft.Extensions.DependencyInjection;
+using MVVMBase.Views;
 
 namespace MVVMBase.IOC;
 
