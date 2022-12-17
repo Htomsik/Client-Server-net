@@ -1,4 +1,6 @@
 ﻿using Core.Infrastructure.IOC;
+using Core.Infrastructure.Logging;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
@@ -18,11 +20,16 @@ internal class HostWorker
         Microsoft.Extensions.Hosting.Host
             .CreateDefaultBuilder(args)
             .ConfigureServices(ConfigureServices)
+            .ConfigureAppConfiguration((host, cfg) => cfg
+                .SetBasePath(Environment.CurrentDirectory)
+                .AddJsonFile("appsettings.json", true, true)
+            )
             .UseSerilog((context, services, configuration) =>
             {
                 configuration
-                    .WriteTo.File(@"logs\Log-.txt", rollingInterval: RollingInterval.Day,restrictedToMinimumLevel: LogEventLevel.Warning)
-                    .MinimumLevel.Override("Microsoft", LogEventLevel.Warning);
+                    .WriteTo.File(@"logs\Log-.txt", rollingInterval: RollingInterval.Day,
+                        restrictedToMinimumLevel: LogEventLevel.Warning)
+                    .WriteTo.Sink(services.GetRequiredService<InfoToLogSink>());
             });
     
     private static void ConfigureServices(HostBuilderContext host, IServiceCollection services) =>
