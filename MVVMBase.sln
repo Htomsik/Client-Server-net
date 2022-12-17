@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFClient", "WPFClient\WPFClient.csproj", "{4D8D97D6-6CC0-473A-B6B6-098FE67A6004}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{F53E684E-4914-4E27-AB8F-59909ADDE823}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4D8D97D6-6CC0-473A-B6B6-098FE67A6004}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D8D97D6-6CC0-473A-B6B6-098FE67A6004}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D8D97D6-6CC0-473A-B6B6-098FE67A6004}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D8D97D6-6CC0-473A-B6B6-098FE67A6004}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F53E684E-4914-4E27-AB8F-59909ADDE823}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F53E684E-4914-4E27-AB8F-59909ADDE823}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F53E684E-4914-4E27-AB8F-59909ADDE823}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F53E684E-4914-4E27-AB8F-59909ADDE823}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
