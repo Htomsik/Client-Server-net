@@ -1,11 +1,36 @@
 <Application
     x:Class="AvaloniaUIClient.App"
     xmlns="https://github.com/avaloniaui"
+    xmlns:events="clr-namespace:Serilog.Events;assembly=Serilog"
     xmlns:local="using:AvaloniaUIClient"
+    xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Application.Styles>
-        <FluentTheme Mode="Dark" />
+
+        <themes:MaterialTheme
+            BaseTheme="Dark"
+            PrimaryColor="DeepPurple"
+            SecondaryColor="Amber" />
+
+        <StyleInclude Source="avares://Material.Icons.Avalonia/App.xaml" />
+
     </Application.Styles>
+
+    <!--  Temporary  -->
+    <Application.DataTemplates>
+
+        <DataTemplate DataType="events:LogEvent">
+
+            <Grid ColumnDefinitions="Auto,Auto" VerticalAlignment="Center">
+                <TextBlock Text="{Binding Level, StringFormat={}{0}:}" />
+                <TextBlock Grid.Column="1" Text="{Binding MessageTemplate.Text}" />
+            </Grid>
+
+        </DataTemplate>
+
+    </Application.DataTemplates>
+
+
 
 </Application>

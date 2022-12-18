@@ -1,19 +1,27 @@
 <Window
     Icon="/Assets/avalonia-logo.ico"
     Title="AvaloniaUIClient"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    d:DataContext="{Binding MainVmd}"
+    d:DesignHeight="300"
+    d:DesignWidth="500"
     mc:Ignorable="d"
     x:Class="AvaloniaUIClient.Views.MainWindow"
     xmlns="https://github.com/avaloniaui"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vmds="clr-namespace:Core.VMD;assembly=Core"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <Grid RowDefinitions="*,30">
 
-    <TextBlock
-        HorizontalAlignment="Center"
-        Text="{Binding Greeting}"
-        VerticalAlignment="Center" />
+        <!--  Last log  -->
+        <ContentControl
+            BorderBrush="{DynamicResource PrimaryHueLightBrush}"
+            BorderThickness="0,2,0,0"
+            Content="{Binding LastLog}"
+            Grid.Row="1" />
+
+    </Grid>
+
 
 </Window>
