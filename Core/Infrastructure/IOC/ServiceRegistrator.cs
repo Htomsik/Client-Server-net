@@ -7,5 +7,6 @@ public static partial class IocRegistrator
 {
     public static IServiceCollection ServiceRegistration(this IServiceCollection services) =>
         services
+            .AddSingleton<IObserver<Exception>,GlobalExceptionHandler>()
             .AddSingleton<InfoToLogSink>();
 }
