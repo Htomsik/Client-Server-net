@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace MVVMBase.IOC;
+namespace AvaloniaUIClient.IOC;
 
 internal static class IocWorker
 {

@@ -1,8 +1,8 @@
-﻿using Core.VMD;
+﻿using AvaloniaUIClient.Views;
+using Core.VMD;
 using Microsoft.Extensions.DependencyInjection;
-using MVVMBase.Views;
 
-namespace MVVMBase.IOC;
+namespace AvaloniaUIClient.IOC;
 
 internal static partial class IocRegistrator
 {
