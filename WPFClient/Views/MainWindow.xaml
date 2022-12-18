@@ -1,13 +1,38 @@
 ﻿<Window
     Height="450"
-    Title="MainWindow"
+    Title="AppTemplate"
     Width="800"
+    d:DataContext="{d:DesignInstance {x:Type vmd:MainVmd},
+                                     IsDesignTimeCreatable=True}"
     mc:Ignorable="d"
     x:Class="MVVMBase.Views.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:MVVMBase"
+    xmlns:events="clr-namespace:Serilog.Events;assembly=Serilog"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vmd="clr-namespace:Core.VMD;assembly=Core"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Grid />
+
+
+    <Grid Background="{DynamicResource MaterialDesignDarkBackground}">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="25" />
+        </Grid.RowDefinitions>
+
+        <!--  Строка статуса  -->
+        <materialDesign:ColorZone
+            BorderBrush="{DynamicResource MaterialDesignDarkSeparatorBackground}"
+            Grid.Row="1"
+            Mode="Dark"
+            VerticalAlignment="Stretch"
+            VerticalContentAlignment="Center">
+
+            <ContentControl Content="{Binding LastLog}" />
+
+        </materialDesign:ColorZone>
+
+    </Grid>
 </Window>

@@ -23,13 +23,13 @@ internal sealed class GlobalExceptionHandler : IObserver<Exception>
 
     public void OnCompleted()
     {
-        if(_isDebugMode)
+        if(_isDebugMode && Debugger.IsAttached)
             Debugger.Break();
     }
 
     public void OnError(Exception error)
     {
-        if(_isDebugMode)
+        if(_isDebugMode && Debugger.IsAttached)
             Debugger.Break();
         
         _logger.LogCritical(error, "{0}:{1}", error.Source, error.Message);
@@ -37,7 +37,7 @@ internal sealed class GlobalExceptionHandler : IObserver<Exception>
 
     public void OnNext(Exception error)
     {
-        if(_isDebugMode)
+        if(_isDebugMode && Debugger.IsAttached)
             Debugger.Break();
         
         _logger.LogCritical(error, "{0}:{1}", error.Source, error.Message);
