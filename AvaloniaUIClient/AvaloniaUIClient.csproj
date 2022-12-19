@@ -30,4 +30,11 @@
     <ItemGroup>
       <ProjectReference Include="..\Core\Core.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Views\DevPanelView.axaml.cs">
+        <DependentUpon>DevPanelView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+    </ItemGroup>
 </Project>
