@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 using AppInfrastructure.Stores.Repositories.Collection;
+using Core.Infrastructure.Hosting;
+using Core.VMD.DevPanelVmds;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Serilog.Events;
@@ -11,6 +13,8 @@ public class MainVmd : ReactiveObject
 {
     [Reactive]
     public LogEvent? LastLog { get; private set; }
+
+    private DevPanelVmd? DevPanelVmd { get; }
     
     public MainVmd(ICollectionRepository<ObservableCollection<LogEvent>,LogEvent> logStore)
     {
@@ -29,6 +33,7 @@ public class MainVmd : ReactiveObject
             .Subscribe(_ => LastLog = null);
         
         #endregion
-        
+
+        DevPanelVmd = (DevPanelVmd?)HostWorker.Services.GetService(typeof(DevPanelVmd));
     }
 }

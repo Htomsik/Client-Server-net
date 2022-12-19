@@ -1,7 +1,6 @@
 <Window
     Icon="/Assets/avalonia-logo.ico"
     Title="AvaloniaUIClient"
-    d:DataContext="{Binding MainVmd}"
     d:DesignHeight="300"
     d:DesignWidth="500"
     mc:Ignorable="d"
@@ -12,7 +11,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
-    xmlns:vmds="clr-namespace:Core.VMD;assembly=Core"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Grid RowDefinitions="*,30">
@@ -29,6 +27,8 @@
             BorderBrush="{DynamicResource PrimaryHueLightBrush}"
             Grid.Row="0"
             Name="LogsSheet"
+            SideSheetContent="{Binding DevPanelVmd}"
+            SideSheetDirection="Right"
             SideSheetHeader="Developer panel"
             SideSheetOpened="{Binding #OpenLogsSheetButton.IsChecked, Mode=TwoWay}">
 
