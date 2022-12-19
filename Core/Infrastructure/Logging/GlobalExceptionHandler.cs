@@ -9,27 +9,27 @@ internal sealed class GlobalExceptionHandler : IObserver<Exception>
 {
     private readonly ILogger _logger;
 
-    private bool _isDebugMode;
+    private bool _isDevMode;
 
     public GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger, IConfiguration configuration)
     {
         _logger = logger;
 
         configuration
-            .WhenAnyValue(x => x["Settings:DebugMode:IsDebugMode"])
+            .WhenAnyValue(x => x["Settings:DevMode:Enabled"])
             .Subscribe(_=> 
-                _isDebugMode = Convert.ToBoolean(configuration["Settings:DebugMode:IsDebugMode"]));
+                _isDevMode = Convert.ToBoolean(configuration["Settings:DevMode:Enabled"]));
     }
 
     public void OnCompleted()
     {
-        if(_isDebugMode && Debugger.IsAttached)
+        if(_isDevMode && Debugger.IsAttached)
             Debugger.Break();
     }
 
     public void OnError(Exception error)
     {
-        if(_isDebugMode && Debugger.IsAttached)
+        if(_isDevMode && Debugger.IsAttached)
             Debugger.Break();
         
         _logger.LogCritical(error, "{0}:{1}", error.Source, error.Message);
@@ -37,7 +37,7 @@ internal sealed class GlobalExceptionHandler : IObserver<Exception>
 
     public void OnNext(Exception error)
     {
-        if(_isDebugMode && Debugger.IsAttached)
+        if(_isDevMode && Debugger.IsAttached)
             Debugger.Break();
         
         _logger.LogCritical(error, "{0}:{1}", error.Source, error.Message);
