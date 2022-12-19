@@ -10,7 +10,7 @@
 
         <themes:MaterialTheme
             BaseTheme="Dark"
-            PrimaryColor="DeepPurple"
+            PrimaryColor="Purple"
             SecondaryColor="Amber" />
 
         <StyleInclude Source="avares://Material.Icons.Avalonia/App.xaml" />

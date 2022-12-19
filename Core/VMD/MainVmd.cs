@@ -11,15 +11,16 @@ public class MainVmd : ReactiveObject
 {
     [Reactive]
     public LogEvent? LastLog { get; private set; }
+    
     public MainVmd(ICollectionRepository<ObservableCollection<LogEvent>,LogEvent> logStore)
     {
+        
         #region Subscriptions
 
         logStore.CurrentValueChangedNotifier += () => LastLog = logStore.CurrentValue.Last();
         
         #endregion
-
-
+        
         #region Additional subs
         
         this
@@ -28,7 +29,6 @@ public class MainVmd : ReactiveObject
             .Subscribe(_ => LastLog = null);
         
         #endregion
-
+        
     }
-    
 }
