@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using AvaloniaUIClient.Infrastucture.Views;
+using Core.VMD.DevPanelVmds;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ReactiveUI;
@@ -13,7 +14,7 @@ public class ViewLocator : IDataTemplate
 {
     private readonly Dictionary<Type, Type> _vmdToViewTypes = new()
     {
-      //  {typeof(DevPanelVmd),typeof(DevPanelView)}
+        {typeof(DevPanelVmd),typeof(DevPanelView)}
     };
 
     private ILogger? _logger;
@@ -34,7 +35,7 @@ public class ViewLocator : IDataTemplate
         }
         catch(Exception error)
         {
-            _logger?.LogError(error, "{0}:{1}", error.Source, error.Message);
+            _logger?.LogError(error, error.Message);
         }
         
         return view;
