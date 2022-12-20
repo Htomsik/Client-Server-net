@@ -1,9 +1,9 @@
 <Application
     x:Class="AvaloniaUIClient.App"
     xmlns="https://github.com/avaloniaui"
+    xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
     xmlns:events="clr-namespace:Serilog.Events;assembly=Serilog"
     xmlns:infrastucture="clr-namespace:AvaloniaUIClient.Infrastucture"
-    xmlns:local="using:AvaloniaUIClient"
     xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
@@ -15,7 +15,7 @@
             SecondaryColor="Amber" />
 
         <StyleInclude Source="avares://Material.Icons.Avalonia/App.xaml" />
-        
+
 
     </Application.Styles>
 
@@ -28,10 +28,17 @@
 
         <DataTemplate DataType="events:LogEvent">
 
-            <Grid ColumnDefinitions="Auto,Auto" VerticalAlignment="Center">
-                <TextBlock Text="{Binding Level, StringFormat={}{0}:}" />
-                <TextBlock Grid.Column="1" Text="{Binding MessageTemplate.Text}" />
-            </Grid>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+
+                <avalonia:MaterialIconExt Kind="Information" />
+
+                <TextBlock
+                    Classes="Body1"
+                    Margin="5,0,0,0"
+                    Text="{Binding MessageTemplate.Text}"
+                    VerticalAlignment="Center" />
+
+            </StackPanel>
 
         </DataTemplate>
 
