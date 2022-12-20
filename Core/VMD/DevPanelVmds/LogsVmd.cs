@@ -6,12 +6,12 @@ using Serilog.Events;
 
 namespace Core.VMD.DevPanelVmds;
 
-public sealed class DevPanelVmd : ReactiveObject
+public sealed class LogsVmd : ReactiveObject
 {
     [Reactive]
     public ObservableCollection<LogEvent> Logs { get; set; }
     
-    public DevPanelVmd(IStore<ObservableCollection<LogEvent>> logs)
+    public LogsVmd(IStore<ObservableCollection<LogEvent>> logs)
     {
         logs.CurrentValueDeletedNotifier += () => Logs = logs.CurrentValue;
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using AvaloniaUIClient.Infrastucture.Views;
+using AvaloniaUIClient.Infrastucture.Views.DevPanelViews;
 using Core.VMD.DevPanelVmds;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -14,7 +15,8 @@ public class ViewLocator : IDataTemplate
 {
     private readonly Dictionary<Type, Type> _vmdToViewTypes = new()
     {
-        {typeof(DevPanelVmd),typeof(DevPanelView)}
+        {typeof(DevVmd),typeof(DevPanelView)},
+        {typeof(LogsVmd),typeof(LogsPanelView)}
     };
 
     private ILogger? _logger;

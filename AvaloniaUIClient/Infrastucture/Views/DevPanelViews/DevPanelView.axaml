@@ -12,9 +12,7 @@
         <TabControl>
             <!--  Logs  -->
             <TabItem Header="Logs">
-
-                <ListBox Items="{Binding}" />
-
+                <ContentControl Content="{Binding LogsPanelVmd}" />
             </TabItem>
         </TabControl>
     </Grid>

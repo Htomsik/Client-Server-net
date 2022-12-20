@@ -9,5 +9,6 @@ public partial class IocRegistrator
     public static IServiceCollection VMDRegistrator(this IServiceCollection services) =>
         services
             .AddSingleton<MainVmd>()
-            .AddTransient<DevPanelVmd>();
+            .AddTransient<DevVmd>()
+            .AddTransient<LogsVmd>();
 }

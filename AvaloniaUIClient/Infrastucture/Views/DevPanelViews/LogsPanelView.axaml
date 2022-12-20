@@ -1,0 +1,53 @@
+﻿<UserControl
+    d:DesignHeight="300"
+    d:DesignWidth="300"
+    mc:Ignorable="d"
+    x:Class="AvaloniaUIClient.Infrastucture.Views.DevPanelViews.LogsPanelView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <DockPanel Margin="5">
+
+        <styles:Card Padding="0,4">
+
+            <StackPanel>
+
+                <TextBlock
+                    Classes="Body2"
+                    HorizontalAlignment="Left"
+                    Margin="5,0"
+                    Text="{Binding #AllLogsBox.ItemCount, StringFormat={}Count: {0}}" />
+
+                <!--  Logs contaniner  -->
+                <ScrollViewer
+                    Classes="MiniBar"
+                    DockPanel.Dock="Top"
+                    HorizontalScrollBarVisibility="Visible"
+                    Margin="5">
+
+                    <ListBox
+                        Items="{Binding Logs}"
+                        Margin="0,0,5,0"
+                        Name="AllLogsBox"
+                        SelectionMode="Single" />
+
+                </ScrollViewer>
+
+            </StackPanel>
+
+
+        </styles:Card>
+
+
+        <!--  Selecte log  -->
+        <ContentControl
+            Content="{Binding #AllLogsBox.SelectedItem}"
+            DockPanel.Dock="Bottom"
+            Margin="5" />
+
+    </DockPanel>
+
+</UserControl>
