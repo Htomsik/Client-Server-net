@@ -11,12 +11,7 @@ public static class HostCreator
     {
         IocRegistrator.SetAdditionalServices(services);
         
-        RxApp.DefaultExceptionHandler = HostWorker.Services.GetRequiredService<IObserver<Exception>>();
-        
         return HostWorker.Host;
     }
-    
-    
-    
     
 }

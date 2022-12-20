@@ -32,7 +32,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Views\DevPanelView.axaml.cs">
+      <Compile Update="Infrastucture\Views\DevPanelView.axaml.cs">
         <DependentUpon>DevPanelView.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>

@@ -7,6 +7,7 @@ using AvaloniaUIClient.Views;
 using Core.Infrastructure.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ReactiveUI;
 
 namespace AvaloniaUIClient;
 
@@ -18,17 +19,20 @@ public partial class App : Application
     
     public static IHost? Host => _host ??= HostCreator.CreateHost(IocWorker.RegistredServies());
     
-    public static IServiceProvider Services => Host.Services;
-
-    public override void OnFrameworkInitializationCompleted()
+    public static IServiceProvider Services => Host!.Services;
+    
+    public async override void OnFrameworkInitializationCompleted()
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-        { 
+        {
+            RxApp.DefaultExceptionHandler = Services.GetRequiredService<IObserver<Exception>>();
+
             desktop.MainWindow = Services.GetRequiredService<MainWindow>();
             
-            Host.Start();
+           await Host!.StartAsync();
         }
-
+        
         base.OnFrameworkInitializationCompleted();
+        
     }
 }
