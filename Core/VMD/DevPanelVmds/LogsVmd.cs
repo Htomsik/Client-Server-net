@@ -14,7 +14,7 @@ public sealed class LogsVmd : ReactiveObject
     [Reactive]
     public string SearchText { get; set; }
 
-    private IStore<ObservableCollection<LogEvent>> _logStoreStore;
+    private IStore<ObservableCollection<LogEvent>>? _logStoreStore;
 
     public LogsVmd(IStore<ObservableCollection<LogEvent>> logStore)
     {
@@ -22,12 +22,8 @@ public sealed class LogsVmd : ReactiveObject
         
         #region Subscriptions
 
-        logStore.CurrentValueChangedNotifier += () =>
-        {
-            Logs = logStore.CurrentValue;
-            DoSearch(SearchText);
-        };
-
+        logStore.CurrentValueChangedNotifier += () =>  DoSearch(SearchText);
+       
         this.WhenAnyValue(x => x.SearchText).Subscribe(DoSearch);
 
         #endregion
@@ -49,9 +45,9 @@ public sealed class LogsVmd : ReactiveObject
     private void DoSearch(string? searchText)
     {
         if(!string.IsNullOrEmpty(searchText))
-            Logs = Logs.Where(x => x.RenderMessage().Contains(searchText));
-        else
-            Logs = _logStoreStore?.CurrentValue;
+            Logs = _logStoreStore.CurrentValue.Where(x => x.RenderMessage().ToLower().Contains(searchText.ToLower(),StringComparison.InvariantCultureIgnoreCase));
+        else if (_logStoreStore?.CurrentValue != Logs)
+            Logs = _logStoreStore.CurrentValue;
        
     }
 }
