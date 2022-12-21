@@ -4,24 +4,49 @@
     mc:Ignorable="d"
     x:Class="AvaloniaUIClient.Infrastucture.Views.DevPanelViews.LogsPanelView"
     xmlns="https://github.com/avaloniaui"
+    xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Grid RowDefinitions="*,25">
+    <Grid RowDefinitions="70,*,25">
 
-        <styles:Card Padding="0,4">
+        <!--  Search  -->
+        <styles:Card Margin="5" Padding="3">
+            <TextBox
+                Classes="solo"
+                Name="SearchTextBox"
+                Text="{Binding SearchText}"
+                Watermark="Search">
+
+                <TextBox.InnerRightContent>
+
+                    <Button
+                        Classes="Flat"
+                        Command="{Binding ClearSearchText}"
+                        Content="{avalonia:MaterialIconExt Close,
+                                                           Size=24}"
+                        Width="{Binding $self.Bounds.Height}" />
+
+                </TextBox.InnerRightContent>
+
+            </TextBox>
+        </styles:Card>
+
+        <!--  Logs contaniner  -->
+        <styles:Card
+            Grid.Row="1"
+            Margin="5"
+            Padding="5">
 
             <StackPanel>
-
                 <TextBlock
                     Classes="Body1"
                     HorizontalAlignment="Left"
                     Margin="5,0"
                     Text="{Binding #AllLogsBox.ItemCount, StringFormat={}Count: {0}}" />
 
-                <!--  Logs contaniner  -->
                 <ScrollViewer
                     Classes="MiniBar"
                     HorizontalScrollBarVisibility="Visible"
@@ -33,7 +58,6 @@
                         Name="AllLogsBox" />
 
                 </ScrollViewer>
-
             </StackPanel>
 
         </styles:Card>
@@ -42,7 +66,7 @@
         <ContentControl
             Content="{Binding #AllLogsBox.SelectedItem}"
             DockPanel.Dock="Bottom"
-            Grid.Row="1"
+            Grid.Row="2"
             Margin="5" />
 
     </Grid>

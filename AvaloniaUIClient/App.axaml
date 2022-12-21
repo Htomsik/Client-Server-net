@@ -11,8 +11,8 @@
 
         <themes:MaterialTheme
             BaseTheme="Dark"
-            PrimaryColor="Purple"
-            SecondaryColor="Amber" />
+            PrimaryColor="LightBlue"
+            SecondaryColor="LightGreen" />
 
         <StyleInclude Source="avares://Material.Icons.Avalonia/App.xaml" />
 

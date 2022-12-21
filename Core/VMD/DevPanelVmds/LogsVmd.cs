@@ -9,12 +9,49 @@ namespace Core.VMD.DevPanelVmds;
 public sealed class LogsVmd : ReactiveObject
 {
     [Reactive]
-    public ObservableCollection<LogEvent> Logs { get; set; }
+    public IEnumerable<LogEvent> Logs { get; set; }
     
-    public LogsVmd(IStore<ObservableCollection<LogEvent>> logs)
-    {
-        logs.CurrentValueDeletedNotifier += () => Logs = logs.CurrentValue;
+    [Reactive]
+    public string SearchText { get; set; }
 
-        Logs = logs.CurrentValue;
+    private IStore<ObservableCollection<LogEvent>> _logStoreStore;
+
+    public LogsVmd(IStore<ObservableCollection<LogEvent>> logStore)
+    {
+        _logStoreStore = logStore;
+        
+        #region Subscriptions
+
+        logStore.CurrentValueChangedNotifier += () =>
+        {
+            Logs = logStore.CurrentValue;
+            DoSearch(SearchText);
+        };
+
+        this.WhenAnyValue(x => x.SearchText).Subscribe(DoSearch);
+
+        #endregion
+
+        #region Commands
+
+        ClearSearchText = ReactiveCommand.Create(() => SearchText = string.Empty );
+
+        #endregion
+
+    }
+
+    #region Commands
+
+    private IReactiveCommand ClearSearchText { get; }
+
+    #endregion
+    
+    private void DoSearch(string? searchText)
+    {
+        if(!string.IsNullOrEmpty(searchText))
+            Logs = Logs.Where(x => x.RenderMessage().Contains(searchText));
+        else
+            Logs = _logStoreStore?.CurrentValue;
+       
     }
 }
