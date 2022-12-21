@@ -1,5 +1,6 @@
 <Window
     Icon="/Assets/avalonia-logo.ico"
+    Name="MainWin"
     Title="AvaloniaUIClient"
     d:DesignHeight="300"
     d:DesignWidth="500"
@@ -30,7 +31,8 @@
             SideSheetContent="{Binding DevPanelVmd}"
             SideSheetDirection="Right"
             SideSheetHeader="Developer panel"
-            SideSheetOpened="{Binding #OpenLogsSheetButton.IsChecked, Mode=TwoWay}">
+            SideSheetOpened="{Binding #OpenLogsSheetButton.IsChecked, Mode=TwoWay}"
+            SideSheetWidth="{Binding #MainWin.Width, Converter={StaticResource HalfSizeConverter}}">
 
             <ToggleButton
                 BorderThickness="2"
