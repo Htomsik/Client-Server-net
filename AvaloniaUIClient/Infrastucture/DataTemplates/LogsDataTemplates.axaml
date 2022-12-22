@@ -1,0 +1,17 @@
+﻿<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+    xmlns:events="clr-namespace:Serilog.Events;assembly=Serilog"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--  Add Resources Here  -->
+
+    <!--  Default log  -->
+    <DataTemplate DataType="events:LogEvent" x:Key="DevLogsDataTemplate">
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+            <TextBlock Text="{Binding Level, StringFormat=Level: {0}}" />
+            <TextBlock Text="{Binding Timestamp.Now, StringFormat=TimeStamp: {0}}" />
+            <TextBlock Text="{Binding MessageTemplate.Text, StringFormat=Text: {0}}" />
+        </StackPanel>
+    </DataTemplate>
+
+</ResourceDictionary>

@@ -10,7 +10,12 @@
 
 
     <Application.Resources>
-        <converters:HalfSizeConverter x:Key="HalfSizeConverter" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="/Infrastucture/DataTemplates/LogsDataTemplates.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <converters:HalfSizeConverter x:Key="HalfSizeConverter" />
+        </ResourceDictionary>
     </Application.Resources>
 
     <Application.Styles>
@@ -26,29 +31,20 @@
 
     <Application.DataTemplates>
         <infrastucture:ViewLocator />
-    </Application.DataTemplates>
 
-    <!--  Temporary  -->
-    <Application.DataTemplates>
-
+        <!--  Default log  -->
         <DataTemplate DataType="events:LogEvent">
 
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-
                 <avalonia:MaterialIconExt Kind="Information" />
-
                 <TextBlock
                     Classes="Body1"
                     Margin="5,0,0,0"
                     Text="{Binding MessageTemplate.Text}"
                     VerticalAlignment="Center" />
-
             </StackPanel>
-
         </DataTemplate>
 
     </Application.DataTemplates>
-
-
 
 </Application>
