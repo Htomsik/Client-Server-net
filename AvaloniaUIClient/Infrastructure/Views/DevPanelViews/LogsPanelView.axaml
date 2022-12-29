@@ -2,7 +2,7 @@
     d:DesignHeight="300"
     d:DesignWidth="300"
     mc:Ignorable="d"
-    x:Class="AvaloniaUIClient.Infrastucture.Views.DevPanelViews.LogsPanelView"
+    x:Class="AvaloniaUIClient.Infrastructure.Views.DevPanelViews.LogsPanelView"
     xmlns="https://github.com/avaloniaui"
     xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"

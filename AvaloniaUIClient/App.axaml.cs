@@ -2,7 +2,7 @@ using System;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using AvaloniaUIClient.Infrastucture.IOC;
+using AvaloniaUIClient.Infrastructure.IOC;
 using AvaloniaUIClient.Views;
 using Core.Infrastructure.Hosting;
 using Microsoft.Extensions.DependencyInjection;

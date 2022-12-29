@@ -4,15 +4,15 @@
     xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
     xmlns:converters="clr-namespace:AvaloniaUIClient.Converters"
     xmlns:events="clr-namespace:Serilog.Events;assembly=Serilog"
-    xmlns:infrastucture="clr-namespace:AvaloniaUIClient.Infrastucture"
     xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:infrastructure="clr-namespace:AvaloniaUIClient.Infrastructure">
 
 
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceInclude Source="/Infrastucture/DataTemplates/LogsDataTemplates.axaml" />
+                <ResourceInclude Source="/Infrastructure/DataTemplates/LogsDataTemplates.axaml" />
             </ResourceDictionary.MergedDictionaries>
             <converters:HalfSizeConverter x:Key="HalfSizeConverter" />
         </ResourceDictionary>
@@ -30,7 +30,7 @@
     </Application.Styles>
 
     <Application.DataTemplates>
-        <infrastucture:ViewLocator />
+        <infrastructure:ViewLocator />
 
         <!--  Default log  -->
         <DataTemplate DataType="events:LogEvent">

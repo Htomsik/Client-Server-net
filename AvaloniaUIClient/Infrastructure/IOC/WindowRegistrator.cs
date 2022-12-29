@@ -2,7 +2,7 @@
 using Core.VMD;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AvaloniaUIClient.Infrastucture.IOC;
+namespace AvaloniaUIClient.Infrastructure.IOC;
 
 internal static partial class IocRegistrator
 {

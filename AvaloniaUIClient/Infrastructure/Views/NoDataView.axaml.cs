@@ -1,7 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace AvaloniaUIClient.Infrastucture.Views;
+namespace AvaloniaUIClient.Infrastructure.Views;
 
 public partial class NoDataView : UserControl
 {
