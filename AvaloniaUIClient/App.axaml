@@ -4,9 +4,9 @@
     xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
     xmlns:converters="clr-namespace:AvaloniaUIClient.Converters"
     xmlns:events="clr-namespace:Serilog.Events;assembly=Serilog"
+    xmlns:infrastructure="clr-namespace:AvaloniaUIClient.Infrastructure"
     xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:infrastructure="clr-namespace:AvaloniaUIClient.Infrastructure">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
 
     <Application.Resources>
@@ -26,6 +26,8 @@
             SecondaryColor="LightGreen" />
 
         <StyleInclude Source="avares://Material.Icons.Avalonia/App.xaml" />
+
+        <StyleInclude Source="/Infrastructure/Styles/ToggleButton.axaml" />
 
     </Application.Styles>
 
