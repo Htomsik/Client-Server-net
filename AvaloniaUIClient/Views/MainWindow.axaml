@@ -14,39 +14,52 @@
     xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Grid RowDefinitions="*,30">
+    <Window.Styles>
 
-        <!--  Last log  -->
+        <Style Selector="avalonia|MaterialIcon.UpperBarIcon">
+            <Setter Property="Height" Value="35" />
+            <Setter Property="Width" Value="35" />
+        </Style>
+
+    </Window.Styles>
+
+    <Grid ColumnDefinitions="*,*" RowDefinitions="50,*,25">
+
+        <!--  Upper Bar  -->
+        <styles:ColorZone Grid.ColumnSpan="2" Mode="PrimaryDark">
+
+            <Grid ColumnDefinitions="25,*,25" Margin="16">
+
+                <!--  DevPanel button  -->
+                <ToggleButton
+                    Classes="IconBar"
+                    Grid.Column="2"
+                    Name="DevPanelSwitch">
+                    <avalonia:MaterialIcon Classes="UpperBarIcon" Kind="DevTo" />
+                </ToggleButton>
+            </Grid>
+
+        </styles:ColorZone>
+
+        <!--  Last log panel  -->
         <ContentControl
-            BorderBrush="{DynamicResource PrimaryHueLightBrush}"
+            BorderBrush="{DynamicResource PrimaryHueDarkBrush}"
             BorderThickness="0,2,0,0"
             Content="{Binding LastLog}"
-            Grid.Row="1" />
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Grid.Row="2" />
 
-        <!--  Logs sheet  -->
-        <styles:SideSheet
-            BorderBrush="{DynamicResource PrimaryHueLightBrush}"
-            Grid.Row="0"
-            Name="LogsSheet"
-            SideSheetContent="{Binding DevPanelVmd}"
-            SideSheetDirection="Right"
-            SideSheetHeader="Developer panel"
-            SideSheetOpened="{Binding #OpenLogsSheetButton.IsChecked, Mode=TwoWay}"
-            SideSheetWidth="{Binding #MainWin.Width, Converter={StaticResource HalfSizeConverter}}">
 
-            <ToggleButton
-                BorderThickness="2"
-                Content="{avalonia:MaterialIconExt DevTo,
-                                                   40}"
-                Height="60"
-                HorizontalAlignment="Right"
-                IsVisible="{Binding !#LogsSheet.SideSheetOpened, Mode=TwoWay}"
-                Name="OpenLogsSheetButton"
-                VerticalAlignment="Top"
-                Width="60"
-                assists:ButtonAssist.CornerRadius="30,0,30,30" />
+        <!--  Draver for menu/devPanel  -->
+        <styles:NavigationDrawer
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Grid.Row="1"
+            RightDrawerContent="{Binding DevPanelVmd}"
+            RightDrawerOpened="{Binding #DevPanelSwitch.IsChecked, Mode=TwoWay}" />
 
-        </styles:SideSheet>
+
 
     </Grid>
 
