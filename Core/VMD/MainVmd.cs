@@ -16,6 +16,8 @@ public class MainVmd : ReactiveObject
 
     private DevVmd? DevPanelVmd { get; }
     
+    private MainMenuVmd? MainMenuVmd { get; }
+    
     public MainVmd(ICollectionRepository<ObservableCollection<LogEvent>,LogEvent> logStore)
     {
         
@@ -34,6 +36,13 @@ public class MainVmd : ReactiveObject
         
         #endregion
 
+        #region Initializing
+
         DevPanelVmd = (DevVmd?)HostWorker.Services.GetService(typeof(DevVmd));
+
+        MainMenuVmd = (MainMenuVmd?)HostWorker.Services.GetService(typeof(MainMenuVmd));
+
+        #endregion
+       
     }
 }

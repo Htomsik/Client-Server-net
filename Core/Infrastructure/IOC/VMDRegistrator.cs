@@ -10,5 +10,6 @@ public partial class IocRegistrator
         services
             .AddSingleton<MainVmd>()
             .AddTransient<DevVmd>()
-            .AddTransient<LogsVmd>();
+            .AddTransient<LogsVmd>()
+            .AddTransient<MainMenuVmd>();
 }

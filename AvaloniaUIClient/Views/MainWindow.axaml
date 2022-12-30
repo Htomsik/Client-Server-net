@@ -7,7 +7,6 @@
     mc:Ignorable="d"
     x:Class="AvaloniaUIClient.Views.MainWindow"
     xmlns="https://github.com/avaloniaui"
-    xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
     xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -29,6 +28,11 @@
         <styles:ColorZone Grid.ColumnSpan="2" Mode="PrimaryDark">
 
             <Grid ColumnDefinitions="25,*,25" Margin="16">
+
+                <!--  Menu button  -->
+                <ToggleButton Classes="IconBar" Name="NavDrawerSwitch">
+                    <avalonia:MaterialIcon Classes="UpperBarIcon" Kind="Menu" />
+                </ToggleButton>
 
                 <!--  DevPanel button  -->
                 <ToggleButton
@@ -56,6 +60,8 @@
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Grid.Row="1"
+            LeftDrawerContent="{Binding MainMenuVmd}"
+            LeftDrawerOpened="{Binding #NavDrawerSwitch.IsChecked, Mode=TwoWay}"
             RightDrawerContent="{Binding DevPanelVmd}"
             RightDrawerOpened="{Binding #DevPanelSwitch.IsChecked, Mode=TwoWay}" />
 
