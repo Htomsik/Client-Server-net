@@ -34,6 +34,14 @@
                     <avalonia:MaterialIcon Classes="UpperBarIcon" Kind="Menu" />
                 </ToggleButton>
 
+                <!--  Current TitleVmd Name  -->
+                <TextBlock
+                    Classes="Headline6"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    Text="{Binding TitleVmd.Title}"
+                    VerticalAlignment="Center" />
+
                 <!--  DevPanel button  -->
                 <ToggleButton
                     Classes="IconBar"
@@ -44,6 +52,17 @@
             </Grid>
 
         </styles:ColorZone>
+
+        <!--  Title vmds  -->
+        <ContentControl
+            Content="{Binding TitleVmd}"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Grid.Row="1"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            VerticalContentAlignment="Stretch" />
 
         <!--  Last log panel  -->
         <ContentControl

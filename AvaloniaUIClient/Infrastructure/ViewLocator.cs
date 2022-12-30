@@ -4,8 +4,10 @@ using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using AvaloniaUIClient.Infrastructure.Views;
 using AvaloniaUIClient.Infrastructure.Views.DevPanelViews;
+using AvaloniaUIClient.Views.TitleViews;
 using Core.VMD;
 using Core.VMD.DevPanelVmds;
+using Core.VMD.TitleVmds;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ReactiveUI;
@@ -18,7 +20,8 @@ public class ViewLocator : IDataTemplate
     {
         {typeof(DevVmd),typeof(DevPanelView)},
         {typeof(LogsVmd),typeof(LogsPanelView)},
-        {typeof(MainMenuVmd), typeof(MainMenuView)}
+        {typeof(MainMenuVmd), typeof(MainMenuView)},
+        {typeof(HomeVmd),typeof(HomeView)}
     };
 
     private ILogger? _logger;
