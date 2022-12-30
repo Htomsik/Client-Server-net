@@ -28,6 +28,7 @@
         <StyleInclude Source="avares://Material.Icons.Avalonia/App.xaml" />
 
         <StyleInclude Source="/Infrastructure/Styles/ToggleButton.axaml" />
+        <StyleInclude Source="/Infrastructure/Styles/Button.axaml" />
 
     </Application.Styles>
 
