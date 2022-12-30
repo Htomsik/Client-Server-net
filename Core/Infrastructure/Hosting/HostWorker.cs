@@ -33,8 +33,8 @@ internal class HostWorker
     
     private static void ConfigureServices(HostBuilderContext host, IServiceCollection services) =>
         services
-            .StoresRegistrator()
+            .StoresRegistration()
             .ServiceRegistration()
-            .VMDRegistrator()
-            .AdditionalRegistrator();
+            .VmdRegistration()
+            .AdditionalRegistration();
 }

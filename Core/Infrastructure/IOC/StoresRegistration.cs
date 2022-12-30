@@ -7,9 +7,13 @@ using Serilog.Events;
 
 namespace Core.Infrastructure.IOC;
 
-public partial class IocRegistrator
+public partial class IocRegistration
 {
-    public static IServiceCollection StoresRegistrator(this IServiceCollection services) =>
+    public static IServiceCollection StoresRegistration(this IServiceCollection services) =>
+        services
+            .InfrStoresRegs();
+            
+    private static IServiceCollection InfrStoresRegs(this IServiceCollection services) =>
         services
             .AddSingleton<ICollectionRepository<ObservableCollection<LogEvent>, LogEvent>, LogStore>()
             .AddSingleton <IStore<ObservableCollection<LogEvent>>>(s=> s.GetRequiredService<ICollectionRepository<ObservableCollection<LogEvent>, LogEvent>>());

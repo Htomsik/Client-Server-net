@@ -14,7 +14,7 @@ public class MainVmd : ReactiveObject
     [Reactive]
     public LogEvent? LastLog { get; private set; }
 
-    private DevVmd? DevPanelVmd { get; }
+    public DevVmd? DevPanelVmd { get; }
     
     private MainMenuVmd? MainMenuVmd { get; }
     

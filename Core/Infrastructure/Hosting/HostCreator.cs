@@ -9,7 +9,7 @@ public static class HostCreator
 {
     public static IHost? CreateHost(IServiceCollection? services = null)
     {
-        IocRegistrator.SetAdditionalServices(services);
+        IocRegistration.SetAdditionalServices(services);
         
         return HostWorker.Host;
     }
