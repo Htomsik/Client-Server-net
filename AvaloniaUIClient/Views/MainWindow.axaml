@@ -1,5 +1,5 @@
 <Window
-    Icon="/Assets/avalonia-logo.ico"
+    Icon="/Assets/AppIcon.ico"
     Name="MainWin"
     Title="AvaloniaUIClient"
     d:DesignHeight="300"
