@@ -2,24 +2,18 @@
 using AppInfrastructure.Stores.DefaultStore;
 using Core.VMD.Base;
 using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
 using Serilog.Events;
 
 namespace Core.VMD.DevPanelVmds;
 
-public sealed class LogsVmd : BaseVmd
+public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
 {
-    [Reactive]
-    public IEnumerable<LogEvent> Logs { get; set; }
     
-    [Reactive]
-    public string SearchText { get; set; }
-
-    private IStore<ObservableCollection<LogEvent>>? _logStoreStore;
+    private readonly IStore<ObservableCollection<LogEvent>>? _logStore;
 
     public LogsVmd(IStore<ObservableCollection<LogEvent>> logStore)
     {
-        _logStoreStore = logStore;
+        _logStore = logStore;
         
         #region Subscriptions
 
@@ -42,13 +36,16 @@ public sealed class LogsVmd : BaseVmd
     private IReactiveCommand ClearSearchText { get; }
 
     #endregion
-    
-    private void DoSearch(string? searchText)
+
+    protected override void DoSearch(string? searchText)
     {
         if(!string.IsNullOrEmpty(searchText))
-            Logs = _logStoreStore.CurrentValue.Where(x => x.RenderMessage().ToLower().Contains(searchText.ToLower(),StringComparison.InvariantCultureIgnoreCase));
-        else if (_logStoreStore?.CurrentValue != Logs)
-            Logs = _logStoreStore.CurrentValue;
+            Collection = _logStore.CurrentValue
+                .Where(x => x.RenderMessage().ToLower()
+                    .Contains(searchText.ToLower(),StringComparison.InvariantCultureIgnoreCase));
+        else if (_logStore?.CurrentValue != Collection)
+            Collection = _logStore.CurrentValue;
        
     }
+    
 }
