@@ -12,7 +12,11 @@ internal sealed class LogStore : BaseLazyCollectionRepository<ObservableCollecti
     
     protected override bool addIntoEnumerable(LogEvent value)
     {
+        if(CurrentValue.Count >= _maxLogs)
+            CurrentValue.RemoveAt(0);
+        
         CurrentValue?.Add(value);
+        
         return true;
     }
 
@@ -25,10 +29,7 @@ internal sealed class LogStore : BaseLazyCollectionRepository<ObservableCollecti
             .Subscribe(_ =>
             {
                 _maxLogs  = Convert.ToInt32(configuration["Settings:MaxLogs"]);
-            });   
-        
-        configuration["Settings:MaxLogs"] = "100";
-        
+            });
         #endregion
 
     }
