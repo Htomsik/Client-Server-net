@@ -13,7 +13,7 @@ public abstract class BaseCollectionVmd<T> : BaseVmd,IBaseCollectionVmd<T>
     
     #region Commands
 
-    private IReactiveCommand ClearSearchText { get; }
+    public IReactiveCommand ClearSearchText { get; }
 
     #endregion
     

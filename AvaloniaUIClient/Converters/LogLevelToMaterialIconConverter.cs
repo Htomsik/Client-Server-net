@@ -26,7 +26,7 @@ public class LogLevelToMaterialIconConverter : IValueConverter
                 break;
             case (LogEventLevel.Warning):
                 icon.Kind  = MaterialIconKind.Alert;
-                icon.Foreground = Brushes.LightGoldenrodYellow;
+                icon.Foreground = Brushes.Yellow;
                 break;
             case (LogEventLevel.Error):
                 icon.Kind  = MaterialIconKind.AlertOctagon;

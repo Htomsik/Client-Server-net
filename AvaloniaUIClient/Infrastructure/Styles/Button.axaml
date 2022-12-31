@@ -1,9 +1,9 @@
 <Styles
     xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
     xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
-    xmlns:system="clr-namespace:System;assembly=System.Runtime"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:system="clr-namespace:System;assembly=System.Runtime">
 
     <Design.PreviewWith>
         <Border Padding="20">
@@ -34,9 +34,9 @@
         <Setter Property="Transitions">
             <Transitions>
                 <DoubleTransition
-                    Duration="0:0:0.25"
                     Easing="LinearEasing"
-                    Property="Opacity" />
+                    Property="Opacity"
+                    Duration="0:0:0.25" />
             </Transitions>
         </Setter>
     </Style>
@@ -45,7 +45,7 @@
         <Setter Property="Opacity" Value="{StaticResource PressedOpacity}" />
     </Style>
 
-    <Style Selector="Button.IconButton:not(:pressed):pointerover">
+    <Style Selector="Button.IconButton:pointerover:not(:pressed)">
         <Setter Property="Opacity" Value="{StaticResource HoveredOpacity}" />
     </Style>
 

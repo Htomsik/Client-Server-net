@@ -54,13 +54,22 @@ public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
             _logger.Log(level, $"Test {level}");
         });
 
-        #endregion
+        ClearFilters = ReactiveCommand.Create(()=>
+        {
+            foreach (var item in AllLogLevels)
+            {
+                item.IsAddedToFilter = false;
+            }
+        });
 
+        #endregion
     }
 
     #region Commands
 
-    private ReactiveCommand<LogLevel,Unit> LoggerTest { get; }
+    public ReactiveCommand<LogLevel,Unit> LoggerTest { get; }
+    
+    public IReactiveCommand ClearFilters { get; }
 
     #endregion
     

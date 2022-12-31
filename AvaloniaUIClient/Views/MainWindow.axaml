@@ -85,8 +85,6 @@
             RightDrawerContent="{Binding DevPanelVmd}"
             RightDrawerOpened="{Binding #DevPanelSwitch.IsChecked, Mode=TwoWay}" />
 
-
-
     </Grid>
 
 

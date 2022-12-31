@@ -31,6 +31,7 @@
                         <styles:ColorZone Margin="5" Padding="3">
                             <TextBox
                                 Name="SearchTextBox"
+                                Classes="solo"
                                 Text="{Binding SearchText}"
                                 Watermark="Search">
 
@@ -38,7 +39,8 @@
 
                                     <Button
                                         Width="{Binding $self.Bounds.Height}"
-                                        Classes="Flat"
+                                        Foreground="{DynamicResource PrimaryHueLightBrush}"
+                                        Classes="IconButton"
                                         Command="{Binding ClearSearchText}"
                                         Content="{avalonia:MaterialIconExt Close,
                                                                            Size=24}" />
@@ -86,9 +88,19 @@
             </TabItem>
 
             <TabItem Header="Options">
-                <Grid>
+                <Grid RowDefinitions="40,*">
+
+                    <Button
+                        Margin="5"
+                        Padding="3"
+                        Command="{Binding ClearFilters}"
+                        Content="Clear Filters" />
+
                     <!--  Logs categories  -->
-                    <styles:ColorZone Margin="5" Padding="3">
+                    <styles:ColorZone
+                        Grid.Row="1"
+                        Margin="5"
+                        Padding="3">
                         <Grid RowDefinitions="25,*">
                             <TextBlock Classes="Headline6" Text="LogLevels" />
                             <ListBox
