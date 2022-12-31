@@ -54,13 +54,17 @@
         <DataTemplate DataType="models:LogLevelSelected">
 
             <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+
+                <CheckBox IsChecked="{Binding IsAddedToFilter, Mode=TwoWay}" />
+
+                <ContentControl Content="{Binding logLevel, Converter={StaticResource LogLevelToMaterialIconConverter}}" />
+
                 <TextBlock
                     Margin="5,0,0,0"
                     VerticalAlignment="Center"
                     Classes="Body1"
                     Text="{Binding logLevel}" />
 
-                <CheckBox IsChecked="{Binding IsAddedToFilter, Mode=TwoWay}" />
             </StackPanel>
         </DataTemplate>
 
