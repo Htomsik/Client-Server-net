@@ -1,15 +1,29 @@
 ﻿<ResourceDictionary
     xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:events="clr-namespace:Serilog.Events;assembly=Serilog"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia">
     <!--  Add Resources Here  -->
 
     <!--  Default log  -->
-    <DataTemplate DataType="events:LogEvent" x:Key="DevLogsDataTemplate">
-        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-            <TextBlock Text="{Binding Level, StringFormat=Level: {0}}" />
-            <TextBlock Text="{Binding Timestamp.Now, StringFormat=TimeStamp: {0}}" />
-            <TextBlock Text="{Binding MessageTemplate.Text, StringFormat=Text: {0}}" />
+    <DataTemplate x:Key="DevLogsDataTemplate" DataType="events:LogEvent">
+        <StackPanel VerticalAlignment="Center" Orientation="Vertical">
+
+            <StackPanel ToolTip.Tip="Log level" Orientation="Horizontal">
+                <avalonia:MaterialIcon Kind="Information" />
+                <TextBlock Margin="5,0,0,0" Text="{Binding Level}" />
+            </StackPanel>
+
+            <StackPanel ToolTip.Tip="TimeStamp" Orientation="Horizontal">
+                <avalonia:MaterialIcon Kind="Clock" />
+                <TextBlock Margin="5,0,0,0" Text="{Binding Timestamp.Now}" />
+            </StackPanel>
+
+            <StackPanel ToolTip.Tip="Text" Orientation="Horizontal">
+                <avalonia:MaterialIcon Kind="CommentText" />
+                <TextBlock Margin="5,0,0,0" Text="{Binding MessageTemplate.Text}" />
+            </StackPanel>
+
         </StackPanel>
     </DataTemplate>
 
