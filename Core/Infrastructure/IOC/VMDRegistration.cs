@@ -11,10 +11,12 @@ public partial class IocRegistration
         services
             .InfrVmdsRegs()
             .TitleVmdRegs();
-    
+
     private static IServiceCollection TitleVmdRegs(this IServiceCollection services) =>
-        services.AddTransient<HomeVmd>();
-    
+        services
+            .AddTransient<HomeVmd>()
+            .AddTransient<SettingsVmd>();
+
     private static IServiceCollection InfrVmdsRegs(this IServiceCollection service) =>
         service
             .AddSingleton<MainVmd>()
