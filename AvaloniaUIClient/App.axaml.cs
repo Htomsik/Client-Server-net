@@ -21,7 +21,7 @@ public partial class App : Application
     
     public static IServiceProvider Services => Host!.Services;
     
-    public async override void OnFrameworkInitializationCompleted()
+    public override async void OnFrameworkInitializationCompleted()
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
