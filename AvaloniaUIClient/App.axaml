@@ -6,7 +6,8 @@
     xmlns:converters="clr-namespace:AvaloniaUIClient.Converters"
     xmlns:events="clr-namespace:Serilog.Events;assembly=Serilog"
     xmlns:infrastructure="clr-namespace:AvaloniaUIClient.Infrastructure"
-    xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles">
+    xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
+    xmlns:models="clr-namespace:Core.Infrastructure.Models;assembly=Core">
 
 
     <Application.Resources>
@@ -35,8 +36,6 @@
     </Application.Styles>
 
     <Application.DataTemplates>
-        <infrastructure:ViewLocator />
-
         <!--  Default log  -->
         <DataTemplate DataType="events:LogEvent">
 
@@ -51,6 +50,23 @@
                     Text="{Binding MessageTemplate.Text}" />
             </StackPanel>
         </DataTemplate>
+
+
+        <!--  LogLevelSelected  -->
+        <DataTemplate DataType="models:LogLevelSelected">
+
+            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                <TextBlock
+                    Margin="5,0,0,0"
+                    VerticalAlignment="Center"
+                    Classes="Body1"
+                    Text="{Binding logLevel}" />
+
+                <CheckBox IsChecked="{Binding IsAddedToFilter, Mode=TwoWay}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <infrastructure:ViewLocator />
 
     </Application.DataTemplates>
 
