@@ -6,63 +6,150 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
-    d:DesignHeight="300"
-    d:DesignWidth="300"
+    xmlns:logging="clr-namespace:Microsoft.Extensions.Logging;assembly=Microsoft.Extensions.Logging.Abstractions"
+    d:DesignHeight="400"
+    d:DesignWidth="250"
     mc:Ignorable="d">
 
-    <Grid RowDefinitions="70,*,*,0.3*">
+    <UserControl.Resources>
+        <logging:LogLevel x:Key="LogTrace">Trace</logging:LogLevel>
+        <logging:LogLevel x:Key="LogDebug">Debug</logging:LogLevel>
+        <logging:LogLevel x:Key="LogInfo">Information</logging:LogLevel>
+        <logging:LogLevel x:Key="LogWarn">Warning</logging:LogLevel>
+        <logging:LogLevel x:Key="LogError">Error</logging:LogLevel>
+        <logging:LogLevel x:Key="LogCrit">Critical</logging:LogLevel>
+    </UserControl.Resources>
 
-        <!--  Search  -->
-        <styles:Card Margin="5" Padding="3">
-            <TextBox
-                Name="SearchTextBox"
-                Classes="solo"
-                Text="{Binding SearchText}"
-                Watermark="Search">
+    <Grid>
 
-                <TextBox.InnerRightContent>
+        <TabControl>
 
-                    <Button
-                        Width="{Binding $self.Bounds.Height}"
-                        Classes="Flat"
-                        Command="{Binding ClearSearchText}"
-                        Content="{avalonia:MaterialIconExt Close,
-                                                           Size=24}" />
+            <TabItem Header="Main">
+                <TabItem.Content>
+                    <Grid RowDefinitions="70,*,Auto">
+                        <!--  Search  -->
+                        <styles:ColorZone Margin="5" Padding="3">
+                            <TextBox
+                                Name="SearchTextBox"
+                                Text="{Binding SearchText}"
+                                Watermark="Search">
 
-                </TextBox.InnerRightContent>
+                                <TextBox.InnerRightContent>
 
-            </TextBox>
-        </styles:Card>
+                                    <Button
+                                        Width="{Binding $self.Bounds.Height}"
+                                        Classes="Flat"
+                                        Command="{Binding ClearSearchText}"
+                                        Content="{avalonia:MaterialIconExt Close,
+                                                                           Size=24}" />
 
-        <ScrollViewer
-            Grid.Row="1"
-            Padding="5"
-            Classes="MiniBar"
-            VerticalScrollBarVisibility="Visible"
-            HorizontalScrollBarVisibility="Visible">
+                                </TextBox.InnerRightContent>
 
-            <ListBox Margin="0,0,5,0" Items="{Binding AllLogLevels}" />
+                            </TextBox>
+                        </styles:ColorZone>
 
-        </ScrollViewer>
+                        <!--  Logs container  -->
+                        <styles:ColorZone
+                            Grid.Row="1"
+                            Margin="5"
+                            Padding="3">
 
-        <!--  Logs container  -->
-        <StackPanel Grid.Row="2">
-            <TextBlock Classes="Body1" Text="{Binding #AllLogsBox.ItemCount, StringFormat={}Count: {0}}" />
+                            <Grid RowDefinitions="25,*">
 
-            <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
+                                <TextBlock
+                                    Margin="5,0,0,0"
+                                    Classes="Body1"
+                                    Text="{Binding #AllLogsBox.ItemCount, StringFormat={}Count: {0}}" />
 
-                <ListBox Name="AllLogsBox" Items="{Binding Collection}" />
+                                <ListBox
+                                    Name="AllLogsBox"
+                                    Grid.Row="1"
+                                    Items="{Binding Collection}" />
 
-            </ScrollViewer>
-        </StackPanel>
+                            </Grid>
+                        </styles:ColorZone>
 
-        <!--  Selected log  -->
-        <ContentControl
-            Grid.Row="3"
-            Margin="5"
-            Content="{Binding #AllLogsBox.SelectedItem}"
-            ContentTemplate="{StaticResource DevLogsDataTemplate}"
-            DockPanel.Dock="Bottom" />
+                        <!--  Selected log  -->
+                        <styles:ColorZone
+                            Grid.Row="2"
+                            Margin="5"
+                            Padding="3">
+                            <ContentControl
+                                Margin="5"
+                                Content="{Binding #AllLogsBox.SelectedItem}"
+                                ContentTemplate="{StaticResource DevLogsDataTemplate}"
+                                DockPanel.Dock="Bottom" />
+
+                        </styles:ColorZone>
+                    </Grid>
+                </TabItem.Content>
+            </TabItem>
+
+            <TabItem Header="Options">
+                <Grid>
+                    <!--  Logs categories  -->
+                    <styles:ColorZone Margin="5" Padding="3">
+                        <Grid RowDefinitions="25,*">
+                            <TextBlock Classes="Headline6" Text="LogLevels" />
+                            <ListBox
+                                Grid.Row="1"
+                                Margin="0,0,5,0"
+                                Items="{Binding AllLogLevels}" />
+                        </Grid>
+                    </styles:ColorZone>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Debug">
+                <styles:ColorZone Margin="5" Padding="3">
+                    <Grid RowDefinitions="25,*">
+
+                        <TextBlock
+                            Margin="5,0,0,0"
+                            Classes="Body1"
+                            Text="Logger test" />
+
+                        <StackPanel Grid.Row="1">
+                            <StackPanel.Styles>
+
+                                <Style Selector="Button">
+                                    <Setter Property="Margin" Value="3" />
+                                </Style>
+
+                            </StackPanel.Styles>
+                            <Button
+                                Content="Werbose"
+                                Command="{Binding LoggerTest}"
+                                CommandParameter="{StaticResource LogTrace}" />
+                            <Button
+                                Content="Debug"
+                                Command="{Binding LoggerTest}"
+                                CommandParameter="{StaticResource LogDebug}" />
+                            <Button
+                                Content="Information"
+                                Command="{Binding LoggerTest}"
+                                CommandParameter="{StaticResource LogInfo}" />
+                            <Button
+                                Content="Warning"
+                                Command="{Binding LoggerTest}"
+                                CommandParameter="{StaticResource LogWarn}" />
+                            <Button
+                                Content="Error"
+                                Command="{Binding LoggerTest}"
+                                CommandParameter="{StaticResource LogError}" />
+                            <Button
+                                Content="Critical/Fatal"
+                                Command="{Binding LoggerTest}"
+                                CommandParameter="{StaticResource LogCrit}" />
+                        </StackPanel>
+                    </Grid>
+
+                </styles:ColorZone>
+            </TabItem>
+
+
+
+        </TabControl>
 
     </Grid>
 

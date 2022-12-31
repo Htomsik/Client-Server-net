@@ -1,8 +1,10 @@
 ﻿using System.Collections.ObjectModel;
+using System.Reactive;
 using AppInfrastructure.Stores.DefaultStore;
 using AppInfrastructure.Stores.Repositories.Collection;
 using Core.Infrastructure.Models;
 using Core.VMD.Base;
+using Microsoft.Extensions.Logging;
 using ReactiveUI;
 using Serilog.Events;
 
@@ -11,15 +13,23 @@ namespace Core.VMD.DevPanelVmds;
 
 public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
 {
-    
+
+    #region Logs Collection fields
+
     private readonly IStore<ObservableCollection<LogEvent>>? _logStore;
 
     private readonly BaseLazyCollectionRepository<List<LogEventLevel>,LogEventLevel> _selectedLogLevels  = new ();
     public ObservableCollection<LogLevelSelected>? AllLogLevels { get; }
 
-    public LogsVmd(IStore<ObservableCollection<LogEvent>> logStore)
+    #endregion
+
+    private readonly ILogger _logger;
+    
+    public LogsVmd(IStore<ObservableCollection<LogEvent>> logStore, ILogger<LogsVmd> logger)
     {
         _logStore = logStore;
+
+        _logger = logger;
 
         #region Initializing
 
@@ -37,7 +47,22 @@ public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
 
         #endregion
 
+        #region Commands
+
+        LoggerTest = ReactiveCommand.Create<LogLevel>(level =>
+        {
+            _logger.Log(level, $"Test {level}");
+        });
+
+        #endregion
+
     }
+
+    #region Commands
+
+    private ReactiveCommand<LogLevel,Unit> LoggerTest { get; }
+
+    #endregion
     
     protected override void DoSearch(string? searchText)
     {
