@@ -25,10 +25,10 @@ internal sealed class LogStore : BaseLazyCollectionRepository<ObservableCollecti
         #region Subscriptions
 
         configuration
-            .WhenAnyValue(x=>x["Settings:MaxLogs"])
+            .WhenAnyValue(x=>x["Settings:DevMode:MaxLogs"])
             .Subscribe(_ =>
             {
-                _maxLogs  = Convert.ToInt32(configuration["Settings:MaxLogs"]);
+                _maxLogs  = Convert.ToInt32(configuration["Settings:DevMode:MaxLogs"]);
             });
         #endregion
 
