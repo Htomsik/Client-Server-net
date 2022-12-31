@@ -10,14 +10,14 @@ using Serilog.Events;
 
 namespace Core.VMD;
 
-public class MainVmd : ReactiveObject
+public class MainVmd : BaseVmd
 {
     [Reactive]
     public LogEvent? LastLog { get;  set; }
 
-    public DevVmd? DevPanelVmd { get; }
+    public IBaseVmd? DevPanelVmd { get; }
     
-    public MainMenuVmd? MainMenuVmd { get; }
+    public IBaseVmd? MainMenuVmd { get; }
     
     [Reactive]
     public ITitleVmd? TitleVmd { get; private set; }
@@ -42,9 +42,9 @@ public class MainVmd : ReactiveObject
 
         #region Initializing
 
-        DevPanelVmd = (DevVmd?)HostWorker.Services.GetService(typeof(DevVmd));
+        DevPanelVmd = (IBaseVmd?)HostWorker.Services.GetService(typeof(DevVmd));
 
-        MainMenuVmd = (MainMenuVmd?)HostWorker.Services.GetService(typeof(MainMenuVmd));
+        MainMenuVmd = (IBaseVmd?)HostWorker.Services.GetService(typeof(MainMenuVmd));
         
         TitleVmd = (ITitleVmd?)HostWorker.Services.GetService(typeof(HomeVmd));
         

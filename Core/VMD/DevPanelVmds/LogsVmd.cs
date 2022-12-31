@@ -6,7 +6,7 @@ using Serilog.Events;
 
 namespace Core.VMD.DevPanelVmds;
 
-public sealed class LogsVmd : ReactiveObject
+public sealed class LogsVmd : BaseVmd
 {
     [Reactive]
     public IEnumerable<LogEvent> Logs { get; set; }

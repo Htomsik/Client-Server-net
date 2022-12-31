@@ -8,7 +8,7 @@ using Serilog.Events;
 
 namespace Core.VMD.DevPanelVmds;
 
-public sealed class DevVmd : ReactiveObject
+public sealed class DevVmd : BaseVmd
 {
     public LogsVmd? LogsPanelVmd { get; set; }
     
