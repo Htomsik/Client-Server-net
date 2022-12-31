@@ -1,8 +1,6 @@
-using ReactiveUI;
-
 namespace Core.VMD.Base;
 
-public interface ITitleVmd : IReactiveObject
+public interface ITitleVmd : IBaseVmd
 {
     string Title { get;}
 }

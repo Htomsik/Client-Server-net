@@ -1,10 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reactive.Linq;
+using AppInfrastructure.Stores.DefaultStore;
 using AppInfrastructure.Stores.Repositories.Collection;
 using Core.Infrastructure.Hosting;
+using Core.Infrastructure.Services;
 using Core.VMD.Base;
 using Core.VMD.DevPanelVmds;
 using Core.VMD.TitleVmds;
+using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Serilog.Events;
@@ -23,12 +26,14 @@ public class MainVmd : BaseVmd
     [Reactive]
     public ITitleVmd? TitleVmd { get; private set; }
     
-    public MainVmd(ICollectionRepository<ObservableCollection<LogEvent>,LogEvent> logStore)
+    public MainVmd(ICollectionRepository<ObservableCollection<LogEvent>,LogEvent> logStore,IStore<ITitleVmd> titleVmdStore)
     {
         
         #region Subscriptions
 
         logStore.CurrentValueChangedNotifier += () => LastLog = logStore.CurrentValue.Last();
+
+        titleVmdStore.CurrentValueChangedNotifier += () => TitleVmd = titleVmdStore.CurrentValue;
         
         #endregion
         
@@ -46,10 +51,10 @@ public class MainVmd : BaseVmd
         DevPanelVmd = (IBaseVmd?)HostWorker.Services.GetService(typeof(DevVmd));
 
         MainMenuVmd = (IBaseVmd?)HostWorker.Services.GetService(typeof(MainMenuVmd));
-        
-        TitleVmd = (ITitleVmd?)HostWorker.Services.GetService(typeof(HomeVmd));
-        
+
+        HostWorker.Services.GetService<BaseVmdNavigationService<ITitleVmd>>()!.Navigate(typeof(HomeVmd));
+
         #endregion
-       
+
     }
 }

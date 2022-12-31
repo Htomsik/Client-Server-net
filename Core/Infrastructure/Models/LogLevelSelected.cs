@@ -1,5 +1,4 @@
 using AppInfrastructure.Stores.Repositories.Collection;
-using Microsoft.Extensions.Logging;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Serilog.Events;
