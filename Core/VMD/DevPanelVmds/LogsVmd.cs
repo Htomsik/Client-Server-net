@@ -30,7 +30,7 @@ public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
         _logStore = logStore;
 
         _logger = logger;
-
+        
         #region Initializing
 
         AllLogLevels = new ObservableCollection<LogLevelSelected>(LogLevelSelected.CreateAllLevelsCollection(_selectedLogLevels));
@@ -54,12 +54,18 @@ public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
             _logger.Log(level, $"Test {level}");
         });
 
-        ClearFilters = ReactiveCommand.Create(()=>
+        ClearFilters = ReactiveCommand.Create(()=> 
         {
             foreach (var item in AllLogLevels)
             {
                 item.IsAddedToFilter = false;
             }
+        });
+
+        ClearCollection = ReactiveCommand.Create(() =>
+        {
+            logStore?.CurrentValue.Clear();
+            DoSearch(SearchText);
         });
 
         #endregion

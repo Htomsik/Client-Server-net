@@ -24,6 +24,7 @@
 
         <TabControl>
 
+            <!--  Main tab  -->
             <TabItem Header="Main">
                 <TabItem.Content>
                     <Grid RowDefinitions="70,*,Auto">
@@ -39,11 +40,17 @@
 
                                     <Button
                                         Width="{Binding $self.Bounds.Height}"
+                                        Opacity="0.6"
                                         Foreground="{DynamicResource PrimaryHueLightBrush}"
                                         Classes="IconButton"
-                                        Command="{Binding ClearSearchText}"
-                                        Content="{avalonia:MaterialIconExt Close,
-                                                                           Size=24}" />
+                                        Command="{Binding ClearSearchText}">
+
+                                        <avalonia:MaterialIcon
+                                            Width="24"
+                                            Height="24"
+                                            Kind="Close" />
+
+                                    </Button>
 
                                 </TextBox.InnerRightContent>
 
@@ -58,10 +65,22 @@
 
                             <Grid RowDefinitions="25,*">
 
-                                <TextBlock
-                                    Margin="5,0,0,0"
-                                    Classes="Body1"
-                                    Text="{Binding #AllLogsBox.ItemCount, StringFormat={}Count: {0}}" />
+                                <Grid Margin="5,0,0,0" Grid.ColumnDefinitions="*,*">
+                                    <TextBlock Classes="Body1" Text="{Binding #AllLogsBox.ItemCount, StringFormat={}Count: {0}}" />
+
+                                    <Button
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Right"
+                                        Command="{Binding ClearCollection}"
+                                        Opacity="0.6"
+                                        Foreground="{DynamicResource PrimaryHueLightBrush}"
+                                        Classes="IconButton">
+                                        <avalonia:MaterialIcon
+                                            Width="24"
+                                            Height="24"
+                                            Kind="Close" />
+                                    </Button>
+                                </Grid>
 
                                 <ListBox
                                     Name="AllLogsBox"
@@ -87,6 +106,7 @@
                 </TabItem.Content>
             </TabItem>
 
+            <!--  Options tab  -->
             <TabItem Header="Options">
                 <Grid RowDefinitions="40,*">
 
@@ -102,7 +122,10 @@
                         Margin="5"
                         Padding="3">
                         <Grid RowDefinitions="25,*">
-                            <TextBlock Classes="Headline6" Text="LogLevels" />
+                            <TextBlock
+                                Margin="5,0,0,0"
+                                Classes="Body1"
+                                Text="Log levels " />
                             <ListBox
                                 Grid.Row="1"
                                 Margin="0,0,5,0"
@@ -112,6 +135,7 @@
                 </Grid>
             </TabItem>
 
+            <!--  Debug tab  -->
             <TabItem Header="Debug">
                 <styles:ColorZone Margin="5" Padding="3">
                     <Grid RowDefinitions="25,*">

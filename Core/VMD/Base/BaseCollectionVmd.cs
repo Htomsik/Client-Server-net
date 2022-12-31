@@ -15,6 +15,8 @@ public abstract class BaseCollectionVmd<T> : BaseVmd,IBaseCollectionVmd<T>
 
     public IReactiveCommand ClearSearchText { get; }
 
+    public IReactiveCommand ClearCollection { get; protected set; }
+
     #endregion
     
     public BaseCollectionVmd()
@@ -22,7 +24,7 @@ public abstract class BaseCollectionVmd<T> : BaseVmd,IBaseCollectionVmd<T>
         #region Commands
 
         ClearSearchText = ReactiveCommand.Create(() => SearchText = string.Empty );
-
+        
         #endregion
     }
     protected abstract void DoSearch(string? searchText);
