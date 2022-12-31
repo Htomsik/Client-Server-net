@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using AppInfrastructure.Stores.DefaultStore;
+using Core.VMD.Base;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Serilog.Events;

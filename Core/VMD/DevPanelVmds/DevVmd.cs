@@ -1,10 +1,7 @@
-﻿using System.Collections.ObjectModel;
-using AppInfrastructure.Stores.DefaultStore;
-using Core.Infrastructure.Hosting;
+﻿using Core.Infrastructure.Hosting;
+using Core.VMD.Base;
 using Microsoft.Extensions.DependencyInjection;
-using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
-using Serilog.Events;
+
 
 namespace Core.VMD.DevPanelVmds;
 

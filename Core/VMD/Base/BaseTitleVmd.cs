@@ -1,6 +1,4 @@
-using ReactiveUI;
-
-namespace Core.VMD.TitleVmds;
+namespace Core.VMD.Base;
 
 public abstract class BaseTitleVmd : BaseVmd, ITitleVmd
 {

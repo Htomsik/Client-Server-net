@@ -2,6 +2,7 @@
 using System.Reactive.Linq;
 using AppInfrastructure.Stores.Repositories.Collection;
 using Core.Infrastructure.Hosting;
+using Core.VMD.Base;
 using Core.VMD.DevPanelVmds;
 using Core.VMD.TitleVmds;
 using ReactiveUI;
