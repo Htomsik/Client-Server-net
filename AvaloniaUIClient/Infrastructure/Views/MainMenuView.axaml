@@ -1,15 +1,15 @@
 <UserControl
-    d:DesignHeight="400"
-    d:DesignWidth="200"
-    mc:Ignorable="d"
     x:Class="AvaloniaUIClient.Infrastructure.Views.MainMenuView"
     xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
     xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    d:DesignHeight="400"
+    d:DesignWidth="200"
+    mc:Ignorable="d">
 
     <Grid RowDefinitions="120,*,35">
 
@@ -18,17 +18,17 @@
             <StackPanel>
 
                 <Image
-                    ClipToBounds="True"
+                    Width="70"
                     Height="70"
-                    HorizontalAlignment="Center"
                     Margin="0,5,0,0"
-                    Source="/Assets/AppIcon.png"
+                    HorizontalAlignment="Center"
                     VerticalAlignment="Top"
-                    Width="70" />
+                    ClipToBounds="True"
+                    Source="/Assets/AppIcon.png" />
 
                 <TextBlock
-                    Classes="Headline6"
                     HorizontalAlignment="Center"
+                    Classes="Headline6"
                     Text="MvvM Template" />
 
             </StackPanel>
@@ -42,16 +42,17 @@
 
         <!--  Settings  -->
         <Button
-            Classes="IconButton"
             Grid.Row="2"
+            Width="40"
             Height="40"
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
-            Width="40">
+            Command="{Binding OpenSettings}"
+            Classes="IconButton">
             <avalonia:MaterialIcon
+                Width="35"
                 Height="35"
-                Kind="Gear"
-                Width="35" />
+                Kind="Gear" />
         </Button>
 
     </Grid>
