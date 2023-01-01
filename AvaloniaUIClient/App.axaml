@@ -6,7 +6,8 @@
     xmlns:events="clr-namespace:Serilog.Events;assembly=Serilog"
     xmlns:infrastructure="clr-namespace:AvaloniaUIClient.Infrastructure"
     xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
-    xmlns:models="clr-namespace:Core.Infrastructure.Models;assembly=Core">
+    xmlns:models="clr-namespace:Core.Infrastructure.Models;assembly=Core"
+    xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles">
 
     <Application.Resources>
         <ResourceDictionary>
@@ -66,6 +67,28 @@
                     Text="{Binding logLevel}" />
 
             </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate DataType="models:MenuParamCommandItem">
+            <Button
+                Margin="0"
+                Padding="0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                assists:ShadowAssist.ShadowDepth="Depth0"
+                assists:ButtonAssist.HoverColor="Transparent"
+                Background="Transparent"
+                Command="{Binding Command}"
+                CommandParameter="{Binding CommandParam}">
+                <Button.Content>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Foreground="{DynamicResource MaterialDesignBody}"
+                        Classes="Headline6"
+                        Text="{Binding Name}" />
+                </Button.Content>
+            </Button>
         </DataTemplate>
 
         <infrastructure:ViewLocator />
