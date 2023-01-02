@@ -3,7 +3,7 @@ using System.Windows.Input;
 using Core.Infrastructure.Hosting;
 using Core.Infrastructure.Models;
 using Core.Infrastructure.Services.NavigationService;
-using Core.VMD.Base;
+using Core.Infrastructure.VMD;
 using Core.VMD.TitleVmds;
 using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;

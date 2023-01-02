@@ -4,7 +4,7 @@ using AppInfrastructure.Stores.DefaultStore;
 using AppInfrastructure.Stores.Repositories.Collection;
 using Core.Infrastructure.Hosting;
 using Core.Infrastructure.Services.NavigationService;
-using Core.VMD.Base;
+using Core.Infrastructure.VMD;
 using Core.VMD.DevPanelVmds;
 using Core.VMD.TitleVmds;
 using Microsoft.Extensions.DependencyInjection;

@@ -1,6 +1,6 @@
 using AppInfrastructure.Stores.DefaultStore;
 using Core.Infrastructure.Hosting;
-using Core.VMD.Base;
+using Core.Infrastructure.VMD;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Core.Infrastructure.Services.NavigationService;

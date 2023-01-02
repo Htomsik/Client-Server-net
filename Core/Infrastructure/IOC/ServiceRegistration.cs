@@ -1,7 +1,7 @@
 ﻿using Core.Infrastructure.Logging;
 using Core.Infrastructure.Services.NavigationService;
 using Core.Infrastructure.Services.ParseService;
-using Core.VMD.Base;
+using Core.Infrastructure.VMD;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Core.Infrastructure.IOC;

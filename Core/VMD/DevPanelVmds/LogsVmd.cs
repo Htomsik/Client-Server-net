@@ -3,7 +3,7 @@ using System.Reactive;
 using AppInfrastructure.Stores.DefaultStore;
 using AppInfrastructure.Stores.Repositories.Collection;
 using Core.Infrastructure.Models;
-using Core.VMD.Base;
+using Core.Infrastructure.VMD;
 using Microsoft.Extensions.Logging;
 using ReactiveUI;
 using Serilog.Events;

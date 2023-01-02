@@ -3,7 +3,7 @@ using AppInfrastructure.Stores.DefaultStore;
 using AppInfrastructure.Stores.Repositories.Collection;
 using Core.Infrastructure.Logging;
 using Core.Infrastructure.Stores;
-using Core.VMD.Base;
+using Core.Infrastructure.VMD;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog.Events;
 

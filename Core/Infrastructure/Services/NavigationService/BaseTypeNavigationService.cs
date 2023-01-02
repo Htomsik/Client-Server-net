@@ -1,6 +1,6 @@
 using AppInfrastructure.Services.StoreServices.Parametrize;
 using AppInfrastructure.Stores.DefaultStore;
-using Core.VMD.Base;
+using Core.Infrastructure.VMD;
 
 namespace Core.Infrastructure.Services.NavigationService;
 

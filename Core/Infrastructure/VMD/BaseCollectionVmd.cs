@@ -1,7 +1,7 @@
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
-namespace Core.VMD.Base;
+namespace Core.Infrastructure.VMD;
 
 public abstract class BaseCollectionVmd<T> : BaseVmd,IBaseCollectionVmd<T>
 {

@@ -1,4 +1,4 @@
-namespace Core.VMD.Base;
+namespace Core.Infrastructure.VMD;
 
 public abstract class BaseTitleVmd : BaseVmd, ITitleVmd
 {

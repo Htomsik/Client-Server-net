@@ -1,4 +1,4 @@
-using Core.VMD.Base;
+using Core.Infrastructure.VMD;
 
 namespace Core.VMD.TitleVmds;
 
