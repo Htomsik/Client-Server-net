@@ -21,7 +21,8 @@ public class ViewLocator : IDataTemplate
         {typeof(DevVmd),typeof(DevPanelView)},
         {typeof(LogsVmd),typeof(LogsPanelView)},
         {typeof(MainMenuVmd), typeof(MainMenuView)},
-        {typeof(HomeVmd),typeof(HomeView)}
+        {typeof(HomeVmd),typeof(HomeView)},
+        {typeof(SettingsVmd),typeof(SettingsViews)}
     };
 
     private ILogger? _logger;

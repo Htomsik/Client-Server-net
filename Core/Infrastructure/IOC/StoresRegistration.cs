@@ -2,8 +2,10 @@
 using AppInfrastructure.Stores.DefaultStore;
 using AppInfrastructure.Stores.Repositories.Collection;
 using Core.Infrastructure.Logging;
+using Core.Infrastructure.Models.SettingsModels;
 using Core.Infrastructure.Stores;
 using Core.Infrastructure.VMD;
+using Core.Stores;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog.Events;
 
@@ -17,7 +19,9 @@ public partial class IocRegistration
             .VmdsStoreRegs();
     
     private static IServiceCollection VmdsStoreRegs(this IServiceCollection services) =>
-        services.AddSingleton<IStore<ITitleVmd>, TitleVmdStore>();
+        services
+            .AddSingleton<IStore<ITitleVmd>, TitleVmdStore>()
+            .AddSingleton<IStore<Settings>, SettingsStore>();
 
     private static IServiceCollection InfrStoresRegs(this IServiceCollection services) =>
         services
