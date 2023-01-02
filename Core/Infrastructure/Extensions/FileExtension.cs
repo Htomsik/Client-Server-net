@@ -18,23 +18,26 @@ public class FileExtension
     
     public static bool RestoreDirectories(string path)
     {
-        if (IsDirectoryExist(path))
-            return true;
-
-        try
-        {
-            Directory.CreateDirectory(path);
-        }
-        catch (Exception error)
-        {
-            Logger!.LogError(error, "{0}:{1}", error.Source, error.Message);
-            
-            return false;
-        }
+        var ret = IsDirectoryExist(path);
         
-        Logger!.LogTrace($"Directory restored: {path}","{0}:{1}", nameof(FileExtension));
+        if(!ret)
+            try
+            {
+                Directory.CreateDirectory(path);
 
-        return true;
+                ret = true;
+            }
+            catch (Exception error)
+            {
+                Logger!.LogError(error, "{0}:{1}", error.Source, error.Message);
+
+                ret = false;
+            }
+        
+        if(ret)
+            Logger!.LogTrace($"Directory restored: {path}","{0}:{1}", nameof(FileExtension));
+
+        return ret;
     }
 
     #endregion
@@ -49,35 +52,124 @@ public class FileExtension
 
     #endregion
 
-    #region RestoreFile : Restore file in Data/{DirectoryPath}/
+    #region RestoreFile : Restore file directoryPath/fileName
     
-    public static bool RestoreFile(string fileName, string directoryPath = null)
+    public static bool RestoreFile(string fileName, string? directoryPath = null)
     {
+        bool ret = true; 
+        
         if (string.IsNullOrEmpty(directoryPath?.Trim()))
             directoryPath = Path.Combine(Directory.GetCurrentDirectory(),"Data");
         
         if (IsFileExist(directoryPath, fileName))
-            return true;
+            ret = true;
 
         if (!IsDirectoryExist(directoryPath))
-            RestoreDirectories(directoryPath);
+            ret = RestoreDirectories(directoryPath);
 
         var path = Path.Combine(directoryPath, fileName);
+       
+        if(ret)
+            try
+            {
+                File.Create(path).Close();
+            }
+            catch (Exception error)
+            {
+                Logger!.LogError(error, "{0}:{1}", error.Source, error.Message);
+                
+                return false;
+            }
         
-        try
-        {
-            File.Create(path).Close();
-        }
-        catch (Exception error)
-        {
-            Logger!.LogError(error, "{0}:{1}", error.Source, error.Message);
-            
-            return false;
-        }
-        
-        Logger!.LogTrace($"File restored: {path}","{0}:{1}", nameof(FileExtension));
+        if(ret)
+            Logger!.LogTrace($"File restored: {path}","{0}:{1}", nameof(FileExtension));
 
-        return true;
+        return ret;
+    }
+
+    #endregion
+
+    #region WriteAsync : Save string data into file
+
+    public static async Task<bool> WriteAsync(string data, string fileName, string? directoryPath = null, bool restoreFile = true)
+    {
+        var ret = true;
+        
+        if (string.IsNullOrEmpty(data.Trim())) throw new ArgumentNullException(nameof(data));
+        
+        if (string.IsNullOrEmpty(fileName.Trim())) throw new ArgumentNullException(nameof(fileName));
+
+        if (string.IsNullOrEmpty(directoryPath))
+            directoryPath = Path.Combine(Directory.GetCurrentDirectory(),"Data");
+        
+        if (restoreFile)
+            ret = RestoreFile(fileName,directoryPath);
+        
+        string path = Path.Combine(directoryPath, fileName);
+        
+        if(ret)
+            try
+            {
+                await using StreamWriter writer = new StreamWriter(path, false);
+                
+                await writer.WriteLineAsync(data);
+            }
+            catch (Exception error)
+            {
+                Logger!.LogError(error, "{0}:{1}", error.Source, error.Message);
+
+                ret = false;
+            }
+        
+        if(ret)
+            Logger!.LogTrace($"Data saved in {path}","{0}:{1}", nameof(WriteAsync));
+
+        return ret;
+    }
+
+    #endregion
+
+    #region ReadAsync : Get string data from file
+
+    public static string Read(string fileName, string? directoryPath = null)
+    {
+        bool ret = true;
+
+        string textFromFile = String.Empty;
+        
+        if (string.IsNullOrEmpty(fileName.Trim())) throw new ArgumentNullException(nameof(fileName));
+
+        if (string.IsNullOrEmpty(directoryPath))
+            directoryPath = Path.Combine(Directory.GetCurrentDirectory(),"Data");
+
+        var path = Path.Combine(directoryPath, fileName);
+
+        ret = IsFileExist(fileName, directoryPath);
+        
+        if(!ret)
+            _logger!.LogError($"File {path} doesn't exists");
+
+        if(ret)
+            try
+            {
+                using StreamReader reader = new StreamReader(path);
+                
+                while (reader.Read() != 0)
+                {
+                    textFromFile += reader.ReadLine();
+                }
+            }
+            catch (Exception error)
+            {
+                Logger!.LogError(error, "{0}:{1}", error.Source, error.Message);
+
+                ret = false;
+            }
+        
+        if(ret)
+            Logger!.LogTrace($"Data restored from {path}","{0}:{1}", nameof(Read));
+
+        return textFromFile;
     }
 
     #endregion
@@ -92,8 +184,14 @@ public class FileExtension
         
         return File.Exists(Path.Combine(directoryPath,fileName));
     }
+    
+    public static bool IsFileExist(string fileName)
+    {
+        var directoryPath = Path.Combine(Directory.GetCurrentDirectory(),"Data");
+
+        return IsFileExist(fileName, directoryPath);
+    }
 
     #endregion
-
-   
+    
 }
