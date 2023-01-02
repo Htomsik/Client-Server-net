@@ -5,8 +5,6 @@ using Avalonia.Markup.Xaml;
 using AvaloniaUIClient.Infrastructure.IOC;
 using AvaloniaUIClient.Views;
 using Core.Infrastructure.Hosting;
-using Core.Infrastructure.Models.SettingsModels;
-using Core.Infrastructure.Services.FileService;
 using Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
