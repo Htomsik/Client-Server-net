@@ -153,10 +153,10 @@ public class FileExtension
             try
             {
                 using StreamReader reader = new StreamReader(path);
-                
-                while (reader.Read() != 0)
+
+                while (reader.ReadLine() is { } line)
                 {
-                    textFromFile += reader.ReadLine();
+                    textFromFile += line;
                 }
             }
             catch (Exception error)

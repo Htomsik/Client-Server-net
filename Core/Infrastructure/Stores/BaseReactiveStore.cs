@@ -20,4 +20,13 @@ public class  BaseReactiveStore<TValue> : BaseLazyStore<TValue> where TValue : I
         }
       
     }
+
+    
+    #region Constructors
+
+    public BaseReactiveStore(TValue value):base(value) {}
+
+    public BaseReactiveStore() : base() {}
+
+    #endregion
 }

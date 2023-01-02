@@ -8,7 +8,8 @@ namespace Core.Services;
 
 public class SettingsFileService : BaseStoreFileService<Settings>
 {
-    public SettingsFileService(IStore<Settings> store, IParseService parseService, ILogger<BaseStoreFileService<Settings>> logger, string fileName) : base(store, parseService, logger, fileName)
+    public SettingsFileService(IStore<Settings> store, IParseService parseService,
+        ILogger<BaseStoreFileService<Settings>> logger) : base(store, parseService, logger, "Settings.json")
     {
     }
 }

@@ -26,7 +26,7 @@ public class ParseService : IParseService
 
         try
         {
-            serialized = fastJSON.JSON.ToJSON(nonSerialized);
+            serialized = fastJSON.JSON.ToNiceJSON(nonSerialized);
         }
         catch (Exception error)
         {

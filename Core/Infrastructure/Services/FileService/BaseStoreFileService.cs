@@ -1,11 +1,15 @@
+using System.Reactive.Linq;
 using AppInfrastructure.Stores.DefaultStore;
 using Core.Infrastructure.Extensions;
 using Core.Infrastructure.Services.ParseService;
+using DynamicData.Binding;
 using Microsoft.Extensions.Logging;
+using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 
 namespace Core.Infrastructure.Services.FileService;
 
-public abstract class BaseStoreFileService<T> : IFileService
+public abstract class BaseStoreFileService<T> : ReactiveObject, IFileService
 {
     #region Fields
 
@@ -16,6 +20,9 @@ public abstract class BaseStoreFileService<T> : IFileService
     private readonly ILogger _logger;
 
     private readonly string _fileName;
+
+    [Reactive] 
+    private bool ChangeFlag { get; set; }
 
     #endregion
     
@@ -30,8 +37,13 @@ public abstract class BaseStoreFileService<T> : IFileService
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
         _fileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
-        
-        _store.CurrentValueChangedNotifier += Set;
+
+        _store.CurrentValueChangedNotifier += ()=> ChangeFlag = !ChangeFlag ;
+
+        this.WhenPropertyChanged(x => x.ChangeFlag)
+            .Throttle(TimeSpan.FromSeconds(10))
+            .Subscribe(_ =>  Set());
+
     }
     
     #endregion
@@ -41,19 +53,22 @@ public abstract class BaseStoreFileService<T> : IFileService
     public void Get()
     {
         if (!FileExtension.IsFileExist(_fileName))
-            _logger.LogError($"File {nameof(_fileName)} doesn't exists");
-
+        {
+            _logger.LogError($"{nameof(Get)}:File {_fileName} doesn't exists");
+            return;
+        }
+        
         var nonSerialize = FileExtension.Read(_fileName);
 
         if (string.IsNullOrEmpty(nonSerialize.Trim()))
         {
-            _logger.LogTrace($"{nameof(Set)}:Data is null");
+            _logger.LogTrace($"{nameof(Get)}:Data is null");
             return;
         }
 
         _store.CurrentValue = _parseService.DeSerialize<T>(nonSerialize)!;
         
-        _logger.LogInformation("Data restored from File");
+        _logger.LogInformation($"{nameof(Get)}:Data restored from File");
     }
 
     public async void Set()
@@ -69,7 +84,7 @@ public abstract class BaseStoreFileService<T> : IFileService
         var isSaved = await FileExtension.WriteAsync(serialized, _fileName);
         
         if(isSaved)
-            _logger.LogInformation("Data saved into File");
+            _logger.LogInformation($"{nameof(Set)}:Data saved into File");
     }
 
     #endregion
