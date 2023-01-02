@@ -7,10 +7,16 @@ namespace Core.Infrastructure.Models;
 
 public sealed class LogLevelSelected : ReactiveObject
 {
+    #region Properties
+
     public LogEventLevel logLevel { get; init; }
 
     [Reactive]
     public bool IsAddedToFilter { get; set; }
+
+    #endregion
+
+    #region Constructor
 
     public LogLevelSelected(LogEventLevel level, ICollection<LogEventLevel> loglevels)
     {
@@ -43,6 +49,10 @@ public sealed class LogLevelSelected : ReactiveObject
     }
 
 
+    #endregion
+
+    #region Methods
+
     public static IEnumerable<LogLevelSelected> CreateAllLevelsCollection(ICollection<LogEventLevel> logLevelSelecteds)
     {
         foreach (LogEventLevel loglevel in (LogEventLevel[]) Enum.GetValues(typeof(LogEventLevel)))
@@ -58,5 +68,6 @@ public sealed class LogLevelSelected : ReactiveObject
             yield return new LogLevelSelected(loglevel,logLevelSelecteds);
         }
     }
-    
+
+    #endregion
 }

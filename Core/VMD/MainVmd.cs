@@ -3,7 +3,7 @@ using System.Reactive.Linq;
 using AppInfrastructure.Stores.DefaultStore;
 using AppInfrastructure.Stores.Repositories.Collection;
 using Core.Infrastructure.Hosting;
-using Core.Infrastructure.Services;
+using Core.Infrastructure.Services.NavigationService;
 using Core.VMD.Base;
 using Core.VMD.DevPanelVmds;
 using Core.VMD.TitleVmds;
@@ -16,6 +16,9 @@ namespace Core.VMD;
 
 public class MainVmd : BaseVmd
 {
+
+    #region Properties
+
     [Reactive]
     public LogEvent? LastLog { get;  set; }
 
@@ -25,7 +28,10 @@ public class MainVmd : BaseVmd
     
     [Reactive]
     public ITitleVmd? TitleVmd { get; private set; }
-    
+
+
+    #endregion
+   
     public MainVmd(ICollectionRepository<ObservableCollection<LogEvent>,LogEvent> logStore,IStore<ITitleVmd> titleVmdStore)
     {
         

@@ -1,5 +1,5 @@
 ﻿using Core.Infrastructure.Logging;
-using Core.Infrastructure.Services;
+using Core.Infrastructure.Services.NavigationService;
 using Core.Infrastructure.Services.ParseService;
 using Core.VMD.Base;
 using Microsoft.Extensions.DependencyInjection;

@@ -2,7 +2,7 @@ using AppInfrastructure.Services.StoreServices.Parametrize;
 using AppInfrastructure.Stores.DefaultStore;
 using Core.VMD.Base;
 
-namespace Core.Infrastructure.Services;
+namespace Core.Infrastructure.Services.NavigationService;
 
 public abstract class BaseTypeNavigationService<TBaseVmd> : BaseLazyParamFullNavigationService<Type,TBaseVmd> where TBaseVmd : IBaseVmd
 {

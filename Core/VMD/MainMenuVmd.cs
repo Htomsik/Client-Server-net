@@ -2,7 +2,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Core.Infrastructure.Hosting;
 using Core.Infrastructure.Models;
-using Core.Infrastructure.Services;
+using Core.Infrastructure.Services.NavigationService;
 using Core.VMD.Base;
 using Core.VMD.TitleVmds;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,7 +13,6 @@ namespace Core.VMD;
 
 public class MainMenuVmd : BaseMenuVmd<MenuParamCommandItem>
 {
-    private IReactiveCommand OpenSettings { get; }
     public MainMenuVmd()
     {
         
@@ -37,4 +36,10 @@ public class MainMenuVmd : BaseMenuVmd<MenuParamCommandItem>
         #endregion
         
     }
+    
+    #region Command
+
+    private IReactiveCommand OpenSettings { get; }
+
+    #endregion
 }

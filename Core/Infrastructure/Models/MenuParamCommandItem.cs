@@ -1,5 +1,4 @@
 using System.Windows.Input;
-using ReactiveUI;
 
 namespace Core.Infrastructure.Models;
 
@@ -16,7 +15,11 @@ public class MenuParamCommandItem: MenuCommandItem
     public object CommandParam => _lazyCommandParam.Value;
 
     #endregion
-    
+
+    #region Constructors
+
     public MenuParamCommandItem(string name, ICommand? command,object commandParam) : base(name, command)
         => _lazyCommandParam = new Lazy<object>(()=> commandParam);
+
+    #endregion
 }

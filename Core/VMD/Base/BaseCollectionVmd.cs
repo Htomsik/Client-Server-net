@@ -5,17 +5,13 @@ namespace Core.VMD.Base;
 
 public abstract class BaseCollectionVmd<T> : BaseVmd,IBaseCollectionVmd<T>
 {
+    #region Properties
+
     [Reactive]
     public IEnumerable<T> Collection { get; protected set; }
     
     [Reactive]
     public string SearchText { get; protected set; }
-    
-    #region Commands
-
-    public IReactiveCommand ClearSearchText { get; }
-
-    public IReactiveCommand ClearCollection { get; protected set; }
 
     #endregion
     
@@ -27,5 +23,19 @@ public abstract class BaseCollectionVmd<T> : BaseVmd,IBaseCollectionVmd<T>
         
         #endregion
     }
+    
+    #region Commands
+
+    public IReactiveCommand ClearSearchText { get; }
+
+    public IReactiveCommand ClearCollection { get; protected set; }
+
+    #endregion
+
+    #region Methods
+
     protected abstract void DoSearch(string? searchText);
+
+    #endregion
+ 
 }

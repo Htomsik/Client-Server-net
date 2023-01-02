@@ -37,7 +37,7 @@ public abstract class BaseStoreFileService<T> : IFileService
     #endregion
 
     #region Methods
-
+    
     public void Get()
     {
         if (!FileExtension.IsFileExist(_fileName))
@@ -73,5 +73,4 @@ public abstract class BaseStoreFileService<T> : IFileService
     }
 
     #endregion
-    
 }
