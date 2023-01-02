@@ -1,37 +1,49 @@
 ﻿using System.Collections.ObjectModel;
+using AppInfrastructure.Stores.DefaultStore;
 using AppInfrastructure.Stores.Repositories.Collection;
-using Microsoft.Extensions.Configuration;
-using ReactiveUI;
+using Core.Infrastructure.Models.SettingsModels;
 using Serilog.Events;
 
 namespace Core.Infrastructure.Logging;
 
 internal sealed class LogStore : BaseLazyCollectionRepository<ObservableCollection<LogEvent>,LogEvent>
 {
-    private int _maxLogs;
+    private int _maxLogs = 50;
     
     protected override bool addIntoEnumerable(LogEvent value)
     {
-        if(CurrentValue.Count >= _maxLogs)
-            CurrentValue.RemoveAt(0);
+        if(CurrentValue!.Count >= _maxLogs)
+            RemoveLogs(1);
         
         CurrentValue?.Add(value);
         
         return true;
     }
 
-    public LogStore(IConfiguration configuration)
+    public LogStore(IStore<Settings> settings)
     {
+        _maxLogs = settings.CurrentValue.DevLogsCount;
+        
         #region Subscriptions
 
-        configuration
-            .WhenAnyValue(x=>x["Settings:DevMode:MaxLogs"])
-            .Subscribe(_ =>
-            {
-                _maxLogs  = Convert.ToInt32(configuration["Settings:DevMode:MaxLogs"]);
-            });
+        settings.CurrentValueChangedNotifier += () =>
+        {
+            _maxLogs = settings.CurrentValue.DevLogsCount;
+
+            if (CurrentValue!.Count >= _maxLogs)
+                RemoveLogs(CurrentValue.Count - _maxLogs);
+        };
+
         #endregion
 
     }
-    
+
+    void RemoveLogs(int toRemove)
+    {
+        var logsList = CurrentValue!.ToList();
+        
+        logsList.RemoveRange(0,toRemove);
+        
+        CurrentValue = new ObservableCollection<LogEvent>(logsList);
+    }
 }
