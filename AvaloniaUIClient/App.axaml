@@ -1,0 +1,98 @@
+<Application
+    x:Class="AvaloniaUIClient.App"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:AvaloniaUIClient.Converters"
+    xmlns:events="clr-namespace:Serilog.Events;assembly=Serilog"
+    xmlns:infrastructure="clr-namespace:AvaloniaUIClient.Infrastructure"
+    xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
+    xmlns:models="clr-namespace:Core.Infrastructure.Models;assembly=Core"
+    xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles">
+
+    <Application.Resources>
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="/Infrastructure/DataTemplates/LogsDataTemplates.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <converters:HalfSizeConverter x:Key="HalfSizeConverter" />
+            <converters:LogLevelToMaterialIconConverter x:Key="LogLevelToMaterialIconConverter" />
+
+        </ResourceDictionary>
+    </Application.Resources>
+
+    <Application.Styles>
+
+        <themes:MaterialTheme
+            BaseTheme="Dark"
+            PrimaryColor="LightBlue"
+            SecondaryColor="LightGreen" />
+
+        <StyleInclude Source="avares://Material.Icons.Avalonia/App.xaml" />
+        <StyleInclude Source="/Infrastructure/Styles/ToggleButton.axaml" />
+        <StyleInclude Source="/Infrastructure/Styles/Button.axaml" />
+    </Application.Styles>
+
+    <Application.DataTemplates>
+        <!--  Default log  -->
+        <DataTemplate DataType="events:LogEvent">
+
+            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+
+                <ContentControl Content="{Binding Level, Converter={StaticResource LogLevelToMaterialIconConverter}}" />
+
+                <TextBlock
+                    Margin="5,0,0,0"
+                    VerticalAlignment="Center"
+                    Classes="Body1"
+                    Text="{Binding MessageTemplate.Text}" />
+            </StackPanel>
+        </DataTemplate>
+
+
+        <!--  LogLevelSelected  -->
+        <DataTemplate DataType="models:LogLevelSelected">
+
+            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+
+                <CheckBox IsChecked="{Binding IsAddedToFilter, Mode=TwoWay}" />
+
+                <ContentControl Content="{Binding logLevel, Converter={StaticResource LogLevelToMaterialIconConverter}}" />
+
+                <TextBlock
+                    Margin="5,0,0,0"
+                    VerticalAlignment="Center"
+                    Classes="Body1"
+                    Text="{Binding logLevel}" />
+
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate DataType="models:MenuParamCommandItem">
+            <Button
+                Margin="0"
+                Padding="0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                assists:ShadowAssist.ShadowDepth="Depth0"
+                assists:ButtonAssist.HoverColor="Transparent"
+                Background="Transparent"
+                Command="{Binding Command}"
+                CommandParameter="{Binding CommandParam}">
+                <Button.Content>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Foreground="{DynamicResource MaterialDesignBody}"
+                        Classes="Headline6"
+                        Text="{Binding Name}" />
+                </Button.Content>
+            </Button>
+        </DataTemplate>
+
+        <infrastructure:ViewLocator />
+
+    </Application.DataTemplates>
+
+</Application>

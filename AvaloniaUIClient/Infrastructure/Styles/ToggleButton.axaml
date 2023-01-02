@@ -1,0 +1,21 @@
+<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!--  Add Controls for Previewer Here  -->
+        </Border>
+    </Design.PreviewWith>
+
+    <!--  Style for icon in bar  -->
+    <Style Selector="ToggleButton.IconBar">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Height" Value="40" />
+        <Setter Property="Width" Value="40" />
+        <Setter Property="assists:ButtonAssist.ClickFeedbackColor" Value="Transparent" />
+        <Setter Property="assists:ShadowAssist.ShadowDepth" Value="Depth0" />
+        <Setter Property="assists:ButtonAssist.HoverColor" Value="Transparent" />
+    </Style>
+</Styles>

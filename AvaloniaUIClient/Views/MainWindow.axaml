@@ -1,0 +1,91 @@
+<Window
+    x:Class="AvaloniaUIClient.Views.MainWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
+    Name="MainWin"
+    Title="AvaloniaUIClient"
+    d:DesignHeight="300"
+    d:DesignWidth="500"
+    Icon="/Assets/AppIcon.ico"
+    mc:Ignorable="d">
+
+    <Window.Styles>
+
+        <Style Selector="avalonia|MaterialIcon.UpperBarIcon">
+            <Setter Property="Height" Value="35" />
+            <Setter Property="Width" Value="35" />
+        </Style>
+
+    </Window.Styles>
+
+    <Grid ColumnDefinitions="*,*" RowDefinitions="50,*,25">
+
+        <!--  Upper Bar  -->
+        <styles:ColorZone Grid.ColumnSpan="2" Mode="PrimaryDark">
+
+            <Grid Margin="16" ColumnDefinitions="25,*,25">
+
+                <!--  Menu button  -->
+                <ToggleButton Name="NavDrawerSwitch" Classes="IconBar">
+                    <avalonia:MaterialIcon Classes="UpperBarIcon" Kind="Menu" />
+                </ToggleButton>
+
+                <!--  Current TitleVmd Name  -->
+                <TextBlock
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Classes="Headline6"
+                    Text="{Binding TitleVmd.Title}" />
+
+                <!--  DevPanel button  -->
+                <ToggleButton
+                    Name="DevPanelSwitch"
+                    Grid.Column="2"
+                    Classes="IconBar">
+                    <avalonia:MaterialIcon Classes="UpperBarIcon" Kind="DevTo" />
+                </ToggleButton>
+            </Grid>
+
+        </styles:ColorZone>
+
+        <!--  Title vmds  -->
+        <ContentControl
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            VerticalContentAlignment="Stretch"
+            Content="{Binding TitleVmd}" />
+
+        <!--  Last log panel  -->
+        <ContentControl
+            Grid.Row="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            BorderBrush="{DynamicResource PrimaryHueDarkBrush}"
+            BorderThickness="0,2,0,0"
+            Content="{Binding LastLog}" />
+
+
+        <!--  Draver for menu/devPanel  -->
+        <styles:NavigationDrawer
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            RightDrawerWidth="{Binding #MainWin.Width, Converter={StaticResource HalfSizeConverter}}"
+            LeftDrawerContent="{Binding MainMenuVmd}"
+            LeftDrawerOpened="{Binding #NavDrawerSwitch.IsChecked, Mode=TwoWay}"
+            RightDrawerContent="{Binding DevPanelVmd}"
+            RightDrawerOpened="{Binding #DevPanelSwitch.IsChecked, Mode=TwoWay}" />
+
+    </Grid>
+
+
+</Window>

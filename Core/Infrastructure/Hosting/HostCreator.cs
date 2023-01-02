@@ -6,10 +6,10 @@ namespace Core.Infrastructure.Hosting;
 
 public static class HostCreator
 {
-    public static IHost? GetHost(IServiceCollection? services = null)
+    public static IHost? CreateHost(IServiceCollection? services = null)
     {
-        IocRegistrator.SetAdditionalServices(services);
-
+        IocRegistration.SetAdditionalServices(services);
+        
         return HostWorker.Host;
     }
     
