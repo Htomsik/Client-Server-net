@@ -54,7 +54,7 @@ public abstract class BaseStoreFileService<T> : ReactiveObject, IFileService
     {
         if (!FileExtension.IsFileExist(_fileName))
         {
-            _logger.LogError($"{nameof(Get)}:File {_fileName} doesn't exists");
+            _logger.LogError($"{nameof(Get)}:{_fileName} doesn't exists");
             return;
         }
         
@@ -62,13 +62,13 @@ public abstract class BaseStoreFileService<T> : ReactiveObject, IFileService
 
         if (string.IsNullOrEmpty(nonSerialize.Trim()))
         {
-            _logger.LogTrace($"{nameof(Get)}:Data is null");
+            _logger.LogTrace($"{nameof(Get)}:{_fileName} Data is null");
             return;
         }
 
         _store.CurrentValue = _parseService.DeSerialize<T>(nonSerialize)!;
         
-        _logger.LogInformation($"{nameof(Get)}:Data restored from File");
+        _logger.LogInformation($"{nameof(Get)}:Data restored from {_fileName}");
     }
 
     public async void Set()
@@ -84,7 +84,9 @@ public abstract class BaseStoreFileService<T> : ReactiveObject, IFileService
         var isSaved = await FileExtension.WriteAsync(serialized, _fileName);
         
         if(isSaved)
-            _logger.LogInformation($"{nameof(Set)}:Data saved into File");
+            _logger.LogInformation($"{nameof(Set)}:{_fileName} saved confirmed");
+        else
+            _logger.LogError($"{nameof(Set)}:{_fileName} saved failed");
     }
 
     #endregion
