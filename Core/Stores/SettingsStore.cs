@@ -6,5 +6,6 @@ namespace Core.Stores;
 
 public class SettingsStore : BaseTimerReactiveStore<Settings>
 {
-    public SettingsStore():base(new Settings(),10){}
+    public SettingsStore():base(new Settings()){}
+    protected override int InitialTimerSeconds { get; } = 10;
 }

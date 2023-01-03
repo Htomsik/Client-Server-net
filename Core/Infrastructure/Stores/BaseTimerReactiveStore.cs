@@ -6,10 +6,10 @@ namespace Core.Infrastructure.Stores;
 
 public abstract class BaseTimerReactiveStore<TValue> : BaseReactiveStore<TValue> where TValue : IReactiveObject
 {
-    private readonly int _initialTimerSeconds = 5;
+    protected abstract int InitialTimerSeconds { get; }
 
-    private IDisposable timer;
-
+    private IDisposable? _timer;
+    
     #region TimerChangeNotifier
 
     public event Action<long>? TimerChangeNotifier;
@@ -18,51 +18,37 @@ public abstract class BaseTimerReactiveStore<TValue> : BaseReactiveStore<TValue>
 
     #endregion
     
-    public override TValue? CurrentValue
-    {
-        get => (TValue?)_currentValue.Value;
-        set
-        {
-            _currentValue = new Lazy<object?>(()=> value);
-            
-            CurrentValue?
-                .WhenAnyPropertyChanged()
-                .Do(_=>StartTimer())
-                .Throttle(TimeSpan.FromSeconds(_initialTimerSeconds))
-                .Subscribe(_ => OnCurrentValueChanged());
-            
-            OnCurrentValueChanged();
-        }
-      
-    }
-    
     #region Constructors
-
-    public BaseTimerReactiveStore(TValue value, int timerSecondsSpan) : base(value) =>
-        _initialTimerSeconds = timerSecondsSpan;
     
-    public BaseTimerReactiveStore(int timerSecondsSpan) : base() =>
-        _initialTimerSeconds = timerSecondsSpan;
+    public BaseTimerReactiveStore(TValue value) : base(value){}
     
-    public BaseTimerReactiveStore(TValue value) : base(value) {}
-
-    public BaseTimerReactiveStore() : base() {}
+    public BaseTimerReactiveStore() : base(){}
+  
     
     #endregion
 
-    #region Method
+    #region Methods
 
     private void StartTimer()
     {
-        timer?.Dispose();
+        _timer?.Dispose();
         
-        timer = Observable
+        _timer = Observable
             .Timer(DateTimeOffset.Now, TimeSpan.FromSeconds(1))
-            .Select(currentSeconds => _initialTimerSeconds - currentSeconds)
+            .Select(currentSeconds => InitialTimerSeconds - currentSeconds)
             .TakeWhile(currentSeconds => currentSeconds >= 0)
             .Subscribe(OnTimerChangeNotifier);
     }
-
+    
+    protected override void SetValueRelays()
+    {
+        CurrentValue?
+            .WhenAnyPropertyChanged()
+            .Do(_=>StartTimer())
+            .Throttle(TimeSpan.FromSeconds(InitialTimerSeconds))
+            .Subscribe(_ => OnCurrentValueChanged());
+    }
+    
     #endregion
     
 }

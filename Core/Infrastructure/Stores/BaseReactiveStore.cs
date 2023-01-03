@@ -14,9 +14,10 @@ public abstract class  BaseReactiveStore<TValue> : BaseLazyStore<TValue> where T
         {
             _currentValue = new Lazy<object?>(()=> value);
             
-            CurrentValue?
-                .WhenAnyPropertyChanged()
-                .Subscribe(_ => OnCurrentValueChanged());
+            if (value == null || value.Equals((object) null))
+                OnCurrentValueDeleted();
+
+            SetValueRelays();
             
             OnCurrentValueChanged();
         }
@@ -29,6 +30,17 @@ public abstract class  BaseReactiveStore<TValue> : BaseLazyStore<TValue> where T
     public BaseReactiveStore(TValue value):base(value) {}
 
     public BaseReactiveStore() : base() {}
+
+    #endregion
+
+    #region Methods
+
+    protected virtual void SetValueRelays()
+    {
+        CurrentValue?
+            .WhenAnyPropertyChanged()
+            .Subscribe(_ => OnCurrentValueChanged());
+    }
 
     #endregion
 }
