@@ -3,7 +3,9 @@ using System.Reactive.Linq;
 using AppInfrastructure.Stores.DefaultStore;
 using AppInfrastructure.Stores.Repositories.Collection;
 using Core.Infrastructure.Hosting;
+using Core.Infrastructure.Models.SettingsModels;
 using Core.Infrastructure.Services.NavigationService;
+using Core.Infrastructure.Stores;
 using Core.Infrastructure.VMD;
 using Core.VMD.DevPanelVmds;
 using Core.VMD.TitleVmds;
@@ -22,24 +24,30 @@ public class MainVmd : BaseVmd
     [Reactive]
     public LogEvent? LastLog { get;  set; }
 
+    [Reactive]
+    public int SaveTimer { get; set; } = 0;
+
     public IBaseVmd? DevPanelVmd { get; }
     
     public IBaseVmd? MainMenuVmd { get; }
     
     [Reactive]
     public ITitleVmd? TitleVmd { get; private set; }
-
-
+    
     #endregion
    
-    public MainVmd(ICollectionRepository<ObservableCollection<LogEvent>,LogEvent> logStore,IStore<ITitleVmd> titleVmdStore)
+    public MainVmd(ICollectionRepository<ObservableCollection<LogEvent>,LogEvent> logStore,
+        IStore<ITitleVmd> titleVmdStore,
+        BaseTimerReactiveStore<Settings> settings)
     {
         
         #region Subscriptions
 
-        logStore.CurrentValueChangedNotifier += () => LastLog = logStore.CurrentValue.Last();
+        logStore.CurrentValueChangedNotifier += () => LastLog = logStore?.CurrentValue?.Last();
 
         titleVmdStore.CurrentValueChangedNotifier += () => TitleVmd = titleVmdStore.CurrentValue;
+
+        settings.TimerChangeNotifier += (timer) => { SaveTimer = (int)timer; };
         
         #endregion
         

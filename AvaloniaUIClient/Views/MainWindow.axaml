@@ -54,14 +54,36 @@
         </styles:ColorZone>
 
         <!--  Last log panel  -->
-        <ContentControl
+        <Border
             Grid.Row="2"
             Grid.Column="0"
             Grid.ColumnSpan="2"
             BorderBrush="{DynamicResource PrimaryHueDarkBrush}"
-            BorderThickness="0,2,0,0"
-            Content="{Binding LastLog}" />
+            BorderThickness="0,2,0,0">
 
+            <Grid>
+                <ContentControl HorizontalAlignment="Left" Content="{Binding LastLog}" />
+
+                <StackPanel
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    IsVisible="{Binding SaveTimer, Converter={StaticResource IntIsNotNullConverter}, Mode=OneWay}"
+                    ToolTip.Tip="Save settings timer"
+                    ToolTip.ShowDelay="0"
+                    Orientation="Horizontal">
+
+                    <avalonia:MaterialIcon VerticalAlignment="Center" Kind="Clock" />
+
+                    <TextBlock
+                        Margin="2,0,0,0"
+                        VerticalAlignment="Center"
+                        Classes="Body1"
+                        Text="{Binding SaveTimer}" />
+                </StackPanel>
+
+            </Grid>
+
+        </Border>
 
         <!--  Draver for menu/devPanel  -->
         <styles:NavigationDrawer

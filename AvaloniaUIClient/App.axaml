@@ -17,6 +17,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <converters:HalfSizeConverter x:Key="HalfSizeConverter" />
+            <converters:IntIsNotNullConverter x:Key="IntIsNotNullConverter" />
             <converters:LogLevelToMaterialIconConverter x:Key="LogLevelToMaterialIconConverter" />
 
         </ResourceDictionary>
