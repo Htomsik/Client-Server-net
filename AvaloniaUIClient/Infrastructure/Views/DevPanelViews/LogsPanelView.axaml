@@ -186,6 +186,8 @@
             <!--  Debug tab  -->
             <TabItem Header="Debug">
                 <styles:ColorZone Margin="5" Padding="3">
+
+                    <!--  Logger test  -->
                     <Grid RowDefinitions="25,*">
 
                         <TextBlock
@@ -193,39 +195,8 @@
                             Classes="Body1"
                             Text="Logger test" />
 
-                        <StackPanel Grid.Row="1">
-                            <StackPanel.Styles>
+                        <ListBox Grid.Row="1" Items="{Binding LoggerTests}" />
 
-                                <Style Selector="Button">
-                                    <Setter Property="Margin" Value="3" />
-                                </Style>
-
-                            </StackPanel.Styles>
-                            <Button
-                                Content="Werbose"
-                                Command="{Binding LoggerTest}"
-                                CommandParameter="{StaticResource LogTrace}" />
-                            <Button
-                                Content="Debug"
-                                Command="{Binding LoggerTest}"
-                                CommandParameter="{StaticResource LogDebug}" />
-                            <Button
-                                Content="Information"
-                                Command="{Binding LoggerTest}"
-                                CommandParameter="{StaticResource LogInfo}" />
-                            <Button
-                                Content="Warning"
-                                Command="{Binding LoggerTest}"
-                                CommandParameter="{StaticResource LogWarn}" />
-                            <Button
-                                Content="Error"
-                                Command="{Binding LoggerTest}"
-                                CommandParameter="{StaticResource LogError}" />
-                            <Button
-                                Content="Critical/Fatal"
-                                Command="{Binding LoggerTest}"
-                                CommandParameter="{StaticResource LogCrit}" />
-                        </StackPanel>
                     </Grid>
 
                 </styles:ColorZone>

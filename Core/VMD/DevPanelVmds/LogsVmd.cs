@@ -24,6 +24,8 @@ public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
     public ObservableCollection<LogLevelSelected>? AllLogLevels { get; }
 
     #endregion
+    
+    public ObservableCollection<MenuParamCommandItem> LoggerTests { get; }
 
     private readonly ILogger _logger;
 
@@ -41,12 +43,6 @@ public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
         
         Settings = settings.CurrentValue;
 
-        #endregion
-        
-        #region Initializing
-
-        AllLogLevels = new ObservableCollection<LogLevelSelected>(LogLevelSelected.CreateAllLevelsCollection(_selectedLogLevels));
-        
         #endregion
         
         #region Subscriptions
@@ -81,7 +77,15 @@ public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
             logStore?.CurrentValue.Clear();
             DoSearch(SearchText);
         });
+        
+        #endregion
+        
+        #region Collections initialize
 
+        AllLogLevels = new ObservableCollection<LogLevelSelected>(LogLevelSelected.CreateAllLevelsCollection(_selectedLogLevels));
+
+        LoggerTests = new ObservableCollection<MenuParamCommandItem>(MenuParamCommandItem.CreateCollectionWithEnumParameter(LoggerTest,Enum.GetValues<LogLevel>()));
+        
         #endregion
     }
 
