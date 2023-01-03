@@ -46,6 +46,7 @@
                 <ToggleButton
                     Name="DevPanelSwitch"
                     Grid.Column="2"
+                    IsVisible="{Binding Settings.IsDevMode}"
                     Classes="IconBar">
                     <avalonia:MaterialIcon Classes="UpperBarIcon" Kind="DevTo" />
                 </ToggleButton>

@@ -26,6 +26,9 @@ public class MainVmd : BaseVmd
 
     [Reactive]
     public int SaveTimer { get; set; } = 0;
+    
+    [Reactive]
+    public Settings? Settings { get; set; }
 
     public IBaseVmd? DevPanelVmd { get; }
     
@@ -48,6 +51,8 @@ public class MainVmd : BaseVmd
         titleVmdStore.CurrentValueChangedNotifier += () => TitleVmd = titleVmdStore.CurrentValue;
 
         settings.TimerChangeNotifier += (timer) => { SaveTimer = (int)timer; };
+
+        settings.CurrentValueChangedNotifier += () => Settings = settings.CurrentValue!;
         
         #endregion
         
@@ -61,6 +66,8 @@ public class MainVmd : BaseVmd
         #endregion
 
         #region Initializing
+        
+        Settings = settings.CurrentValue;
 
         DevPanelVmd = (IBaseVmd?)HostWorker.Services.GetService(typeof(DevVmd));
 
