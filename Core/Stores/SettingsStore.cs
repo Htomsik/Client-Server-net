@@ -1,6 +1,5 @@
 using Core.Infrastructure.Models.SettingsModels;
 using Core.Infrastructure.Stores;
-using ReactiveUI;
 
 namespace Core.Stores;
 

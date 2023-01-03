@@ -8,10 +8,10 @@ public class Settings : ReactiveObject
 {
     #region Dev
 
-    [Reactive]
-    [JsonInclude] 
-    public int DevLogsCount { get; set; } = 50;
+    [Reactive] [JsonInclude] public int DevLogsCount { get; set; } = 50;
+
+    [Reactive] [JsonIgnore] public bool IsDevMode { get; set; } = false;
 
     #endregion
-    
+
 }
