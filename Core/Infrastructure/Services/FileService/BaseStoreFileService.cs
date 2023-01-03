@@ -13,7 +13,7 @@ public abstract class BaseStoreFileService<T> : ReactiveObject, IFileService
 {
     #region Fields
 
-    private readonly IStore<T> _store;
+    protected readonly IStore<T> Store;
 
     private readonly IParseService _parseService;
 
@@ -30,7 +30,7 @@ public abstract class BaseStoreFileService<T> : ReactiveObject, IFileService
 
     protected BaseStoreFileService(IStore<T> store,IParseService parseService,ILogger<BaseStoreFileService<T>> logger,string fileName) 
     {
-        _store = store ?? throw new ArgumentNullException(nameof(store));
+        Store = store ?? throw new ArgumentNullException(nameof(store));
 
         _parseService = parseService ?? throw new ArgumentNullException(nameof(parseService));
 
@@ -38,7 +38,7 @@ public abstract class BaseStoreFileService<T> : ReactiveObject, IFileService
 
         _fileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
 
-        _store.CurrentValueChangedNotifier += ()=> ChangeFlag = !ChangeFlag ;
+        Store.CurrentValueChangedNotifier += ()=> ChangeFlag = !ChangeFlag ;
 
         this.WhenPropertyChanged(x => x.ChangeFlag)
             .Throttle(TimeSpan.FromSeconds(10))
@@ -65,21 +65,25 @@ public abstract class BaseStoreFileService<T> : ReactiveObject, IFileService
             _logger.LogTrace($"{nameof(Get)}:{_fileName} Data is null");
             return;
         }
-
-        _store.CurrentValue = _parseService.DeSerialize<T>(nonSerialize)!;
+        
+        Store.CurrentValue = _parseService.DeSerialize<T>(nonSerialize)!;
         
         _logger.LogInformation($"{nameof(Get)}:Data restored from {_fileName}");
+
+        AfterGet();
     }
 
+    protected virtual void AfterGet() {}
+    
     public async void Set()
     {
-        if (_store.CurrentValue is null)
+        if (Store.CurrentValue is null)
         {
             _logger.LogTrace($"{nameof(Set)}:Store is null");
             return;
         } 
         
-        var serialized = _parseService.Serialize(_store.CurrentValue);
+        var serialized = _parseService.Serialize(Store.CurrentValue);
         
         var isSaved = await FileExtension.WriteAsync(serialized, _fileName);
         
@@ -87,7 +91,11 @@ public abstract class BaseStoreFileService<T> : ReactiveObject, IFileService
             _logger.LogInformation($"{nameof(Set)}:{_fileName} saved confirmed");
         else
             _logger.LogError($"{nameof(Set)}:{_fileName} saved failed");
+
+        AfterSet();
     }
+    
+    protected virtual void AfterSet() {}
 
     #endregion
 }
