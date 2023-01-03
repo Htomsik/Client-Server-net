@@ -12,65 +12,68 @@
     d:DesignWidth="250"
     mc:Ignorable="d">
 
-    <UserControl.Resources>
-        <logging:LogLevel x:Key="LogTrace">Trace</logging:LogLevel>
-        <logging:LogLevel x:Key="LogDebug">Debug</logging:LogLevel>
-        <logging:LogLevel x:Key="LogInfo">Information</logging:LogLevel>
-        <logging:LogLevel x:Key="LogWarn">Warning</logging:LogLevel>
-        <logging:LogLevel x:Key="LogError">Error</logging:LogLevel>
-        <logging:LogLevel x:Key="LogCrit">Critical</logging:LogLevel>
-    </UserControl.Resources>
+    <UserControl.Styles>
+
+        <Style Selector="TextBlock.Head">
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Padding" Value="3" />
+        </Style>
+
+        <Style Selector="styles|ColorZone">
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Padding" Value="3" />
+        </Style>
+
+    </UserControl.Styles>
 
     <Grid>
-
         <TabControl>
 
-            <!--  Main tab  -->
-            <TabItem Header="Main">
+            <!--  Logs  -->
+            <TabItem Header="Logs">
                 <TabItem.Content>
                     <Grid RowDefinitions="70,*,Auto">
+
                         <!--  Search  -->
-                        <styles:ColorZone Margin="5" Padding="3">
+                        <styles:ColorZone>
                             <TextBox
                                 Name="SearchTextBox"
+                                Margin="5"
+                                Padding="3"
                                 Classes="solo"
-                                Text="{Binding SearchText}"
+                                UseFloatingWatermark="True"
+                                Text="{Binding SearchText, Mode=TwoWay}"
                                 Watermark="Search">
-
                                 <TextBox.InnerRightContent>
-
                                     <Button
-                                        Width="{Binding $self.Bounds.Height}"
+                                        Width="20"
+                                        Height="20"
+                                        Padding="3"
+                                        Classes="IconButton"
                                         ToolTip.Tip="Clear search text"
                                         Opacity="0.7"
                                         Foreground="{DynamicResource PrimaryHueLightBrush}"
-                                        Classes="IconButton"
                                         Command="{Binding ClearSearchText}">
-
                                         <avalonia:MaterialIcon
-                                            Width="24"
-                                            Height="24"
+                                            Width="16"
+                                            Height="16"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
                                             Kind="Close" />
-
                                     </Button>
-
                                 </TextBox.InnerRightContent>
-
                             </TextBox>
                         </styles:ColorZone>
 
-                        <!--  Logs container  -->
-                        <styles:ColorZone
-                            Grid.Row="1"
-                            Margin="5"
-                            Padding="3">
+                        <!--  Main|Logs  -->
+                        <styles:ColorZone Grid.Row="1">
 
                             <Grid RowDefinitions="25,*" ColumnDefinitions="*,*">
 
                                 <TextBlock
                                     Grid.Row="0"
                                     Grid.Column="0"
-                                    Classes="Body1"
+                                    Classes="Body1 Head"
                                     Text="{Binding #AllLogsBox.ItemCount, StringFormat={}Count: {0}}" />
 
                                 <Button
@@ -100,11 +103,8 @@
                             </Grid>
                         </styles:ColorZone>
 
-                        <!--  Selected log  -->
-                        <styles:ColorZone
-                            Grid.Row="2"
-                            Margin="5"
-                            Padding="3">
+                        <!--  Main|Selected log  -->
+                        <styles:ColorZone Grid.Row="2">
                             <ContentControl
                                 Margin="5"
                                 Content="{Binding #AllLogsBox.SelectedItem}"
@@ -116,13 +116,14 @@
                 </TabItem.Content>
             </TabItem>
 
-            <!--  Options tab  -->
+            <!--  Options  -->
             <!--  Options|LogLevels  -->
             <TabItem Header="Options">
-                <Grid Grid.RowDefinitions="*,*">
 
-                    <!--  Logs categories  -->
-                    <styles:ColorZone Margin="5" Padding="3">
+                <Grid RowDefinitions="*,*">
+
+                    <!--  Options|Logs categories  -->
+                    <styles:ColorZone>
                         <Grid RowDefinitions="25,*" ColumnDefinitions="*,*">
                             <Button
                                 Grid.Row="0"
@@ -142,8 +143,10 @@
 
                             </Button>
                             <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
                                 Margin="5"
-                                Classes="Body1"
+                                Classes="Body1 Head"
                                 Text="Log levels " />
                             <ListBox
                                 Grid.Row="1"
@@ -155,18 +158,19 @@
                     </styles:ColorZone>
 
                     <!--  Options|Settings  -->
-                    <styles:ColorZone
-                        Grid.Row="1"
-                        Margin="5"
-                        Padding="3">
+                    <styles:ColorZone Grid.Row="1">
 
                         <Grid RowDefinitions="25,*">
+
                             <TextBlock
                                 Grid.Row="0"
-                                Classes="Body1"
+                                Classes="Body1 Head"
                                 Text="Settings" />
 
-                            <ScrollViewer Grid.Row="1">
+                            <ScrollViewer
+                                Grid.Row="1"
+                                Margin="5"
+                                Padding="3">
                                 <StackPanel>
                                     <TextBox
                                         assists:TextFieldAssist.Label="Max logs"
@@ -183,29 +187,21 @@
                 </Grid>
             </TabItem>
 
-            <!--  Debug tab  -->
+            <!--  Debug  -->
             <TabItem Header="Debug">
-                <styles:ColorZone Margin="5" Padding="3">
-
-                    <!--  Logger test  -->
+                <styles:ColorZone>
+                    <!--  Debug|Logger test  -->
                     <Grid RowDefinitions="25,*">
-
                         <TextBlock
-                            Margin="5,0,0,0"
-                            Classes="Body1"
+                            Grid.Row="0"
+                            Classes="Body1 Head"
                             Text="Logger test" />
 
                         <ListBox Grid.Row="1" Items="{Binding LoggerTests}" />
-
                     </Grid>
-
                 </styles:ColorZone>
             </TabItem>
-
-
-
         </TabControl>
-
     </Grid>
 
 </UserControl>

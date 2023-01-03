@@ -11,7 +11,7 @@ public abstract class BaseCollectionVmd<T> : BaseVmd,IBaseCollectionVmd<T>
     public IEnumerable<T> Collection { get; protected set; }
     
     [Reactive]
-    public string SearchText { get; protected set; }
+    public string SearchText { get; set; }
 
     #endregion
     
