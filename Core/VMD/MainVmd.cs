@@ -43,7 +43,7 @@ public class MainVmd : BaseVmd
         
         #region Subscriptions
 
-        logStore.CurrentValueChangedNotifier += () => LastLog = logStore?.CurrentValue?.Last();
+        logStore.CurrentValueChangedNotifier += () => LastLog = logStore?.CurrentValue.Count != 0 ? logStore?.CurrentValue.Last() : null;
 
         titleVmdStore.CurrentValueChangedNotifier += () => TitleVmd = titleVmdStore.CurrentValue;
 
