@@ -8,7 +8,7 @@ namespace Core.Infrastructure.Logging;
 
 internal sealed class LogStore : BaseLazyCollectionRepository<ObservableCollection<LogEvent>,LogEvent>
 {
-    private int _maxLogs = 50;
+    private int _maxLogs;
     
     protected override bool addIntoEnumerable(LogEvent value)
     {
@@ -40,6 +40,8 @@ internal sealed class LogStore : BaseLazyCollectionRepository<ObservableCollecti
 
     void RemoveLogs(int toRemove)
     {
+        if (CurrentValue?.Count == 0) return;
+        
         var logsList = CurrentValue!.ToList();
         
         logsList.RemoveRange(0,toRemove);
