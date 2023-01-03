@@ -22,18 +22,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Classes="Headline6"
-                    Text="Dev" />
-
-                <StackPanel Grid.Row="1" Margin="5">
-
-                    <TextBox
-                        assists:TextFieldAssist.Label="Max logs"
-                        Text="{Binding Settings.DevLogsCount, Mode=TwoWay}"
-                        UseFloatingWatermark="True" />
-
-                </StackPanel>
-
-
+                    Text="Sample" />
 
             </Grid>
         </styles:ColorZone>

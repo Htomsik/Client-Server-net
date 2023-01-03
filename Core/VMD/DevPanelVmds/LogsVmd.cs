@@ -3,9 +3,11 @@ using System.Reactive;
 using AppInfrastructure.Stores.DefaultStore;
 using AppInfrastructure.Stores.Repositories.Collection;
 using Core.Infrastructure.Models;
+using Core.Infrastructure.Models.SettingsModels;
 using Core.Infrastructure.VMD;
 using Microsoft.Extensions.Logging;
 using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 using Serilog.Events;
 
 
@@ -24,12 +26,22 @@ public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
     #endregion
 
     private readonly ILogger _logger;
-    
-    public LogsVmd(IStore<ObservableCollection<LogEvent>> logStore, ILogger<LogsVmd> logger)
-    {
-        _logStore = logStore;
 
+    [Reactive]
+    public  Settings Settings { get; set; }
+
+
+    public LogsVmd(IStore<ObservableCollection<LogEvent>> logStore, ILogger<LogsVmd> logger,IStore<Settings> settings)
+    {
+        #region Fields|Properties initialize
+
+        _logStore = logStore;
+        
         _logger = logger;
+        
+        Settings = settings.CurrentValue;
+
+        #endregion
         
         #region Initializing
 
@@ -44,7 +56,9 @@ public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
         this.WhenAnyValue(x => x.SearchText).Subscribe(DoSearch);
 
         _selectedLogLevels.CurrentValueChangedNotifier += () => DoSearch(SearchText);
-
+        
+        settings.CurrentValueChangedNotifier += () => Settings = settings.CurrentValue;
+        
         #endregion
 
         #region Commands
