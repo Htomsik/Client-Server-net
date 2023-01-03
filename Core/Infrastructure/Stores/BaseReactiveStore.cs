@@ -4,8 +4,9 @@ using ReactiveUI;
 
 namespace Core.Infrastructure.Stores;
 
-public class  BaseReactiveStore<TValue> : BaseLazyStore<TValue> where TValue : IReactiveObject
+public abstract class  BaseReactiveStore<TValue> : BaseLazyStore<TValue> where TValue : IReactiveObject
 {
+    
     public override TValue? CurrentValue
     {
         get => (TValue?)_currentValue.Value;
@@ -13,7 +14,8 @@ public class  BaseReactiveStore<TValue> : BaseLazyStore<TValue> where TValue : I
         {
             _currentValue = new Lazy<object?>(()=> value);
             
-            CurrentValue?.WhenAnyPropertyChanged()
+            CurrentValue?
+                .WhenAnyPropertyChanged()
                 .Subscribe(_ => OnCurrentValueChanged());
             
             OnCurrentValueChanged();
