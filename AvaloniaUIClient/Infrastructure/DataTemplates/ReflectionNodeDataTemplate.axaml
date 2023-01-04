@@ -1,0 +1,51 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:models="clr-namespace:Core.Infrastructure.Models;assembly=Core">
+    <!--  Add Resources Here  -->
+
+    <DataTemplate x:Key="ReflectionNodeDataTemplate" DataType="models:ReflectionNode">
+
+        <Grid RowDefinitions="25,*">
+
+            <TextBlock
+                Grid.Row="0"
+                Margin="5"
+                Text="{Binding Name}"
+                Classes="Body1" />
+
+            <ScrollViewer
+                Grid.Row="1"
+                Margin="5"
+                Padding="3">
+
+                <StackPanel>
+                    <Expander Header="{Binding #PropertiesLB.ItemCount, StringFormat={}Properties[{0}]}">
+                        <ListBox
+                            x:Name="PropertiesLB"
+                            Margin="3"
+                            Items="{Binding Properties}" />
+                    </Expander>
+
+
+                    <Expander Header="{Binding #MethodsLB.ItemCount, StringFormat={}Methods[{0}]}">
+                        <ListBox
+                            x:Name="MethodsLB"
+                            Margin="3"
+                            Items="{Binding Methods}" />
+                    </Expander>
+
+                    <Expander Header="{Binding #InterfacesLB.ItemCount, StringFormat={}Interfaces[{0}]}">
+                        <ListBox
+                            x:Name="InterfacesLB"
+                            Margin="3"
+                            Items="{Binding Interfaces}" />
+                    </Expander>
+                </StackPanel>
+
+            </ScrollViewer>
+        </Grid>
+
+    </DataTemplate>
+
+</ResourceDictionary>
