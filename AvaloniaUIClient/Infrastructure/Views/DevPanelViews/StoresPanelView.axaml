@@ -1,0 +1,124 @@
+<UserControl
+    x:Class="AvaloniaUIClient.Infrastructure.Views.DevPanelViews.StoresPanelView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
+    xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+    d:DesignHeight="400"
+    d:DesignWidth="250"
+    mc:Ignorable="d">
+
+
+    <UserControl.Styles>
+
+        <Style Selector="TextBlock.Head">
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Padding" Value="3" />
+        </Style>
+
+        <Style Selector="styles|ColorZone">
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Padding" Value="3" />
+        </Style>
+
+    </UserControl.Styles>
+
+    <Grid>
+        <TabControl>
+            <TabItem Header="Stores">
+                <TabItem.Content>
+                    <Grid RowDefinitions="70,*,*">
+
+                        <!--  Search  -->
+                        <styles:ColorZone>
+                            <TextBox
+                                Name="SearchTextBox"
+                                Margin="5"
+                                Padding="3"
+                                Classes="solo"
+                                UseFloatingWatermark="True"
+                                Text="{Binding SearchText, Mode=TwoWay}"
+                                Watermark="Search">
+                                <TextBox.InnerRightContent>
+                                    <Button
+                                        Width="20"
+                                        Height="20"
+                                        Padding="3"
+                                        Classes="IconButton"
+                                        ToolTip.Tip="Clear search text"
+                                        Opacity="0.7"
+                                        Foreground="{DynamicResource PrimaryHueLightBrush}"
+                                        Command="{Binding ClearSearchText}">
+                                        <avalonia:MaterialIcon
+                                            Width="16"
+                                            Height="16"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Kind="Close" />
+                                    </Button>
+                                </TextBox.InnerRightContent>
+                            </TextBox>
+                        </styles:ColorZone>
+
+                        <!--  Main|Logs  -->
+                        <styles:ColorZone Grid.Row="1" ClipToBounds="True">
+
+                            <Grid RowDefinitions="25,*" ColumnDefinitions="*,*">
+
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Classes="Body1 Head"
+                                    Text="{Binding #StoresBox.ItemCount, StringFormat={}Count: {0}}" />
+
+                                <Button
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    ToolTip.Tip="Clear collection"
+                                    Command="{Binding ClearCollection}"
+                                    Opacity="0.7"
+                                    Foreground="{DynamicResource PrimaryHueLightBrush}"
+                                    Classes="IconButton">
+                                    <avalonia:MaterialIcon
+                                        Width="24"
+                                        Height="24"
+                                        Kind="Close" />
+                                </Button>
+
+                                <TreeView
+                                    Name="StoresBox"
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2"
+                                    Items="{Binding Collection}">
+                                    <TreeView.ItemTemplate>
+                                        <TreeDataTemplate ItemsSource="{Binding Nodes}">
+                                            <TextBlock Text="{Binding Name}" />
+                                        </TreeDataTemplate>
+                                    </TreeView.ItemTemplate>
+                                </TreeView>
+
+                            </Grid>
+                        </styles:ColorZone>
+
+                        <!--  Main|Selected store  -->
+                        <styles:ColorZone Grid.Row="2">
+                            <ContentControl
+                                Margin="5"
+                                Content="{Binding #StoresBox.SelectedItem}"
+                                ContentTemplate="{StaticResource ReflectionNodeDataTemplate}"
+                                DockPanel.Dock="Bottom" />
+                        </styles:ColorZone>
+
+                    </Grid>
+                </TabItem.Content>
+            </TabItem>
+        </TabControl>
+    </Grid>
+
+</UserControl>
+

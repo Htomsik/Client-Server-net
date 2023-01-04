@@ -16,7 +16,8 @@ public partial class IocRegistration
     public static IServiceCollection StoresRegistration(this IServiceCollection services) =>
         services
             .InfrStoresRegs()
-            .VmdsStoreRegs();
+            .VmdsStoreRegs()
+            .AllStoresRegs();
     
     private static IServiceCollection VmdsStoreRegs(this IServiceCollection services) =>
         services
@@ -28,5 +29,11 @@ public partial class IocRegistration
         services
             .AddSingleton<ICollectionRepository<ObservableCollection<LogEvent>, LogEvent>, LogStore>()
             .AddSingleton <IStore<ObservableCollection<LogEvent>>>(s=> s.GetRequiredService<ICollectionRepository<ObservableCollection<LogEvent>, LogEvent>>());
+
+    private static IServiceCollection AllStoresRegs(this IServiceCollection services) =>
+        services
+            .AddSingleton<IStore>(s=>s.GetRequiredService<IStore<ITitleVmd>>())
+            .AddSingleton<IStore>(s=>s.GetRequiredService<IStore<Settings>>())
+            .AddSingleton<IStore>(s=>s.GetRequiredService<IStore<ObservableCollection<LogEvent>>>());
 
 }
