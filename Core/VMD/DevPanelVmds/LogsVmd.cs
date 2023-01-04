@@ -48,9 +48,7 @@ public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
         #region Subscriptions
 
         logStore.CurrentValueChangedNotifier += () =>  DoSearch(SearchText);
-       
-        this.WhenAnyValue(x => x.SearchText).Subscribe(DoSearch);
-
+        
         _selectedLogLevels.CurrentValueChangedNotifier += () => DoSearch(SearchText);
         
         settings.CurrentValueChangedNotifier += () => Settings = settings.CurrentValue;
@@ -99,8 +97,8 @@ public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
     
     protected override void DoSearch(string? searchText)
     {
-        Collection = _logStore!.CurrentValue
-            .Where(x=> _selectedLogLevels.CurrentValue.Count != 0 ? 
+        Collection = _logStore?.CurrentValue
+            .Where(x=> _selectedLogLevels?.CurrentValue?.Count != 0 ? 
                 _selectedLogLevels.CurrentValue.Contains(x.Level) : true)
             .Where(x=> !string.IsNullOrEmpty(searchText) ? 
                 x.RenderMessage().ToLower().Contains(searchText.ToLower(), StringComparison.InvariantCultureIgnoreCase) : true);

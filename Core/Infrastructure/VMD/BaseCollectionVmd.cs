@@ -21,6 +21,8 @@ public abstract class BaseCollectionVmd<T> : BaseVmd,IBaseCollectionVmd<T>
 
         ClearSearchText = ReactiveCommand.Create(() => SearchText = string.Empty );
         
+        this.WhenAnyValue(x => x.SearchText).Subscribe(DoSearch);
+        
         #endregion
     }
     
