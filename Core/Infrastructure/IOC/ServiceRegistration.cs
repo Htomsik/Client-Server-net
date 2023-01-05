@@ -1,4 +1,5 @@
-﻿using Core.Infrastructure.Logging;
+﻿using Core.Infrastructure.Extensions;
+using Core.Infrastructure.Logging;
 using Core.Infrastructure.Services.NavigationService;
 using Core.Infrastructure.Services.ParseService;
 using Core.Infrastructure.VMD;
@@ -23,6 +24,7 @@ public static partial class IocRegistration
     
     private static IServiceCollection InfrServicesRegs(this IServiceCollection services) =>
         services
+            .AddTransient<ProjectInfo>()
             .AddTransient<IParseService,ParseService>()
             .AddSingleton<IObserver<Exception>,GlobalExceptionHandler>()
             .AddSingleton<InfoToLogSink>();
