@@ -39,6 +39,7 @@
                     Grid.Column="1"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
+                    ClipToBounds="False"
                     Classes="Headline6"
                     Text="{Binding TitleVmd.Title}" />
 

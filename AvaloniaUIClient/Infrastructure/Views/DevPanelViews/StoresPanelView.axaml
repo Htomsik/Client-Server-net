@@ -10,7 +10,6 @@
     d:DesignWidth="250"
     mc:Ignorable="d">
 
-
     <UserControl.Styles>
 
         <Style Selector="TextBlock.Head">
@@ -18,7 +17,13 @@
             <Setter Property="Padding" Value="3" />
         </Style>
 
+        <Style Selector="TextBox">
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Padding" Value="3" />
+        </Style>
+
         <Style Selector="styles|ColorZone">
+            <Setter Property="ClipToBounds" Value="True" />
             <Setter Property="Margin" Value="5" />
             <Setter Property="Padding" Value="3" />
         </Style>
@@ -35,8 +40,6 @@
                         <styles:ColorZone>
                             <TextBox
                                 Name="SearchTextBox"
-                                Margin="5"
-                                Padding="3"
                                 Classes="solo"
                                 UseFloatingWatermark="True"
                                 Text="{Binding SearchText, Mode=TwoWay}"
@@ -63,7 +66,7 @@
                         </styles:ColorZone>
 
                         <!--  Main|Logs  -->
-                        <styles:ColorZone Grid.Row="1" ClipToBounds="True">
+                        <styles:ColorZone Grid.Row="1">
 
                             <Grid RowDefinitions="25,*" ColumnDefinitions="*,*">
 
@@ -72,22 +75,6 @@
                                     Grid.Column="0"
                                     Classes="Body1 Head"
                                     Text="{Binding #StoresBox.ItemCount, StringFormat={}Count: {0}}" />
-
-                                <Button
-                                    Grid.Row="0"
-                                    Grid.Column="1"
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Center"
-                                    ToolTip.Tip="Clear collection"
-                                    Command="{Binding ClearCollection}"
-                                    Opacity="0.7"
-                                    Foreground="{DynamicResource PrimaryHueLightBrush}"
-                                    Classes="IconButton">
-                                    <avalonia:MaterialIcon
-                                        Width="24"
-                                        Height="24"
-                                        Kind="Close" />
-                                </Button>
 
                                 <TreeView
                                     Name="StoresBox"
