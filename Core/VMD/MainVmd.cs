@@ -2,6 +2,7 @@
 using System.Reactive.Linq;
 using AppInfrastructure.Stores.DefaultStore;
 using AppInfrastructure.Stores.Repositories.Collection;
+using Core.Infrastructure.Extensions;
 using Core.Infrastructure.Hosting;
 using Core.Infrastructure.Models.SettingsModels;
 using Core.Infrastructure.Services.NavigationService;
@@ -30,18 +31,24 @@ public class MainVmd : BaseVmd
     [Reactive]
     public Settings? Settings { get; set; }
 
+    public ProjectInfo ProjectInfo { get; }
+    #endregion
+
+
+    #region Properties : VMDS
+
     public IBaseVmd? DevPanelVmd { get; }
     
     public IBaseVmd? MainMenuVmd { get; }
     
     [Reactive]
     public ITitleVmd? TitleVmd { get; private set; }
-    
+
     #endregion
    
     public MainVmd(ICollectionRepository<ObservableCollection<LogEvent>,LogEvent> logStore,
         IStore<ITitleVmd> titleVmdStore,
-        BaseTimerReactiveStore<Settings> settings)
+        BaseTimerReactiveStore<Settings> settings, ProjectInfo projectInfo)
     {
         
         #region Subscriptions
@@ -65,14 +72,20 @@ public class MainVmd : BaseVmd
         
         #endregion
 
-        #region Initializing
+        #region Properties initializing
         
         Settings = settings.CurrentValue;
+
+        ProjectInfo = projectInfo;
+        
+        #endregion
+
+        #region Properties initializing : VMDS
 
         DevPanelVmd = (IBaseVmd?)HostWorker.Services.GetService(typeof(DevVmd));
 
         MainMenuVmd = (IBaseVmd?)HostWorker.Services.GetService(typeof(MainMenuVmd));
-
+        
         HostWorker.Services.GetService<BaseVmdNavigationService<ITitleVmd>>()!.Navigate(typeof(HomeVmd));
 
         #endregion
