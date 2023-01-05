@@ -1,0 +1,65 @@
+<UserControl
+    x:Class="AvaloniaUIClient.Views.TitleViews.AboutProgramView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignWidth="300"
+    d:DesignHeight="300"
+    mc:Ignorable="d">
+
+    <Grid
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        RowDefinitions="*,*">
+
+        <!--  Project Icon and Name  -->
+        <StackPanel
+            Grid.Row="0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+
+            <Image
+                Width="100"
+                Height="100"
+                Margin="0,5,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                ClipToBounds="True"
+                Source="/Assets/AppIcon.png" />
+
+            <TextBlock
+                Margin="3"
+                HorizontalAlignment="Center"
+                Classes="Headline6"
+                Text="{Binding ProjectInfo.ProjectName}" />
+
+        </StackPanel>
+
+        <!--  Project info  -->
+        <StackPanel Grid.Row="1" Margin="0,24,0,0">
+
+            <StackPanel.Styles>
+                <Style Selector="TextBlock.Body1">
+                    <Setter Property="Margin" Value="3" />
+                </Style>
+            </StackPanel.Styles>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Classes="Body1" Text="Version:" />
+                <TextBlock Classes="Body1" Text="{Binding ProjectInfo.AssemblyVerison}" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" IsVisible="{Binding ProjectInfo.GitVersion, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                <TextBlock Classes="Body1" Text="Git Version:" />
+                <TextBlock Classes="Body1" Text="{Binding ProjectInfo.GitVersion}" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Classes="Body1" Text="Platform:" />
+                <TextBlock Classes="Body1" Text="{Binding ProjectInfo.OsDescription}" />
+            </StackPanel>
+
+        </StackPanel>
+    </Grid>
+</UserControl>
