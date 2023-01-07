@@ -3,9 +3,9 @@ using Avalonia.Markup.Xaml;
 
 namespace AvaloniaUIClient.Infrastructure.Views.DevPanelViews.LogsPanel;
 
-public partial class LogsSettingsView : UserControl
+public partial class LogsDevSettingsView : UserControl
 {
-    public LogsSettingsView()
+    public LogsDevSettingsView()
     {
         InitializeComponent();
     }

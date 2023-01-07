@@ -1,12 +1,11 @@
-using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
 namespace AvaloniaUIClient.Infrastructure.Views.DevPanelViews;
 
-public partial class StoresPanelView : UserControl
+public partial class DevView : UserControl
 {
-    public StoresPanelView()
+    public DevView()
     {
         InitializeComponent();
     }

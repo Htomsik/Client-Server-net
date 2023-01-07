@@ -19,14 +19,14 @@ public class ViewLocator : IDataTemplate
 {
     private readonly Dictionary<Type, Type> _vmdToViewTypes = new()
     {
-        {typeof(DevVmd),typeof(DevPanelView)},
-        {typeof(LogsVmd),typeof(LogsPanelView)},
+        {typeof(DevVmd),typeof(DevView)},
+        {typeof(LogsVmd),typeof(LogsDevView)},
         {typeof(MainMenuVmd), typeof(MainMenuView)},
         {typeof(HomeVmd),typeof(HomeView)},
         {typeof(SettingsVmd),typeof(SettingsViews)},
-        {typeof(StoresVmd),typeof(StoresPanelView)},
+        {typeof(StoresVmd),typeof(StoresDevView)},
         {typeof(AboutProgramVmd),typeof(AboutProgramView)},
-        {typeof(LogsSettingsVmd),typeof(LogsSettingsView)}
+        {typeof(LogsSettingsVmd),typeof(LogsDevSettingsView)}
     };
 
     private ILogger? _logger;
