@@ -4,6 +4,7 @@ using AppInfrastructure.Stores.DefaultStore;
 using AppInfrastructure.Stores.Repositories.Collection;
 using Core.Infrastructure.Hosting;
 using Core.Infrastructure.Models;
+using Core.Infrastructure.Models.ItemSelectors;
 using Core.Infrastructure.VMD;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -21,7 +22,7 @@ public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
     private readonly IStore<ObservableCollection<LogEvent>>? _logStore;
 
     private readonly BaseLazyCollectionRepository<List<LogEventLevel>,LogEventLevel> _selectedLogLevels  = new ();
-    public ObservableCollection<LogLevelSelected>? AllLogLevels { get; }
+    public ObservableCollection<LogLevelSelector>? AllLogLevels { get; }
 
     #endregion
     
@@ -58,7 +59,7 @@ public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
         {
             foreach (var item in AllLogLevels)
             {
-                item.IsAddedToFilter = false;
+                item.IsAdd = false;
             }
         });
 
@@ -72,7 +73,7 @@ public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
         
         #region Collections initialize
 
-        AllLogLevels = new ObservableCollection<LogLevelSelected>(LogLevelSelected.CreateAllLevelsCollection(_selectedLogLevels));
+        AllLogLevels = new ObservableCollection<LogLevelSelector>(LogLevelSelector.CreateAll(_selectedLogLevels));
 
         LoggerTests = new ObservableCollection<MenuParamCommandItem>(MenuParamCommandItem.CreateCollectionWithEnumParameter(LoggerTest,Enum.GetValues<LogLevel>()));
         
