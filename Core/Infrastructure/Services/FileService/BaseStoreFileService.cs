@@ -54,7 +54,7 @@ public abstract class BaseStoreFileService<T> : ReactiveObject, IFileService
     {
         if (!FileExtension.IsFileExist(_fileName))
         {
-            _logger.LogError($"{nameof(Get)}:{_fileName} doesn't exists");
+            _logger.LogWarning($"{nameof(Get)}:{_fileName} doesn't exists");
             return;
         }
         
@@ -62,7 +62,7 @@ public abstract class BaseStoreFileService<T> : ReactiveObject, IFileService
 
         if (string.IsNullOrEmpty(nonSerialize.Trim()))
         {
-            _logger.LogTrace($"{nameof(Get)}:{_fileName} Data is null");
+            _logger.LogWarning($"{nameof(Get)}:{_fileName} Data is null");
             return;
         }
         
@@ -79,7 +79,7 @@ public abstract class BaseStoreFileService<T> : ReactiveObject, IFileService
     {
         if (Store.CurrentValue is null)
         {
-            _logger.LogTrace($"{nameof(Set)}:Store is null");
+            _logger.LogWarning($"{nameof(Set)}:Store is null");
             return;
         } 
         
