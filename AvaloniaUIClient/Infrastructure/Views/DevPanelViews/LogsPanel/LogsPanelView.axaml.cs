@@ -1,7 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace AvaloniaUIClient.Infrastructure.Views.DevPanelViews;
+namespace AvaloniaUIClient.Infrastructure.Views.DevPanelViews.LogsPanel;
 
 public partial class LogsPanelView : UserControl
 {

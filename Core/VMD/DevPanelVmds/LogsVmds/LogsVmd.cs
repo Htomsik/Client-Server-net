@@ -2,12 +2,12 @@
 using System.Reactive;
 using AppInfrastructure.Stores.DefaultStore;
 using AppInfrastructure.Stores.Repositories.Collection;
+using Core.Infrastructure.Hosting;
 using Core.Infrastructure.Models;
-using Core.Infrastructure.Models.SettingsModels;
 using Core.Infrastructure.VMD;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
 using Serilog.Events;
 
 
@@ -27,22 +27,16 @@ public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
     
     public ObservableCollection<MenuParamCommandItem> LoggerTests { get; }
 
-    private readonly ILogger _logger;
-
-    [Reactive]
-    public  Settings Settings { get; set; }
-
-
-    public LogsVmd(IStore<ObservableCollection<LogEvent>> logStore, ILogger<LogsVmd> logger,IStore<Settings> settings)
+    public  LogsSettingsVmd LogsSettingsVmd { get; }
+    
+    public LogsVmd(IStore<ObservableCollection<LogEvent>> logStore, ILogger<LogsVmd> logger)
     {
         #region Fields|Properties initialize
 
         _logStore = logStore;
-        
-        _logger = logger;
-        
-        Settings = settings.CurrentValue;
 
+        LogsSettingsVmd = HostWorker.Services.GetRequiredService<LogsSettingsVmd>();
+        
         #endregion
         
         #region Subscriptions
@@ -51,15 +45,13 @@ public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
         
         _selectedLogLevels.CurrentValueChangedNotifier += () => DoSearch(SearchText);
         
-        settings.CurrentValueChangedNotifier += () => Settings = settings.CurrentValue;
-        
         #endregion
 
         #region Commands
 
         LoggerTest = ReactiveCommand.Create<LogLevel>(level =>
         {
-            _logger.Log(level, $"Test {level}");
+            logger.Log(level, $"Test {level}");
         });
 
         ClearFilters = ReactiveCommand.Create(()=> 
@@ -103,7 +95,5 @@ public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
             .Where(x=> !string.IsNullOrEmpty(searchText) ? 
                 x.RenderMessage().ToLower().Contains(searchText.ToLower(), StringComparison.InvariantCultureIgnoreCase) : true);
     }
-
-   
     
 }

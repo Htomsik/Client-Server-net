@@ -1,12 +1,11 @@
 ﻿<UserControl
-    x:Class="AvaloniaUIClient.Infrastructure.Views.DevPanelViews.LogsPanelView"
+    x:Class="AvaloniaUIClient.Infrastructure.Views.DevPanelViews.LogsPanel.LogsPanelView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
-    xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
     d:DesignHeight="400"
     d:DesignWidth="250"
     mc:Ignorable="d">
@@ -172,19 +171,11 @@
                                 Classes="Body1 Head"
                                 Text="Settings" />
 
-                            <ScrollViewer
+                            <ContentControl
                                 Grid.Row="1"
-                                Margin="5"
-                                Padding="3">
-                                <StackPanel>
-                                    <TextBox
-                                        assists:TextFieldAssist.Label="Max logs"
-                                        Classes="clearButton"
-                                        Text="{Binding Settings.DevLogsCount, Mode=TwoWay}"
-                                        UseFloatingWatermark="True" />
-                                </StackPanel>
-
-                            </ScrollViewer>
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Content="{Binding LogsSettingsVmd}" />
 
                         </Grid>
 
