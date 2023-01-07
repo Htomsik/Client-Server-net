@@ -2,9 +2,12 @@
 using System.Reactive.Linq;
 using AppInfrastructure.Stores.DefaultStore;
 using AppInfrastructure.Stores.Repositories.Collection;
+using Core.Infrastructure.Extensions;
 using Core.Infrastructure.Hosting;
-using Core.Infrastructure.Services;
-using Core.VMD.Base;
+using Core.Infrastructure.Models.SettingsModels;
+using Core.Infrastructure.Services.NavigationService;
+using Core.Infrastructure.Stores;
+using Core.Infrastructure.VMD;
 using Core.VMD.DevPanelVmds;
 using Core.VMD.TitleVmds;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,8 +19,23 @@ namespace Core.VMD;
 
 public class MainVmd : BaseVmd
 {
+
+    #region Properties
+
     [Reactive]
     public LogEvent? LastLog { get;  set; }
+
+    [Reactive]
+    public int SaveTimer { get; set; } = 0;
+    
+    [Reactive]
+    public Settings? Settings { get; set; }
+
+    public ProjectInfo ProjectInfo { get; }
+    #endregion
+
+
+    #region Properties : VMDS
 
     public IBaseVmd? DevPanelVmd { get; }
     
@@ -25,15 +43,23 @@ public class MainVmd : BaseVmd
     
     [Reactive]
     public ITitleVmd? TitleVmd { get; private set; }
-    
-    public MainVmd(ICollectionRepository<ObservableCollection<LogEvent>,LogEvent> logStore,IStore<ITitleVmd> titleVmdStore)
+
+    #endregion
+   
+    public MainVmd(ICollectionRepository<ObservableCollection<LogEvent>,LogEvent> logStore,
+        IStore<ITitleVmd> titleVmdStore,
+        BaseTimerReactiveStore<Settings> settings, ProjectInfo projectInfo)
     {
         
         #region Subscriptions
 
-        logStore.CurrentValueChangedNotifier += () => LastLog = logStore.CurrentValue.Last();
+        logStore.CurrentValueChangedNotifier += () => LastLog = logStore?.CurrentValue.Count != 0 ? logStore?.CurrentValue.Last() : null;
 
         titleVmdStore.CurrentValueChangedNotifier += () => TitleVmd = titleVmdStore.CurrentValue;
+
+        settings.TimerChangeNotifier += (timer) => { SaveTimer = (int)timer; };
+
+        settings.CurrentValueChangedNotifier += () => Settings = settings.CurrentValue!;
         
         #endregion
         
@@ -46,12 +72,20 @@ public class MainVmd : BaseVmd
         
         #endregion
 
-        #region Initializing
+        #region Properties initializing
+        
+        Settings = settings.CurrentValue;
+
+        ProjectInfo = projectInfo;
+        
+        #endregion
+
+        #region Properties initializing : VMDS
 
         DevPanelVmd = (IBaseVmd?)HostWorker.Services.GetService(typeof(DevVmd));
 
         MainMenuVmd = (IBaseVmd?)HostWorker.Services.GetService(typeof(MainMenuVmd));
-
+        
         HostWorker.Services.GetService<BaseVmdNavigationService<ITitleVmd>>()!.Navigate(typeof(HomeVmd));
 
         #endregion

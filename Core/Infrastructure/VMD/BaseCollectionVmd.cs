@@ -1,21 +1,17 @@
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
-namespace Core.VMD.Base;
+namespace Core.Infrastructure.VMD;
 
 public abstract class BaseCollectionVmd<T> : BaseVmd,IBaseCollectionVmd<T>
 {
+    #region Properties
+
     [Reactive]
     public IEnumerable<T> Collection { get; protected set; }
     
     [Reactive]
-    public string SearchText { get; protected set; }
-    
-    #region Commands
-
-    public IReactiveCommand ClearSearchText { get; }
-
-    public IReactiveCommand ClearCollection { get; protected set; }
+    public string SearchText { get; set; }
 
     #endregion
     
@@ -25,7 +21,23 @@ public abstract class BaseCollectionVmd<T> : BaseVmd,IBaseCollectionVmd<T>
 
         ClearSearchText = ReactiveCommand.Create(() => SearchText = string.Empty );
         
+        this.WhenAnyValue(x => x.SearchText).Subscribe(DoSearch);
+        
         #endregion
     }
+    
+    #region Commands
+
+    public IReactiveCommand ClearSearchText { get; }
+
+    public IReactiveCommand ClearCollection { get; protected set; }
+
+    #endregion
+
+    #region Methods
+
     protected abstract void DoSearch(string? searchText);
+
+    #endregion
+ 
 }

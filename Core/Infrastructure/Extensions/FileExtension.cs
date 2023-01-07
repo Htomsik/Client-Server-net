@@ -35,7 +35,7 @@ public class FileExtension
             }
         
         if(ret)
-            Logger!.LogTrace($"Directory restored: {path}","{0}:{1}", nameof(FileExtension));
+            Logger!.LogWarning($"Directory restored: {path}","{0}:{1}", nameof(FileExtension));
 
         return ret;
     }
@@ -82,7 +82,7 @@ public class FileExtension
             }
         
         if(ret)
-            Logger!.LogTrace($"File restored: {path}","{0}:{1}", nameof(FileExtension));
+            Logger!.LogWarning($"File restored: {path}","{0}:{1}", nameof(FileExtension));
 
         return ret;
     }
@@ -122,7 +122,7 @@ public class FileExtension
             }
         
         if(ret)
-            Logger!.LogTrace($"Data saved in {path}","{0}:{1}", nameof(WriteAsync));
+            Logger!.LogWarning($"Data saved in {path}","{0}:{1}", nameof(WriteAsync));
 
         return ret;
     }
@@ -153,10 +153,10 @@ public class FileExtension
             try
             {
                 using StreamReader reader = new StreamReader(path);
-                
-                while (reader.Read() != 0)
+
+                while (reader.ReadLine() is { } line)
                 {
-                    textFromFile += reader.ReadLine();
+                    textFromFile += line;
                 }
             }
             catch (Exception error)
@@ -167,7 +167,7 @@ public class FileExtension
             }
         
         if(ret)
-            Logger!.LogTrace($"Data restored from {path}","{0}:{1}", nameof(Read));
+            Logger!.LogWarning($"Data restored from {path}","{0}:{1}", nameof(Read));
 
         return textFromFile;
     }

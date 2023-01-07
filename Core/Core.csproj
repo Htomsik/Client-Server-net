@@ -4,10 +4,13 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <LangVersion>11</LangVersion>
+        <IsPackable>false</IsPackable>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="fastJSON" Version="2.4.0.4" />
+      <PackageReference Include="GitInfo" Version="2.3.0" />
       <PackageReference Include="LiteApp" Version="0.1.1" />
       <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
       <PackageReference Include="ReactiveUI" Version="18.4.1" />

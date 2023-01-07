@@ -1,4 +1,4 @@
-namespace Core.VMD.Base;
+namespace Core.Infrastructure.VMD;
 
 public interface IMenuVmd<T> : IBaseVmd
 {

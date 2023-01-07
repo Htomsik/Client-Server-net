@@ -1,11 +1,11 @@
-﻿using Avalonia.Controls;
+using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace AvaloniaUIClient.Infrastructure.Views.DevPanelViews;
+namespace AvaloniaUIClient.Views.TitleViews;
 
-public partial class LogsPanelView : UserControl
+public partial class SettingsViews : UserControl
 {
-    public LogsPanelView()
+    public SettingsViews()
     {
         InitializeComponent();
     }

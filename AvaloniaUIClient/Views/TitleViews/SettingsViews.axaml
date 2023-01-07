@@ -1,0 +1,43 @@
+<UserControl
+    x:Class="AvaloniaUIClient.Views.TitleViews.SettingsViews"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
+    d:DesignWidth="800"
+    d:DesignHeight="450"
+    d:DataContext="{Binding SettingsVmd}"
+    mc:Ignorable="d">
+
+    <WrapPanel ItemHeight="250" ItemWidth="250">
+
+        <styles:ColorZone Margin="5" Padding="3">
+            <Grid RowDefinitions="25,*">
+
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Classes="Headline6"
+                    Text="General" />
+
+                <StackPanel Grid.Row="1" Margin="5">
+
+                    <StackPanel Orientation="Horizontal">
+
+                        <CheckBox IsChecked="{Binding Settings.IsDevMode}" />
+
+                        <TextBlock Classes="Body1" Text="Dev mode" />
+
+                    </StackPanel>
+
+                </StackPanel>
+
+            </Grid>
+        </styles:ColorZone>
+
+    </WrapPanel>
+</UserControl>
+

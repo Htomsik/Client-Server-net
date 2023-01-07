@@ -5,6 +5,7 @@ using Avalonia.Markup.Xaml;
 using AvaloniaUIClient.Infrastructure.IOC;
 using AvaloniaUIClient.Views;
 using Core.Infrastructure.Hosting;
+using Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ReactiveUI;
@@ -33,6 +34,13 @@ public partial class App : Application
         }
         
         base.OnFrameworkInitializationCompleted();
-        
+
+        StartupEvents();
+
+    }
+    
+    private void StartupEvents()
+    {
+        Services.GetService<SettingsFileService>().Get();
     }
 }

@@ -7,16 +7,19 @@
     xmlns:infrastructure="clr-namespace:AvaloniaUIClient.Infrastructure"
     xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
     xmlns:models="clr-namespace:Core.Infrastructure.Models;assembly=Core"
-    xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles">
+    xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
+    xmlns:itemSelectors="clr-namespace:Core.Infrastructure.Models.ItemSelectors;assembly=Core">
 
     <Application.Resources>
         <ResourceDictionary>
 
             <ResourceDictionary.MergedDictionaries>
                 <ResourceInclude Source="/Infrastructure/DataTemplates/LogsDataTemplates.axaml" />
+                <ResourceInclude Source="/Infrastructure/DataTemplates/ReflectionNodeDataTemplate.axaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <converters:HalfSizeConverter x:Key="HalfSizeConverter" />
+            <converters:IntIsNotNullConverter x:Key="IntIsNotNullConverter" />
             <converters:LogLevelToMaterialIconConverter x:Key="LogLevelToMaterialIconConverter" />
 
         </ResourceDictionary>
@@ -50,24 +53,42 @@
             </StackPanel>
         </DataTemplate>
 
-
-        <!--  LogLevelSelected  -->
-        <DataTemplate DataType="models:LogLevelSelected">
+        <!--  LogLevelSelector  -->
+        <DataTemplate DataType="itemSelectors:LogLevelSelector">
 
             <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
 
-                <CheckBox IsChecked="{Binding IsAddedToFilter, Mode=TwoWay}" />
+                <CheckBox IsChecked="{Binding IsAdd, Mode=TwoWay}" />
 
-                <ContentControl Content="{Binding logLevel, Converter={StaticResource LogLevelToMaterialIconConverter}}" />
+                <ContentControl Content="{Binding Item, Converter={StaticResource LogLevelToMaterialIconConverter}}" />
 
                 <TextBlock
                     Margin="5,0,0,0"
                     VerticalAlignment="Center"
                     Classes="Body1"
-                    Text="{Binding logLevel}" />
+                    Text="{Binding Name}" />
 
             </StackPanel>
         </DataTemplate>
+
+        <!--  IItemSelector  -->
+        <DataTemplate DataType="itemSelectors:IItemSelector">
+
+            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+
+                <CheckBox IsChecked="{Binding IsAdd, Mode=TwoWay}" />
+
+                <TextBlock
+                    Margin="5,0,0,0"
+                    VerticalAlignment="Center"
+                    Classes="Body1"
+                    Text="{Binding Name}" />
+
+            </StackPanel>
+        </DataTemplate>
+
+
+
 
         <DataTemplate DataType="models:MenuParamCommandItem">
             <Button

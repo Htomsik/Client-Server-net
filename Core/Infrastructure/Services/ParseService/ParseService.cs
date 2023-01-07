@@ -26,14 +26,14 @@ public class ParseService : IParseService
 
         try
         {
-            serialized = fastJSON.JSON.ToJSON(nonSerialized);
+            serialized = fastJSON.JSON.ToNiceJSON(nonSerialized);
         }
         catch (Exception error)
         {
             _logger.LogError(error, "{0}:{1}", error.Source, error.Message);
         }
         
-        _logger.LogTrace($"{nameof(Serialize)}: Object serialized");
+        _logger.LogWarning($"{nameof(Serialize)}: Object serialized");
 
         return serialized;
     }
@@ -51,7 +51,7 @@ public class ParseService : IParseService
             _logger.LogError(error, "{0}:{1}", error.Source, error.Message);
         }
 
-        _logger.LogTrace($"{nameof(DeSerialize)}: Object deserialized");
+        _logger.LogWarning($"{nameof(DeSerialize)}: Object deserialized");
         
         return deSerialized;
     }

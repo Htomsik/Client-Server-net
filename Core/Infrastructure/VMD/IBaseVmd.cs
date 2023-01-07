@@ -1,6 +1,6 @@
 using ReactiveUI;
 
-namespace Core.VMD.Base;
+namespace Core.Infrastructure.VMD;
 
 public interface IBaseVmd: IReactiveObject
 {

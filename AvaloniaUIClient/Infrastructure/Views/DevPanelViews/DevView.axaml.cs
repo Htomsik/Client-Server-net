@@ -3,9 +3,9 @@ using Avalonia.Markup.Xaml;
 
 namespace AvaloniaUIClient.Infrastructure.Views.DevPanelViews;
 
-public partial class DevPanelView : UserControl
+public partial class DevView : UserControl
 {
-    public DevPanelView()
+    public DevView()
     {
         InitializeComponent();
     }

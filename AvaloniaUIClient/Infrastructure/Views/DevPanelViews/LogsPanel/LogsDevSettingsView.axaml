@@ -1,0 +1,26 @@
+<UserControl
+    x:Class="AvaloniaUIClient.Infrastructure.Views.DevPanelViews.LogsPanel.LogsDevSettingsView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
+    d:DesignWidth="300"
+    d:DesignHeight="450"
+    mc:Ignorable="d">
+
+    <ScrollViewer
+        Grid.Row="1"
+        Margin="5"
+        Padding="3">
+        <StackPanel>
+            <TextBox
+                assists:TextFieldAssist.Label="Max logs"
+                Classes="clearButton"
+                Text="{Binding Settings.DevLogsCount, Mode=TwoWay}"
+                UseFloatingWatermark="True" />
+        </StackPanel>
+
+    </ScrollViewer>
+
+</UserControl>
