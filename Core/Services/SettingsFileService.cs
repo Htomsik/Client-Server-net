@@ -19,11 +19,10 @@ public sealed class SettingsFileService : BaseStoreFileService<Settings>
         _configuration = configuration;
     }
 
-    protected override void AfterGet()
+    protected override void AfterGet() 
     {
-        var confValue = _configuration["Settings:DevMode:IsEnabled"];
-        
-        Store.CurrentValue.IsDevMode = !string.IsNullOrEmpty(confValue) && Convert.ToBoolean(confValue);
-        
+        Store.CurrentValue.IsDevMode = _configuration.GetSection("Settings:DevMode").Get<bool>();
     }
+        
+    
 }
