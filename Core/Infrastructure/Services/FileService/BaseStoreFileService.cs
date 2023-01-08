@@ -66,8 +66,16 @@ public abstract class BaseStoreFileService<T> : ReactiveObject, IFileService
             return;
         }
         
-        Store.CurrentValue = _parseService.DeSerialize<T>(nonSerialize)!;
+        var deSerialize =  _parseService.DeSerialize<T>(nonSerialize);
+
+        if (deSerialize == null)
+        {
+            _logger.LogWarning($"{nameof(Get)}:{_fileName} Data is null");
+            return;
+        }
         
+        Store.CurrentValue = deSerialize;
+            
         _logger.LogInformation($"{nameof(Get)}:Data restored from {_fileName}");
 
         AfterGet();
