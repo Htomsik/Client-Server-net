@@ -24,7 +24,6 @@ public partial class IocRegistration
         services
             .AddSingleton<IStore<ITitleVmd>, TitleVmdStore>()
             .AddSingleton<IStore<Settings>, SettingsStore>()
-            .AddTransient<LogsSettingsVmd>()
             .AddSingleton<BaseTimerReactiveStore<Settings>>(s=>(BaseTimerReactiveStore<Settings>)s.GetService<IStore<Settings>>());
 
     private static IServiceCollection InfrStoresRegs(this IServiceCollection services) =>
