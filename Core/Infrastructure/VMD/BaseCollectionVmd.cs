@@ -1,30 +1,55 @@
+#region
+
+using System.Collections.ObjectModel;
+using System.Reactive.Linq;
+using DynamicData;
+using DynamicData.Binding;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
+#endregion
+
 namespace Core.Infrastructure.VMD;
 
-public abstract class BaseCollectionVmd<T> : BaseVmd,IBaseCollectionVmd<T>
+public abstract class BaseCollectionVmd<T> : BaseVmd
 {
     #region Properties
-
-    [Reactive]
-    public IEnumerable<T> Collection { get; protected set; }
     
-    [Reactive]
-    public string SearchText { get; set; }
+    public ReadOnlyObservableCollection<T> Items => ItemsSetter;
+
+    protected ReadOnlyObservableCollection<T> ItemsSetter;
+
+    [Reactive] public string SearchText { get; set; }
+    
+    public bool IsInitialize { get; }
 
     #endregion
-    
-    public BaseCollectionVmd()
-    {
-        #region Commands
 
+    #region Fields
+
+    protected IDisposable? DisposeSubscriptions;
+    
+    protected readonly IObservable<Func<T, bool>> SearchFilter;
+    
+    #endregion
+    
+    #region Constructors
+
+    public BaseCollectionVmd(ObservableCollection<T> collection)
+    {
         ClearSearchText = ReactiveCommand.Create(() => SearchText = string.Empty );
         
-        this.WhenAnyValue(x => x.SearchText).Subscribe(DoSearch);
+        SearchFilter =
+            this.WhenValueChanged(x => x.SearchText)
+                .Throttle(TimeSpan.FromMilliseconds(250))
+                .Select(SearchFilterBuilder);
         
-        #endregion
+        SetSubscriptions(collection);
+        
+        IsInitialize = true;
     }
+
+    #endregion
     
     #region Commands
 
@@ -36,8 +61,34 @@ public abstract class BaseCollectionVmd<T> : BaseVmd,IBaseCollectionVmd<T>
 
     #region Methods
 
-    protected virtual void DoSearch(string? searchText){}
+    protected virtual Func<T, bool> SearchFilterBuilder(string? searchText)
+    {
+        searchText = searchText?.Trim();
+        
+        if (string.IsNullOrEmpty(searchText)) return x => true;
+
+        return x => x.ToString().Contains(searchText, StringComparison.InvariantCultureIgnoreCase);
+    }
+
+    protected void SetSubscriptions(ObservableCollection<T> inputData)
+    {
+        DisposeSubscriptions?.Dispose();
+        
+        SetCollectionSubscriptions(inputData);
+    }
+    
+    protected virtual void SetCollectionSubscriptions(ObservableCollection<T> inputData)
+    {
+        DisposeSubscriptions =
+            inputData
+                .ToObservableChangeSet()
+                .Filter(SearchFilter)
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Bind(out ItemsSetter)
+                .DisposeMany()
+                .Subscribe();
+    }
 
     #endregion
- 
+    
 }

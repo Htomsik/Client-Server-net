@@ -1,8 +1,10 @@
+using DynamicData.Binding;
+
 namespace Core.Infrastructure.VMD;
 
-public interface IBaseCollectionVmd<out T> : IBaseVmd
+public interface IBaseCollectionVmd<T> : IBaseVmd
 {
-    public IEnumerable<T> Collection { get; }
+    public ObservableCollectionExtended<T> Collection { get; }
 
     public string SearchText { get;}
 }

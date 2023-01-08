@@ -11,7 +11,6 @@ using DynamicData.Binding;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
 using Serilog.Events;
 
 namespace Core.VMD.DevPanelVmds.LogsVmds;
@@ -19,9 +18,6 @@ namespace Core.VMD.DevPanelVmds.LogsVmds;
 public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
 {
     #region Properties
-    
-    [Reactive]
-    public new ObservableCollectionExtended<LogEvent> Collection { get; set; } = new ();
     
     public SelectedItems<LogEventLevel,LogLevelSelector> LogLevelsSelector { get; }
     
@@ -34,18 +30,12 @@ public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
     #region Fields
     
     private readonly IObservable<Func<LogEvent, bool>> _categoryFilter;
-
-    private readonly IObservable<Func<LogEvent, bool>> _searchFilter;
-
-    private IDisposable? _disposeCollectionSubscriptions;
-
-    private readonly IStore<ObservableCollection<LogEvent>> _store;
     
     #endregion
 
     #region Consturctors
 
-    public LogsVmd(IStore<ObservableCollection<LogEvent>> logStore, ILogger<LogsVmd> logger)
+    public LogsVmd(IStore<ObservableCollection<LogEvent>> logStore, ILogger<LogsVmd> logger) : base(logStore.CurrentValue)
     {
         #region Commands
 
@@ -62,31 +52,27 @@ public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
         #endregion
         
         #region Fields|Properties initialize
-
-        _store = logStore;
         
         LogsSettingsVmd = HostWorker.Services.GetRequiredService<LogsSettingsVmd>();
 
         LogLevelsSelector = new SelectedItems<LogEventLevel,LogLevelSelector>((LogEventLevel[]) Enum.GetValues(typeof(LogEventLevel)));
         
+        #endregion
+
+        #region Subscriptions
+
+        logStore.CurrentValueDeletedNotifier += () => SetSubscriptions(logStore.CurrentValue);
+        
         _categoryFilter =       
             LogLevelsSelector
-            .Filter
-            .Connect()
-            .ToCollection()
-            .Select(CategoryFilterBuilder);
-        
-        _searchFilter =
-            this.WhenValueChanged(x => x.SearchText)
-                .Throttle(TimeSpan.FromMilliseconds(250))
-                .Select(SearchFilterBuilder);
-        
+                .Filter
+                .Connect()
+                .ToCollection()
+                .Select(CategoryFilterBuilder);
+
         #endregion
         
-        _store.CurrentValueDeletedNotifier += SetCollectionSubscriptions;
-        
-        SetCollectionSubscriptions();
-        
+        SetCollectionSubscriptions(logStore.CurrentValue);
     }
     #endregion
     
@@ -97,16 +83,15 @@ public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
 
     #region Methods
 
-    private Func<LogEvent, bool> SearchFilterBuilder(string? searchText)
+    protected override Func<LogEvent, bool> SearchFilterBuilder(string? searchText)
     {
         searchText = searchText?.Trim();
         
         if (string.IsNullOrEmpty(searchText)) return x => true;
 
-        return x => x.RenderMessage().ToLower().Contains(searchText.ToLower(),
+        return x => x.RenderMessage().Contains(searchText,
             StringComparison.InvariantCultureIgnoreCase);
     }
-    
     
     private Func<LogEvent, bool> CategoryFilterBuilder(IEnumerable<LogEventLevel> elems)
     {
@@ -116,21 +101,21 @@ public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
 
         return x=> logEventLevels.Contains(x.Level);
     }
-
-    private void SetCollectionSubscriptions()
+    
+    protected override void SetCollectionSubscriptions(ObservableCollection<LogEvent> inputData)
     {
-        _disposeCollectionSubscriptions?.Dispose();
-
-        Collection?.Clear();
+        if(!IsInitialize)
+            return;
         
-        _disposeCollectionSubscriptions = 
-            _store.CurrentValue
-            .ToObservableChangeSet()
-            .Filter(_searchFilter)
-            .Filter(_categoryFilter)
-            .Bind(Collection)
-            .DisposeMany()
-            .Subscribe(_=>{});
+        DisposeSubscriptions = 
+            inputData
+                .ToObservableChangeSet()
+                .Filter(SearchFilter)
+                .Filter(_categoryFilter)
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Bind(out ItemsSetter)
+                .DisposeMany()
+                .Subscribe(_=>{});
 
         // Only for initizlie. IDK, but without this it doesnt working
         LogLevelsSelector.AllItems.First().IsAdd = !LogLevelsSelector.AllItems.First().IsAdd;
