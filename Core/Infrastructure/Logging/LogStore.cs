@@ -47,5 +47,7 @@ internal sealed class LogStore : BaseLazyCollectionRepository<ObservableCollecti
         logsList.RemoveRange(0,toRemove);
         
         CurrentValue = new ObservableCollection<LogEvent>(logsList);
+        
+        OnCurrentValueDeleted();
     }
 }

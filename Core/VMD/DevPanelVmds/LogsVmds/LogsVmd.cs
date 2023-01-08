@@ -11,24 +11,36 @@ using DynamicData.Binding;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 using Serilog.Events;
 
 namespace Core.VMD.DevPanelVmds.LogsVmds;
 
 public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
 {
-
     #region Properties
-
-    public SelectedItems<LogEventLevel,LogLevelSelector> LogLevelsSelector { get; }
     
-    public new ObservableCollectionExtended<LogEvent> Collection { get; set; } =
-        new ();
+    [Reactive]
+    public new ObservableCollectionExtended<LogEvent> Collection { get; set; } = new ();
+    
+    public SelectedItems<LogEventLevel,LogLevelSelector> LogLevelsSelector { get; }
     
     public ObservableCollection<MenuParamCommandItem> LoggerTests { get; }
     
     public  LogsSettingsVmd LogsSettingsVmd { get; }
+    
+    #endregion
 
+    #region Fields
+    
+    private readonly IObservable<Func<LogEvent, bool>> _categoryFilter;
+
+    private readonly IObservable<Func<LogEvent, bool>> _searchFilter;
+
+    private IDisposable? _disposeCollectionSubscriptions;
+
+    private readonly IStore<ObservableCollection<LogEvent>> _store;
+    
     #endregion
 
     #region Consturctors
@@ -39,7 +51,7 @@ public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
 
         LoggerTest = ReactiveCommand.Create<LogLevel>(level =>  logger.Log(level, $"Test {level}"));
         
-        ClearCollection = ReactiveCommand.Create(() => logStore?.CurrentValue.Clear());
+        ClearCollection = ReactiveCommand.Create(() => logStore.CurrentValue.Clear());
         
         #endregion
         
@@ -47,40 +59,34 @@ public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
         
         LoggerTests = new ObservableCollection<MenuParamCommandItem>(MenuParamCommandItem.CreateCollectionWithEnumParameter(LoggerTest,Enum.GetValues<LogLevel>()));
         
-        Collection = new ObservableCollectionExtended<LogEvent>(logStore.CurrentValue);
-        
         #endregion
         
         #region Fields|Properties initialize
+
+        _store = logStore;
         
         LogsSettingsVmd = HostWorker.Services.GetRequiredService<LogsSettingsVmd>();
 
         LogLevelsSelector = new SelectedItems<LogEventLevel,LogLevelSelector>((LogEventLevel[]) Enum.GetValues(typeof(LogEventLevel)));
         
-        #endregion
+        _categoryFilter =       
+            LogLevelsSelector
+            .Filter
+            .Connect()
+            .ToCollection()
+            .Select(CategoryFilterBuilder);
         
-        #region Subscriptions
-        
-        var searchFilter = 
+        _searchFilter =
             this.WhenValueChanged(x => x.SearchText)
                 .Throttle(TimeSpan.FromMilliseconds(250))
-                .Select(SearchFilter);
+                .Select(SearchFilterBuilder);
         
-        var categoryFilter =
-            LogLevelsSelector
-                .Filter
-                .Connect()
-                .ToCollection()
-                .Select(CategoryFilter);
-        
-        logStore
-            .CurrentValue
-            .ToObservableChangeSet()
-            .Filter(searchFilter)
-            .Filter(categoryFilter)
-            .Bind(Collection)
-            .Subscribe(_ => { });
         #endregion
+        
+        _store.CurrentValueDeletedNotifier += SetCollectionSubscriptions;
+        
+        SetCollectionSubscriptions();
+        
     }
     #endregion
     
@@ -91,8 +97,10 @@ public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
 
     #region Methods
 
-    private static Func<LogEvent, bool> SearchFilter(string? searchText)
+    private Func<LogEvent, bool> SearchFilterBuilder(string? searchText)
     {
+        searchText = searchText?.Trim();
+        
         if (string.IsNullOrEmpty(searchText)) return x => true;
 
         return x => x.RenderMessage().ToLower().Contains(searchText.ToLower(),
@@ -100,7 +108,7 @@ public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
     }
     
     
-    private static Func<LogEvent, bool> CategoryFilter(IEnumerable<LogEventLevel> elems)
+    private Func<LogEvent, bool> CategoryFilterBuilder(IEnumerable<LogEventLevel> elems)
     {
         var logEventLevels = elems.ToList();
         
@@ -109,6 +117,25 @@ public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
         return x=> logEventLevels.Contains(x.Level);
     }
 
+    private void SetCollectionSubscriptions()
+    {
+        _disposeCollectionSubscriptions?.Dispose();
+
+        Collection?.Clear();
+        
+        _disposeCollectionSubscriptions = 
+            _store.CurrentValue
+            .ToObservableChangeSet()
+            .Filter(_searchFilter)
+            .Filter(_categoryFilter)
+            .Bind(Collection)
+            .DisposeMany()
+            .Subscribe(_=>{});
+
+        // Only for initizlie. IDK, but without this it doesnt working
+        LogLevelsSelector.AllItems.First().IsAdd = !LogLevelsSelector.AllItems.First().IsAdd;
+        LogLevelsSelector.AllItems.First().IsAdd = !LogLevelsSelector.AllItems.First().IsAdd;
+    }
+
     #endregion
-    
 }
