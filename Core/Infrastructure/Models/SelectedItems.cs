@@ -15,6 +15,7 @@ public class SelectedItems<T, TItemSelector> : ReactiveObject where TItemSelecto
     public IObservableCache<T, T> Filter =>
         AllItems
             .ToObservableChangeSet(x=>x.Item)
+            .AutoRefresh(x=>x.IsAdd)
             .Filter(x=>x.IsAdd)
             .Transform(x => x.Item)
             .AsObservableCache();

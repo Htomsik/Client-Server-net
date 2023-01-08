@@ -1,5 +1,6 @@
 ﻿using Core.VMD;
 using Core.VMD.DevPanelVmds;
+using Core.VMD.DevPanelVmds.LogsVmds;
 using Core.VMD.TitleVmds;
 using Microsoft.Extensions.DependencyInjection;
 

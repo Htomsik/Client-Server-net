@@ -36,7 +36,7 @@ public abstract class BaseCollectionVmd<T> : BaseVmd,IBaseCollectionVmd<T>
 
     #region Methods
 
-    protected abstract void DoSearch(string? searchText);
+    protected virtual void DoSearch(string? searchText){}
 
     #endregion
  

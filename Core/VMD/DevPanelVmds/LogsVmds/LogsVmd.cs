@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reactive;
+using System.Reactive.Linq;
 using AppInfrastructure.Stores.DefaultStore;
 using Core.Infrastructure.Hosting;
 using Core.Infrastructure.Models;
@@ -12,28 +13,45 @@ using Microsoft.Extensions.Logging;
 using ReactiveUI;
 using Serilog.Events;
 
-
-namespace Core.VMD.DevPanelVmds;
+namespace Core.VMD.DevPanelVmds.LogsVmds;
 
 public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
 {
 
-    #region Logs Collection fields
+    #region Properties
 
-    private readonly IStore<ObservableCollection<LogEvent>>? _logStore;
     public SelectedItems<LogEventLevel,LogLevelSelector> LogLevelsSelector { get; }
-
-    #endregion
+    
+    public new ObservableCollectionExtended<LogEvent> Collection { get; set; } =
+        new ();
     
     public ObservableCollection<MenuParamCommandItem> LoggerTests { get; }
-
-    public  LogsSettingsVmd LogsSettingsVmd { get; }
     
+    public  LogsSettingsVmd LogsSettingsVmd { get; }
+
+    #endregion
+
+    #region Consturctors
+
     public LogsVmd(IStore<ObservableCollection<LogEvent>> logStore, ILogger<LogsVmd> logger)
     {
-        #region Fields|Properties initialize
+        #region Commands
 
-        _logStore = logStore;
+        LoggerTest = ReactiveCommand.Create<LogLevel>(level =>  logger.Log(level, $"Test {level}"));
+        
+        ClearCollection = ReactiveCommand.Create(() => logStore?.CurrentValue.Clear());
+        
+        #endregion
+        
+        #region Collections initialize
+        
+        LoggerTests = new ObservableCollection<MenuParamCommandItem>(MenuParamCommandItem.CreateCollectionWithEnumParameter(LoggerTest,Enum.GetValues<LogLevel>()));
+        
+        Collection = new ObservableCollectionExtended<LogEvent>(logStore.CurrentValue);
+        
+        #endregion
+        
+        #region Fields|Properties initialize
         
         LogsSettingsVmd = HostWorker.Services.GetRequiredService<LogsSettingsVmd>();
 
@@ -42,52 +60,55 @@ public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
         #endregion
         
         #region Subscriptions
-
-        logStore.CurrentValueChangedNotifier += () =>  DoSearch(SearchText);
-
-        LogLevelsSelector
-            .AllItems
+        
+        var searchFilter = 
+            this.WhenValueChanged(x => x.SearchText)
+                .Throttle(TimeSpan.FromMilliseconds(250))
+                .Select(SearchFilter);
+        
+        var categoryFilter =
+            LogLevelsSelector
+                .Filter
+                .Connect()
+                .ToCollection()
+                .Select(CategoryFilter);
+        
+        logStore
+            .CurrentValue
             .ToObservableChangeSet()
-            .AutoRefresh(x => x.IsAdd)
-            .Subscribe(_=>DoSearch(SearchText));
-        
-        #endregion
-
-        #region Commands
-
-        LoggerTest = ReactiveCommand.Create<LogLevel>(level =>
-        {
-            logger.Log(level, $"Test {level}");
-        });
-
-        
-        ClearCollection = ReactiveCommand.Create(() =>
-        {
-            logStore?.CurrentValue.Clear();
-            DoSearch(SearchText);
-        });
-        
-        #endregion
-        
-        #region Collections initialize
-        
-        LoggerTests = new ObservableCollection<MenuParamCommandItem>(MenuParamCommandItem.CreateCollectionWithEnumParameter(LoggerTest,Enum.GetValues<LogLevel>()));
-        
+            .Filter(searchFilter)
+            .Filter(categoryFilter)
+            .Bind(Collection)
+            .Subscribe(_ => { });
         #endregion
     }
-
+    #endregion
+    
     #region Commands
     public ReactiveCommand<LogLevel,Unit> LoggerTest { get; }
     
     #endregion
-    
-    protected override void DoSearch(string? searchText)
+
+    #region Methods
+
+    private static Func<LogEvent, bool> SearchFilter(string? searchText)
     {
-        Collection = _logStore?.CurrentValue
-            .Where(x=> LogLevelsSelector.Filter!.Count != 0 ? 
-                LogLevelsSelector.Filter.Items.ToList().Contains(x.Level) : true)
-            .Where(x=> !string.IsNullOrEmpty(searchText) ? 
-                x.RenderMessage().ToLower().Contains(searchText.ToLower(), StringComparison.InvariantCultureIgnoreCase) : true)!;
+        if (string.IsNullOrEmpty(searchText)) return x => true;
+
+        return x => x.RenderMessage().ToLower().Contains(searchText.ToLower(),
+            StringComparison.InvariantCultureIgnoreCase);
     }
+    
+    
+    private static Func<LogEvent, bool> CategoryFilter(IEnumerable<LogEventLevel> elems)
+    {
+        var logEventLevels = elems.ToList();
+        
+        if (logEventLevels.Count == 0) return x => true;
+
+        return x=> logEventLevels.Contains(x.Level);
+    }
+
+    #endregion
     
 }

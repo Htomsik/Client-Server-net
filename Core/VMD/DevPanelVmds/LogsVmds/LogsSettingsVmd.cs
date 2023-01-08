@@ -6,7 +6,7 @@ using Core.Infrastructure.VMD;
 using ReactiveUI.Fody.Helpers;
 using Serilog.Events;
 
-namespace Core.VMD.DevPanelVmds;
+namespace Core.VMD.DevPanelVmds.LogsVmds;
 
 public sealed class LogsSettingsVmd : BaseVmd
 {

@@ -6,7 +6,7 @@ using Core.Infrastructure.Models.SettingsModels;
 using Core.Infrastructure.Stores;
 using Core.Infrastructure.VMD;
 using Core.Stores;
-using Core.VMD.DevPanelVmds;
+using Core.VMD.DevPanelVmds.LogsVmds;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog.Events;
 
