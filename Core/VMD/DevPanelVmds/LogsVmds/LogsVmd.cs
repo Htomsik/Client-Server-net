@@ -85,7 +85,7 @@ public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
     {
         Collection = _logStore?.CurrentValue
             .Where(x=> LogLevelsSelector.Filter!.Count != 0 ? 
-                LogLevelsSelector.Filter.Items.Contains(x.Level) : true)
+                LogLevelsSelector.Filter.Items.ToList().Contains(x.Level) : true)
             .Where(x=> !string.IsNullOrEmpty(searchText) ? 
                 x.RenderMessage().ToLower().Contains(searchText.ToLower(), StringComparison.InvariantCultureIgnoreCase) : true)!;
     }
