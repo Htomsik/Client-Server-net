@@ -22,6 +22,16 @@ public class SelectedItems<T, TItemSelector> : ReactiveObject where TItemSelecto
     #endregion
 
     #region Constructors
+    
+    public SelectedItems(IEnumerable<T> inputItems, IEnumerable<T> outputItems) : this(inputItems)
+    {
+        foreach (var item in AllItems.Where(x => outputItems.Contains(x.Item)))
+        {
+            item.IsAdd = true;
+        }
+        
+    }
+
 
     public SelectedItems(IEnumerable<T> inputItems) 
     {

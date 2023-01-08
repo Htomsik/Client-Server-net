@@ -13,12 +13,19 @@
         Grid.Row="1"
         Margin="5"
         Padding="3">
+
         <StackPanel>
+
             <TextBox
                 assists:TextFieldAssist.Label="Max logs"
                 Classes="clearButton"
                 Text="{Binding Settings.DevLogsCount, Mode=TwoWay}"
                 UseFloatingWatermark="True" />
+
+            <Expander Header="Log levels">
+                <ListBox Items="{Binding LogLevelsSelector.AllItems}" />
+            </Expander>
+
         </StackPanel>
 
     </ScrollViewer>

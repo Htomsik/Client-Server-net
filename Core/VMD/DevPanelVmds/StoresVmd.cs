@@ -1,8 +1,6 @@
-using System.Collections.ObjectModel;
 using AppInfrastructure.Stores.DefaultStore;
 using Core.Infrastructure.Models;
 using Core.Infrastructure.VMD;
-using DynamicData;
 
 namespace Core.VMD.DevPanelVmds;
 

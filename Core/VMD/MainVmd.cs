@@ -48,12 +48,19 @@ public class MainVmd : BaseVmd
    
     public MainVmd(ICollectionRepository<ObservableCollection<LogEvent>,LogEvent> logStore,
         IStore<ITitleVmd> titleVmdStore,
-        BaseTimerReactiveStore<Settings> settings, ProjectInfo projectInfo)
+        BaseTimerReactiveStore<Settings> settings, 
+        ProjectInfo projectInfo)
     {
         
         #region Subscriptions
 
-        logStore.CurrentValueChangedNotifier += () => LastLog = logStore?.CurrentValue.Count != 0 ? logStore?.CurrentValue.Last() : null;
+        logStore.CurrentValueChangedNotifier += () =>
+        {
+            if (logStore?.CurrentValue?.Count() != 0 &&
+                (bool)settings?.CurrentValue?.ShowedLogLevels.Contains(logStore!.CurrentValue.Last().Level))
+                LastLog = logStore?.CurrentValue?.Last();
+        };
+            
 
         titleVmdStore.CurrentValueChangedNotifier += () => TitleVmd = titleVmdStore.CurrentValue;
 
