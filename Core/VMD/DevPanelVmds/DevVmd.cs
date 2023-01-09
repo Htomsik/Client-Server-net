@@ -1,5 +1,6 @@
 ﻿using Core.Infrastructure.Hosting;
 using Core.Infrastructure.VMD;
+using Core.VMD.DevPanelVmds.LogsVmds;
 using Microsoft.Extensions.DependencyInjection;
 
 

@@ -1,7 +1,9 @@
 
+using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Serilog.Events;
 
 
 namespace Core.Infrastructure.Models.SettingsModels;
@@ -14,5 +16,9 @@ public class Settings : ReactiveObject
      
      [XmlIgnore, Reactive] public bool IsDevMode { get; set; } = false;
      
-    #endregion
+     [XmlIgnore,Reactive] public ObservableCollection<LogEventLevel> ShowedLogLevels { get; set; } = new() {LogEventLevel.Information,LogEventLevel.Error};
+     
+     #endregion
+     
+   
 }

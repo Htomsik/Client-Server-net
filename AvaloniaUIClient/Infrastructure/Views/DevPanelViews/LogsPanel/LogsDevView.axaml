@@ -102,7 +102,7 @@
                                     Grid.Row="1"
                                     Grid.Column="0"
                                     Grid.ColumnSpan="2"
-                                    Items="{Binding Collection}" />
+                                    Items="{Binding Items}" />
 
                             </Grid>
                         </styles:ColorZone>
@@ -138,7 +138,7 @@
                                 Foreground="{DynamicResource PrimaryHueLightBrush}"
                                 Classes="IconButton"
                                 ToolTip.Tip="Clear log levels filters"
-                                Command="{Binding ClearFilters}">
+                                Command="{Binding LogLevelsSelector.ClearFilters}">
 
                                 <avalonia:MaterialIcon
                                     Width="24"
@@ -157,7 +157,7 @@
                                 Grid.Column="0"
                                 Grid.ColumnSpan="2"
                                 Margin="0,0,5,0"
-                                Items="{Binding AllLogLevels}" />
+                                Items="{Binding LogLevelsSelector.AllItems}" />
                         </Grid>
                     </styles:ColorZone>
 

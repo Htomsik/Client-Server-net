@@ -8,6 +8,7 @@ using AvaloniaUIClient.Infrastructure.Views.DevPanelViews.LogsPanel;
 using AvaloniaUIClient.Views.TitleViews;
 using Core.VMD;
 using Core.VMD.DevPanelVmds;
+using Core.VMD.DevPanelVmds.LogsVmds;
 using Core.VMD.TitleVmds;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

@@ -1,5 +1,6 @@
 ﻿using Core.VMD;
 using Core.VMD.DevPanelVmds;
+using Core.VMD.DevPanelVmds.LogsVmds;
 using Core.VMD.TitleVmds;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -23,6 +24,7 @@ public partial class IocRegistration
             .AddSingleton<MainMenuVmd>()
             .AddSingleton<DevVmd>()
             .AddSingleton<LogsVmd>()
+            .AddTransient<LogsSettingsVmd>()
             .AddSingleton<StoresVmd>()
             .AddTransient<AboutProgramVmd>();
 }

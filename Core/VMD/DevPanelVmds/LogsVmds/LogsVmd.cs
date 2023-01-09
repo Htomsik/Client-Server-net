@@ -1,100 +1,126 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reactive;
+using System.Reactive.Linq;
 using AppInfrastructure.Stores.DefaultStore;
-using AppInfrastructure.Stores.Repositories.Collection;
 using Core.Infrastructure.Hosting;
 using Core.Infrastructure.Models;
 using Core.Infrastructure.Models.ItemSelectors;
 using Core.Infrastructure.VMD;
+using DynamicData;
+using DynamicData.Binding;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ReactiveUI;
 using Serilog.Events;
 
-
-namespace Core.VMD.DevPanelVmds;
+namespace Core.VMD.DevPanelVmds.LogsVmds;
 
 public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
 {
-
-    #region Logs Collection fields
-
-    private readonly IStore<ObservableCollection<LogEvent>>? _logStore;
-
-    private readonly BaseLazyCollectionRepository<List<LogEventLevel>,LogEventLevel> _selectedLogLevels  = new ();
-    public ObservableCollection<LogLevelSelector>? AllLogLevels { get; }
-
-    #endregion
+    #region Properties
+    
+    public SelectedItems<LogEventLevel,LogLevelSelector> LogLevelsSelector { get; }
     
     public ObservableCollection<MenuParamCommandItem> LoggerTests { get; }
-
+    
     public  LogsSettingsVmd LogsSettingsVmd { get; }
     
-    public LogsVmd(IStore<ObservableCollection<LogEvent>> logStore, ILogger<LogsVmd> logger)
+    #endregion
+
+    #region Fields
+    
+    private readonly IObservable<Func<LogEvent, bool>> _categoryFilter;
+    
+    #endregion
+
+    #region Consturctors
+
+    public LogsVmd(IStore<ObservableCollection<LogEvent>> logStore, ILogger<LogsVmd> logger) : base(logStore.CurrentValue)
     {
-        #region Fields|Properties initialize
-
-        _logStore = logStore;
-
-        LogsSettingsVmd = HostWorker.Services.GetRequiredService<LogsSettingsVmd>();
-        
-        #endregion
-        
-        #region Subscriptions
-
-        logStore.CurrentValueChangedNotifier += () =>  DoSearch(SearchText);
-        
-        _selectedLogLevels.CurrentValueChangedNotifier += () => DoSearch(SearchText);
-        
-        #endregion
-
         #region Commands
 
-        LoggerTest = ReactiveCommand.Create<LogLevel>(level =>
-        {
-            logger.Log(level, $"Test {level}");
-        });
-
-        ClearFilters = ReactiveCommand.Create(()=> 
-        {
-            foreach (var item in AllLogLevels)
-            {
-                item.IsAdd = false;
-            }
-        });
-
-        ClearCollection = ReactiveCommand.Create(() =>
-        {
-            logStore?.CurrentValue.Clear();
-            DoSearch(SearchText);
-        });
+        LoggerTest = ReactiveCommand.Create<LogLevel>(level =>  logger.Log(level, $"Test {level}"));
+        
+        ClearCollection = ReactiveCommand.Create(() => logStore.CurrentValue.Clear());
         
         #endregion
         
         #region Collections initialize
-
-        AllLogLevels = new ObservableCollection<LogLevelSelector>(LogLevelSelector.CreateAll(_selectedLogLevels));
-
+        
         LoggerTests = new ObservableCollection<MenuParamCommandItem>(MenuParamCommandItem.CreateCollectionWithEnumParameter(LoggerTest,Enum.GetValues<LogLevel>()));
         
         #endregion
+        
+        #region Fields|Properties initialize
+        
+        LogsSettingsVmd = HostWorker.Services.GetRequiredService<LogsSettingsVmd>();
+
+        LogLevelsSelector = new SelectedItems<LogEventLevel,LogLevelSelector>((LogEventLevel[]) Enum.GetValues(typeof(LogEventLevel)));
+        
+        #endregion
+
+        #region Subscriptions
+
+        logStore.CurrentValueDeletedNotifier += () => SetSubscriptions(logStore.CurrentValue);
+        
+        _categoryFilter =       
+            LogLevelsSelector
+                .Filter
+                .Connect()
+                .ToCollection()
+                .Select(CategoryFilterBuilder);
+
+        #endregion
+        
+        SetCollectionSubscriptions(logStore.CurrentValue);
     }
-
-    #region Commands
-
-    public ReactiveCommand<LogLevel,Unit> LoggerTest { get; }
-    
-    public IReactiveCommand ClearFilters { get; }
-
     #endregion
     
-    protected override void DoSearch(string? searchText)
+    #region Commands
+    public ReactiveCommand<LogLevel,Unit> LoggerTest { get; }
+    
+    #endregion
+
+    #region Methods
+
+    protected override Func<LogEvent, bool> SearchFilterBuilder(string? searchText)
     {
-        Collection = _logStore?.CurrentValue
-            .Where(x=> _selectedLogLevels?.CurrentValue?.Count != 0 ? 
-                _selectedLogLevels.CurrentValue.Contains(x.Level) : true)
-            .Where(x=> !string.IsNullOrEmpty(searchText) ? 
-                x.RenderMessage().ToLower().Contains(searchText.ToLower(), StringComparison.InvariantCultureIgnoreCase) : true);
+        searchText = searchText?.Trim();
+        
+        if (string.IsNullOrEmpty(searchText)) return x => true;
+
+        return x => x.RenderMessage().Contains(searchText,
+            StringComparison.InvariantCultureIgnoreCase);
     }
     
+    private Func<LogEvent, bool> CategoryFilterBuilder(IEnumerable<LogEventLevel> elems)
+    {
+        var logEventLevels = elems.ToList();
+        
+        if (logEventLevels.Count == 0) return x => true;
+
+        return x=> logEventLevels.Contains(x.Level);
+    }
+    
+    protected override void SetCollectionSubscriptions(ObservableCollection<LogEvent> inputData)
+    {
+        if(!IsInitialize)
+            return;
+        
+        DisposeSubscriptions = 
+            inputData
+                .ToObservableChangeSet()
+                .Filter(SearchFilter)
+                .Filter(_categoryFilter)
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Bind(out ItemsSetter)
+                .DisposeMany()
+                .Subscribe(_=>{});
+
+        // Only for initizlie. IDK, but without this it doesnt working
+        LogLevelsSelector.AllItems.First().IsAdd = !LogLevelsSelector.AllItems.First().IsAdd;
+        LogLevelsSelector.AllItems.First().IsAdd = !LogLevelsSelector.AllItems.First().IsAdd;
+    }
+
+    #endregion
 }
