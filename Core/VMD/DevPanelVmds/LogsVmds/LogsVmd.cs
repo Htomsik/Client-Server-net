@@ -61,7 +61,12 @@ public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
 
         #region Subscriptions
 
-        logStore.CurrentValueDeletedNotifier += () => SetSubscriptions(logStore.CurrentValue);
+        logStore.CurrentValueDeletedNotifier += () =>
+        {
+            SetSubscriptions(logStore.CurrentValue);
+            this.RaisePropertyChanged(nameof(Items));
+        };
+        
         
         _categoryFilter =       
             LogLevelsSelector
