@@ -40,9 +40,9 @@ public abstract class BaseTimerReactiveStore<TValue> : BaseReactiveStore<TValue>
             .Subscribe(OnTimerChangeNotifier);
     }
     
-    protected override void SetValueRelays()
+    protected override void SetValueSubscriptions()
     {
-        CurrentValue?
+        ValueSubscriptions = CurrentValue
             .WhenAnyPropertyChanged()
             .Do(_=>StartTimer())
             .Throttle(TimeSpan.FromSeconds(InitialTimerSeconds))

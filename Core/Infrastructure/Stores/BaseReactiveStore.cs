@@ -6,6 +6,8 @@ namespace Core.Infrastructure.Stores;
 
 public abstract class  BaseReactiveStore<TValue> : BaseLazyStore<TValue> where TValue : IReactiveObject
 {
+
+    protected IDisposable? ValueSubscriptions;
     
     public override TValue? CurrentValue
     {
@@ -14,11 +16,10 @@ public abstract class  BaseReactiveStore<TValue> : BaseLazyStore<TValue> where T
         {
             _currentValue = new Lazy<object?>(()=> value);
             
-            if (value == null || value.Equals((object) null))
+            if (value == null || value.Equals(null))
                 OnCurrentValueDeleted();
 
-            SetValueRelays();
-            
+            SetSubscriptions();
         }
       
     }
@@ -33,9 +34,16 @@ public abstract class  BaseReactiveStore<TValue> : BaseLazyStore<TValue> where T
 
     #region Methods
 
-    protected virtual void SetValueRelays()
+    protected void SetSubscriptions()
     {
-        CurrentValue?
+        ValueSubscriptions?.Dispose();
+        
+        SetValueSubscriptions();
+    }
+
+    protected virtual void SetValueSubscriptions()
+    {
+        ValueSubscriptions = CurrentValue?
             .WhenAnyPropertyChanged()
             .Subscribe(_ => OnCurrentValueChanged());
     }
