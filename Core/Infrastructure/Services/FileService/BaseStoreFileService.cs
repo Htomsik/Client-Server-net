@@ -20,10 +20,7 @@ public abstract class BaseStoreFileService<T> : ReactiveObject, IFileService
     private readonly ILogger _logger;
 
     private readonly string _fileName;
-
-    [Reactive] 
-    private bool ChangeFlag { get; set; }
-
+    
     #endregion
     
     #region Constructors
@@ -38,12 +35,7 @@ public abstract class BaseStoreFileService<T> : ReactiveObject, IFileService
 
         _fileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
 
-        Store.CurrentValueChangedNotifier += ()=> ChangeFlag = !ChangeFlag ;
-
-        this.WhenPropertyChanged(x => x.ChangeFlag)
-            .Throttle(TimeSpan.FromSeconds(10))
-            .Subscribe(_ =>  Set());
-
+        Store.CurrentValueChangedNotifier += Set;
     }
     
     #endregion

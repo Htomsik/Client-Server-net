@@ -19,11 +19,9 @@ public abstract class  BaseReactiveStore<TValue> : BaseLazyStore<TValue> where T
 
             SetValueRelays();
             
-            OnCurrentValueChanged();
         }
       
     }
-
     
     #region Constructors
 
