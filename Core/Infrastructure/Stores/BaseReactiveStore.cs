@@ -47,6 +47,13 @@ public abstract class  BaseReactiveStore<TValue> : BaseLazyStore<TValue> where T
             .WhenAnyPropertyChanged()
             .Subscribe(_ => OnCurrentValueChanged());
     }
+    
+    protected virtual void RebuildSubscriptions()
+    {
+        ValueSubscriptions?.Dispose();
+        
+        SetValueSubscriptions();
+    }
 
     #endregion
 }
