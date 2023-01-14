@@ -37,7 +37,9 @@
         </StackPanel>
 
         <!--  Project info  -->
-        <StackPanel Grid.Row="1" Margin="0,24,0,0">
+        <StackPanel
+            Grid.Row="1"
+            Margin="0,24,0,0">
 
             <StackPanel.Styles>
                 <Style Selector="TextBlock.Body1">
@@ -46,18 +48,32 @@
             </StackPanel.Styles>
 
             <StackPanel Orientation="Horizontal">
-                <TextBlock Classes="Body1" Text="Version:" />
-                <TextBlock Classes="Body1" Text="{Binding ProjectInfo.AssemblyVerison}" />
+                <TextBlock
+                    Classes="Body1"
+                    Text="Version:" />
+                <TextBlock
+                    Classes="Body1"
+                    Text="{Binding ProjectInfo.AssemblyVerison}" />
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" IsVisible="{Binding ProjectInfo.GitVersion, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
-                <TextBlock Classes="Body1" Text="Git Version:" />
-                <TextBlock Classes="Body1" Text="{Binding ProjectInfo.GitVersion}" />
+            <StackPanel
+                Orientation="Horizontal"
+                IsVisible="{Binding ProjectInfo.GitVersion, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                <TextBlock
+                    Classes="Body1"
+                    Text="Git Version:" />
+                <TextBlock
+                    Classes="Body1"
+                    Text="{Binding ProjectInfo.GitVersion}" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
-                <TextBlock Classes="Body1" Text="Platform:" />
-                <TextBlock Classes="Body1" Text="{Binding ProjectInfo.OsDescription}" />
+                <TextBlock
+                    Classes="Body1"
+                    Text="Platform:" />
+                <TextBlock
+                    Classes="Body1"
+                    Text="{Binding ProjectInfo.OsDescription}" />
             </StackPanel>
 
         </StackPanel>

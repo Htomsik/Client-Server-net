@@ -2,9 +2,9 @@
 using AppInfrastructure.Stores.DefaultStore;
 using AppInfrastructure.Stores.Repositories.Collection;
 using Core.Infrastructure.Logging;
-using Core.Infrastructure.Models.SettingsModels;
-using Core.Infrastructure.Stores;
-using Core.Infrastructure.VMD;
+using Core.Infrastructure.Models.Settings;
+using Core.Infrastructure.Stores.Interfaces;
+using Core.Infrastructure.VMD.Interfaces;
 using Core.Stores;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog.Events;
@@ -36,5 +36,4 @@ public partial class IocRegistration
             .AddSingleton<IStore>(s=>s.GetRequiredService<IStore<ITitleVmd>>())
             .AddSingleton<IStore>(s=>s.GetRequiredService<IStore<Settings>>())
             .AddSingleton<IStore>(s=>s.GetRequiredService<IStore<ObservableCollection<LogEvent>>>());
-
 }

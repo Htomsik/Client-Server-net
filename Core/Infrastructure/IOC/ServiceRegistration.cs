@@ -2,7 +2,7 @@
 using Core.Infrastructure.Logging;
 using Core.Infrastructure.Services.NavigationService;
 using Core.Infrastructure.Services.ParseService;
-using Core.Infrastructure.VMD;
+using Core.Infrastructure.VMD.Interfaces;
 using Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 

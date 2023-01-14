@@ -1,10 +1,9 @@
 using System.Collections.ObjectModel;
-using Core.Infrastructure.Models.ItemSelectors;
 using DynamicData;
 using DynamicData.Binding;
 using ReactiveUI;
 
-namespace Core.Infrastructure.Models;
+namespace Core.Infrastructure.Models.ItemSelectors;
 
 public class SelectedItems<T, TItemSelector> : ReactiveObject where TItemSelector : ItemSelector<T>, new() where T : notnull
 {

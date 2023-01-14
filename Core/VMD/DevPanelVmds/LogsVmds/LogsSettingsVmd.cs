@@ -1,7 +1,6 @@
 using AppInfrastructure.Stores.DefaultStore;
-using Core.Infrastructure.Models;
 using Core.Infrastructure.Models.ItemSelectors;
-using Core.Infrastructure.Models.SettingsModels;
+using Core.Infrastructure.Models.Settings;
 using Core.Infrastructure.VMD;
 using ReactiveUI.Fody.Helpers;
 using Serilog.Events;

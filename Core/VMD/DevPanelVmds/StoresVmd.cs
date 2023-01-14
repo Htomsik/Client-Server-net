@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
 using AppInfrastructure.Stores.DefaultStore;
-using Core.Infrastructure.Models;
+using Core.Infrastructure.Models.Other;
 using Core.Infrastructure.VMD;
 
 namespace Core.VMD.DevPanelVmds;
@@ -13,7 +13,7 @@ public class StoresVmd : BaseCollectionVmd<ReflectionNode>
     {
         searchText = searchText?.Trim();
         
-        if (string.IsNullOrEmpty(searchText)) return x => true;
+        if (string.IsNullOrEmpty(searchText)) return _ => true;
 
         return x => x.Name.Contains(searchText, StringComparison.InvariantCultureIgnoreCase);
     }

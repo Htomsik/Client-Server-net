@@ -1,4 +1,4 @@
-namespace Core.Infrastructure.Stores;
+namespace Core.Infrastructure.Stores.Interfaces;
 
 public interface ISaverStore<T, out TNotifyValue> : ITimerStore<T>
 {

@@ -28,7 +28,7 @@ public abstract class  BaseReactiveStore<TValue> : BaseLazyStore<TValue> where T
 
     public BaseReactiveStore(TValue value):base(value) {}
 
-    public BaseReactiveStore() : base() {}
+    public BaseReactiveStore(){}
 
     #endregion
 

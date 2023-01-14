@@ -1,6 +1,6 @@
 using AppInfrastructure.Stores.DefaultStore;
 
-namespace Core.Infrastructure.Stores;
+namespace Core.Infrastructure.Stores.Interfaces;
 
 public interface ITimerStore<T> : IStore<T>
 {

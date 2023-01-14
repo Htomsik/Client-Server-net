@@ -1,7 +1,7 @@
-using Core.Infrastructure.Models.SettingsModels;
+using Core.Infrastructure.Models.Settings;
 using Core.Infrastructure.Services.FileService;
 using Core.Infrastructure.Services.ParseService;
-using Core.Infrastructure.Stores;
+using Core.Infrastructure.Stores.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 

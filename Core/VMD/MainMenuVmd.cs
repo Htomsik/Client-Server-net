@@ -2,13 +2,13 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Core.Infrastructure.Extensions;
 using Core.Infrastructure.Hosting;
-using Core.Infrastructure.Models;
+using Core.Infrastructure.Models.Menu;
 using Core.Infrastructure.Services.NavigationService;
 using Core.Infrastructure.VMD;
+using Core.Infrastructure.VMD.Interfaces;
 using Core.VMD.TitleVmds;
 using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
-
 
 namespace Core.VMD;
 
@@ -19,7 +19,9 @@ public class MainMenuVmd : BaseMenuVmd<MenuParamCommandItem>
     public ProjectInfo ProjectInfo { get; }
 
     #endregion
-    
+
+    #region Constructors
+
     public MainMenuVmd(ProjectInfo projectInfo)
     {
         
@@ -31,7 +33,7 @@ public class MainMenuVmd : BaseMenuVmd<MenuParamCommandItem>
         OpenAboutProject = ReactiveCommand.Create(
             ()=> HostWorker.Services.GetService<BaseVmdNavigationService<ITitleVmd>>()!.Navigate(typeof(AboutProgramVmd)));
         
-        _navigationCommand = ReactiveCommand.Create<Type>(
+        NavigationCommand = ReactiveCommand.Create<Type>(
             type=> HostWorker.Services.GetService<BaseVmdNavigationService<ITitleVmd>>()!.Navigate(type));
         
         #endregion
@@ -40,15 +42,16 @@ public class MainMenuVmd : BaseMenuVmd<MenuParamCommandItem>
 
         MenuItems = new ObservableCollection<MenuParamCommandItem>
         {
-            new ("Home",(ICommand)_navigationCommand!,typeof(HomeVmd)),
+            new ("Home",(ICommand)NavigationCommand!,typeof(HomeVmd)),
         };
 
         ProjectInfo = projectInfo;
 
         #endregion
-
     }
-    
+
+    #endregion
+   
     #region Command
 
     public IReactiveCommand OpenSettings { get; }

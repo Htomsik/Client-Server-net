@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using AppInfrastructure.Stores.DefaultStore;
 using AppInfrastructure.Stores.Repositories.Collection;
-using Core.Infrastructure.Models.SettingsModels;
+using Core.Infrastructure.Models.Settings;
 using Serilog.Events;
 
 namespace Core.Infrastructure.Logging;

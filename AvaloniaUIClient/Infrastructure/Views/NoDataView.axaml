@@ -15,7 +15,9 @@
         Height="100"
         RowDefinitions="0.8*,0.2*">
 
-        <avalonia:MaterialIconExt Kind="No" Size="50" />
+        <avalonia:MaterialIconExt
+            Kind="No"
+            Size="50" />
 
         <TextBlock
             Grid.Row="1"

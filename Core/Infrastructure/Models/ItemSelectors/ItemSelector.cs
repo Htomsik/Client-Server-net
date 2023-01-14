@@ -28,5 +28,4 @@ public class ItemSelector<T> : ReactiveObject, IItemSelector
     }
 
     #endregion
-    
 }

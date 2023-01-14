@@ -4,7 +4,6 @@ namespace Core.Infrastructure.Services.ParseService;
 
 public class ParseService : IParseService
 {
-
     #region Fields
 
     private readonly ILogger _logger;
@@ -30,7 +29,7 @@ public class ParseService : IParseService
         }
         catch (Exception error)
         {
-            _logger.LogError(error, "{0}:{1}", error.Source, error.Message);
+            _logger.LogError(error, "{Source}:{Message}", error.Source, error.Message);
         }
         
         _logger.LogWarning($"{nameof(Serialize)}: Object serialized");
@@ -48,7 +47,7 @@ public class ParseService : IParseService
         }
         catch (Exception error)
         {
-            _logger.LogError(error, "{0}:{1}", error.Source, error.Message);
+            _logger.LogError(error, "{Source}:{Message}", error.Source, error.Message);
         }
 
         _logger.LogWarning($"{nameof(DeSerialize)}: Object deserialized");
@@ -57,5 +56,4 @@ public class ParseService : IParseService
     }
 
     #endregion
-    
 }

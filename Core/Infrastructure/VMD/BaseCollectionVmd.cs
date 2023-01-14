@@ -15,11 +15,11 @@ public abstract class BaseCollectionVmd<T> : BaseVmd
 {
     #region Properties
     
-    public ReadOnlyObservableCollection<T> Items => ItemsSetter;
+    public ReadOnlyObservableCollection<T>? Items => ItemsSetter;
 
-    protected ReadOnlyObservableCollection<T> ItemsSetter;
+    protected ReadOnlyObservableCollection<T>? ItemsSetter;
 
-    [Reactive] public string SearchText { get; set; }
+    [Reactive] public string? SearchText { get; set; }
     
     public bool IsInitialize { get; }
 
@@ -53,9 +53,9 @@ public abstract class BaseCollectionVmd<T> : BaseVmd
     
     #region Commands
 
-    public IReactiveCommand ClearSearchText { get; }
+    public IReactiveCommand? ClearSearchText { get; } 
 
-    public IReactiveCommand ClearCollection { get; protected set; }
+    public IReactiveCommand? ClearCollection { get; protected set; }
 
     #endregion
 
@@ -65,7 +65,7 @@ public abstract class BaseCollectionVmd<T> : BaseVmd
     {
         searchText = searchText?.Trim();
         
-        if (string.IsNullOrEmpty(searchText)) return x => true;
+        if (string.IsNullOrEmpty(searchText)) return _ => true;
 
         return x => x.ToString().Contains(searchText, StringComparison.InvariantCultureIgnoreCase);
     }

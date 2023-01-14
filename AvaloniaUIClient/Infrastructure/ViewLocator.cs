@@ -55,5 +55,4 @@ public class ViewLocator : IDataTemplate
     }
 
     public bool Match(object data) => data is ReactiveObject;
-
 }

@@ -3,8 +3,8 @@ using System.Reactive;
 using System.Reactive.Linq;
 using AppInfrastructure.Stores.DefaultStore;
 using Core.Infrastructure.Hosting;
-using Core.Infrastructure.Models;
 using Core.Infrastructure.Models.ItemSelectors;
+using Core.Infrastructure.Models.Menu;
 using Core.Infrastructure.VMD;
 using DynamicData;
 using DynamicData.Binding;
@@ -92,7 +92,7 @@ public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
     {
         searchText = searchText?.Trim();
         
-        if (string.IsNullOrEmpty(searchText)) return x => true;
+        if (string.IsNullOrEmpty(searchText)) return _ => true;
 
         return x => x.RenderMessage().Contains(searchText,
             StringComparison.InvariantCultureIgnoreCase);
@@ -102,7 +102,7 @@ public sealed class LogsVmd : BaseCollectionVmd<LogEvent>
     {
         var logEventLevels = elems.ToList();
         
-        if (logEventLevels.Count == 0) return x => true;
+        if (logEventLevels.Count == 0) return _ => true;
 
         return x=> logEventLevels.Contains(x.Level);
     }

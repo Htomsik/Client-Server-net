@@ -1,4 +1,5 @@
 using System.Reactive.Linq;
+using Core.Infrastructure.Stores.Interfaces;
 using DynamicData.Binding;
 using ReactiveUI;
 
@@ -49,7 +50,7 @@ public abstract class BaseTimerReactiveStore<TValue> : BaseReactiveStore<TValue>
         OnCurrentValueChanged(false);
     } 
     
-    protected new void OnCurrentValueChanged(Boolean withSawing = true)
+    protected void OnCurrentValueChanged(Boolean withSawing = true)
     {
         _timer?.Dispose();
         
