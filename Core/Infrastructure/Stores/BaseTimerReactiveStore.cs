@@ -4,30 +4,59 @@ using ReactiveUI;
 
 namespace Core.Infrastructure.Stores;
 
-public abstract class BaseTimerReactiveStore<TValue> : BaseReactiveStore<TValue> where TValue : IReactiveObject
+public abstract class BaseTimerReactiveStore<TValue> : BaseReactiveStore<TValue>,ISaverStore<TValue,bool> where TValue : IReactiveObject
 {
+    #region Properties
+    
     protected abstract int InitialTimerSeconds { get; }
 
     private IDisposable? _timer;
     
-    #region TimerChangeNotifier
-
     public event Action<long>? TimerChangeNotifier;
     
-    protected void OnTimerChangeNotifier(long currentSec) => TimerChangeNotifier?.Invoke(currentSec);
+    public new event Action<bool>? CurrentValueChangedNotifier;
 
     #endregion
     
     #region Constructors
-    
-    public BaseTimerReactiveStore(TValue value) : base(value){}
-    
-    public BaseTimerReactiveStore() : base(){}
+
+    public BaseTimerReactiveStore(TValue value) : base(value)
+    {
+        CurrentValueChangedNotifier += _ =>  base.OnCurrentValueChanged();
+    }
+
+    public BaseTimerReactiveStore() : base()
+    {
+        CurrentValueChangedNotifier += _ =>  base.OnCurrentValueChanged();
+    }
   
     
     #endregion
 
     #region Methods
+    
+    public void SaveNow()
+    {
+        RebuildSubscriptions();
+        
+        OnCurrentValueChanged();
+    }
+
+    public void SaveNowWithoutFile()
+    {
+        RebuildSubscriptions();
+            
+        OnCurrentValueChanged(false);
+    } 
+    
+    protected new void OnCurrentValueChanged(Boolean withSawing = true)
+    {
+        _timer?.Dispose();
+        
+        CurrentValueChangedNotifier?.Invoke(withSawing);
+    } 
+    
+    protected void OnTimerChangeNotifier(long currentSec) => TimerChangeNotifier?.Invoke(currentSec);
 
     private void StartTimer()
     {
