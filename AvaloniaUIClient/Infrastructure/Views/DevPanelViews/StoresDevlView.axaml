@@ -68,7 +68,9 @@
                         <!--  Main|Logs  -->
                         <styles:ColorZone Grid.Row="1">
 
-                            <Grid RowDefinitions="25,*" ColumnDefinitions="*,*">
+                            <Grid
+                                RowDefinitions="25,*"
+                                ColumnDefinitions="*,*">
 
                                 <TextBlock
                                     Grid.Row="0"

@@ -10,9 +10,13 @@
     d:DataContext="{Binding SettingsVmd}"
     mc:Ignorable="d">
 
-    <WrapPanel ItemHeight="250" ItemWidth="250">
+    <WrapPanel
+        ItemHeight="250"
+        ItemWidth="250">
 
-        <styles:ColorZone Margin="5" Padding="3">
+        <styles:ColorZone
+            Margin="5"
+            Padding="3">
             <Grid RowDefinitions="25,*">
 
                 <TextBlock
@@ -23,13 +27,17 @@
                     Classes="Headline6"
                     Text="General" />
 
-                <StackPanel Grid.Row="1" Margin="5">
+                <StackPanel
+                    Grid.Row="1"
+                    Margin="5">
 
                     <StackPanel Orientation="Horizontal">
 
                         <CheckBox IsChecked="{Binding Settings.IsDevMode}" />
 
-                        <TextBlock Classes="Body1" Text="Dev mode" />
+                        <TextBlock
+                            Classes="Body1"
+                            Text="Dev mode" />
 
                     </StackPanel>
 

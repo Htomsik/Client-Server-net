@@ -1,5 +1,5 @@
 using AppInfrastructure.Stores.DefaultStore;
-using Core.Infrastructure.Models.SettingsModels;
+using Core.Infrastructure.Models.Settings;
 using Core.Infrastructure.VMD;
 using ReactiveUI.Fody.Helpers;
 
@@ -15,6 +15,5 @@ public sealed class SettingsVmd : BaseTitleVmd
     public SettingsVmd(IStore<Settings> settings)
     {
         Settings = settings.CurrentValue;
-        
     }
 }

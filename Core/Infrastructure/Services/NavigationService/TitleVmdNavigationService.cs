@@ -1,5 +1,5 @@
 using AppInfrastructure.Stores.DefaultStore;
-using Core.Infrastructure.VMD;
+using Core.Infrastructure.VMD.Interfaces;
 
 namespace Core.Infrastructure.Services.NavigationService;
 

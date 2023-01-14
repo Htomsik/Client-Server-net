@@ -1,3 +1,5 @@
+using Core.Infrastructure.VMD.Interfaces;
+
 namespace Core.Infrastructure.VMD;
 
 public abstract class BaseTitleVmd : BaseVmd, ITitleVmd

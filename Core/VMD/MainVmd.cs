@@ -4,10 +4,11 @@ using AppInfrastructure.Stores.DefaultStore;
 using AppInfrastructure.Stores.Repositories.Collection;
 using Core.Infrastructure.Extensions;
 using Core.Infrastructure.Hosting;
-using Core.Infrastructure.Models.SettingsModels;
+using Core.Infrastructure.Models.Settings;
 using Core.Infrastructure.Services.NavigationService;
-using Core.Infrastructure.Stores;
+using Core.Infrastructure.Stores.Interfaces;
 using Core.Infrastructure.VMD;
+using Core.Infrastructure.VMD.Interfaces;
 using Core.VMD.DevPanelVmds;
 using Core.VMD.TitleVmds;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,7 +20,6 @@ namespace Core.VMD;
 
 public class MainVmd : BaseVmd
 {
-
     #region Properties
 
     [Reactive]
@@ -33,10 +33,9 @@ public class MainVmd : BaseVmd
 
     public ProjectInfo ProjectInfo { get; }
     #endregion
-
-
+    
     #region Properties : VMDS
-
+    
     public IBaseVmd? DevPanelVmd { get; }
     
     public IBaseVmd? MainMenuVmd { get; }
@@ -45,23 +44,23 @@ public class MainVmd : BaseVmd
     public ITitleVmd? TitleVmd { get; private set; }
 
     #endregion
-   
+
+    #region Constructors
+
     public MainVmd(ICollectionRepository<ObservableCollection<LogEvent>,LogEvent> logStore,
         IStore<ITitleVmd> titleVmdStore,
-        BaseTimerReactiveStore<Settings> settings, 
+        ITimerStore<Settings> settings, 
         ProjectInfo projectInfo)
     {
-        
         #region Subscriptions
 
         logStore.CurrentValueChangedNotifier += () =>
         {
             if (logStore?.CurrentValue?.Count() != 0 &&
-                (bool)settings?.CurrentValue?.ShowedLogLevels.Contains(logStore!.CurrentValue.Last().Level))
+                (bool)settings?.CurrentValue?.ShowedLogLevels.Contains(logStore.CurrentValue.Last().Level))
                 LastLog = logStore?.CurrentValue?.Last();
         };
-            
-
+        
         titleVmdStore.CurrentValueChangedNotifier += () => TitleVmd = titleVmdStore.CurrentValue;
 
         settings.TimerChangeNotifier += (timer) => { SaveTimer = (int)timer; };
@@ -96,6 +95,6 @@ public class MainVmd : BaseVmd
         HostWorker.Services.GetService<BaseVmdNavigationService<ITitleVmd>>()!.Navigate(typeof(HomeVmd));
 
         #endregion
-
     }
+    #endregion
 }

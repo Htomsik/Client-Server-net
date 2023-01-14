@@ -1,7 +1,7 @@
 using System.Reflection;
 using ReactiveUI;
 
-namespace Core.Infrastructure.Models;
+namespace Core.Infrastructure.Models.Other;
 
 public class ReflectionNode : ReactiveObject
 {
@@ -25,10 +25,13 @@ public class ReflectionNode : ReactiveObject
 
     #endregion
     
+    #region Constructors
+    
     public ReflectionNode(Type reflectionType) =>
         _nodeType = reflectionType;
-   
-
+    
+    #endregion
+    
     #region Methods
 
     private IEnumerable<ReflectionNode> GetNodes(Type type)
@@ -39,5 +42,4 @@ public class ReflectionNode : ReactiveObject
     }
 
     #endregion
-    
 }

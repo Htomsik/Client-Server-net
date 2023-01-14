@@ -22,16 +22,26 @@
 
     </Window.Styles>
 
-    <Grid ColumnDefinitions="*,*" RowDefinitions="50,*,25">
+    <Grid
+        ColumnDefinitions="*,*"
+        RowDefinitions="50,*,25">
 
         <!--  Upper Bar  -->
-        <styles:ColorZone Grid.ColumnSpan="2" Mode="PrimaryDark">
+        <styles:ColorZone
+            Grid.ColumnSpan="2"
+            Mode="PrimaryDark">
 
-            <Grid Margin="16" ColumnDefinitions="25,*,25">
+            <Grid
+                Margin="16"
+                ColumnDefinitions="25,*,25">
 
                 <!--  Menu button  -->
-                <ToggleButton Name="NavDrawerSwitch" Classes="IconBar">
-                    <avalonia:MaterialIcon Classes="UpperBarIcon" Kind="Menu" />
+                <ToggleButton
+                    Name="NavDrawerSwitch"
+                    Classes="IconBar">
+                    <avalonia:MaterialIcon
+                        Classes="UpperBarIcon"
+                        Kind="Menu" />
                 </ToggleButton>
 
                 <!--  Current TitleVmd Name  -->
@@ -49,7 +59,9 @@
                     Grid.Column="2"
                     IsVisible="{Binding Settings.IsDevMode}"
                     Classes="IconBar">
-                    <avalonia:MaterialIcon Classes="UpperBarIcon" Kind="DevTo" />
+                    <avalonia:MaterialIcon
+                        Classes="UpperBarIcon"
+                        Kind="DevTo" />
                 </ToggleButton>
             </Grid>
 
@@ -64,7 +76,9 @@
             BorderThickness="0,2,0,0">
 
             <Grid>
-                <ContentControl HorizontalAlignment="Left" Content="{Binding LastLog}" />
+                <ContentControl
+                    HorizontalAlignment="Left"
+                    Content="{Binding LastLog}" />
 
                 <StackPanel
                     HorizontalAlignment="Right"
@@ -74,7 +88,9 @@
                     ToolTip.ShowDelay="0"
                     Orientation="Horizontal">
 
-                    <avalonia:MaterialIcon VerticalAlignment="Center" Kind="Clock" />
+                    <avalonia:MaterialIcon
+                        VerticalAlignment="Center"
+                        Kind="Clock" />
 
                     <TextBlock
                         Margin="2,0,0,0"

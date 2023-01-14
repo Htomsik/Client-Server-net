@@ -36,7 +36,6 @@ public partial class App : Application
         base.OnFrameworkInitializationCompleted();
 
         StartupEvents();
-
     }
     
     private void StartupEvents()

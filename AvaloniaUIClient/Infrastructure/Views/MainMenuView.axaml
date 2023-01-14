@@ -35,10 +35,14 @@
         </styles:Card>
 
         <!--  Menu  -->
-        <ListBox Grid.Row="1" Items="{Binding MenuItems}" />
+        <ListBox
+            Grid.Row="1"
+            Items="{Binding MenuItems}" />
 
         <!--  Back panel  -->
-        <Grid Grid.Row="2" ColumnDefinitions="70,*">
+        <Grid
+            Grid.Row="2"
+            ColumnDefinitions="70,*">
 
             <!--  Settings  -->
             <Button
@@ -64,19 +68,31 @@
 
                 <StackPanel.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="About program" Command="{Binding OpenAboutProject}" />
+                        <MenuItem
+                            Header="About program"
+                            Command="{Binding OpenAboutProject}" />
                     </ContextMenu>
                 </StackPanel.ContextMenu>
 
 
-                <StackPanel Orientation="Horizontal" IsVisible="{Binding ProjectInfo.GitVersion, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
-                    <TextBlock Classes="Body6" Text="Git Version:" />
-                    <TextBlock Classes="Body6" Text="{Binding ProjectInfo.GitVersion}" />
+                <StackPanel
+                    Orientation="Horizontal"
+                    IsVisible="{Binding ProjectInfo.GitVersion, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                    <TextBlock
+                        Classes="Body6"
+                        Text="Git Version:" />
+                    <TextBlock
+                        Classes="Body6"
+                        Text="{Binding ProjectInfo.GitVersion}" />
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Classes="Body6" Text="Version:" />
-                    <TextBlock Classes="Body6" Text="{Binding ProjectInfo.AssemblyVerison}" />
+                    <TextBlock
+                        Classes="Body6"
+                        Text="Version:" />
+                    <TextBlock
+                        Classes="Body6"
+                        Text="{Binding ProjectInfo.AssemblyVerison}" />
                 </StackPanel>
             </StackPanel>
         </Grid>

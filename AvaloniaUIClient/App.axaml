@@ -6,9 +6,9 @@
     xmlns:events="clr-namespace:Serilog.Events;assembly=Serilog"
     xmlns:infrastructure="clr-namespace:AvaloniaUIClient.Infrastructure"
     xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
-    xmlns:models="clr-namespace:Core.Infrastructure.Models;assembly=Core"
     xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
-    xmlns:itemSelectors="clr-namespace:Core.Infrastructure.Models.ItemSelectors;assembly=Core">
+    xmlns:itemSelectors="clr-namespace:Core.Infrastructure.Models.ItemSelectors;assembly=Core"
+    xmlns:menu="clr-namespace:Core.Infrastructure.Models.Menu;assembly=Core">
 
     <Application.Resources>
         <ResourceDictionary>
@@ -41,7 +41,9 @@
         <!--  Default log  -->
         <DataTemplate DataType="events:LogEvent">
 
-            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+            <StackPanel
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
 
                 <ContentControl Content="{Binding Level, Converter={StaticResource LogLevelToMaterialIconConverter}}" />
 
@@ -56,7 +58,9 @@
         <!--  LogLevelSelector  -->
         <DataTemplate DataType="itemSelectors:LogLevelSelector">
 
-            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+            <StackPanel
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
 
                 <CheckBox IsChecked="{Binding IsAdd, Mode=TwoWay}" />
 
@@ -74,7 +78,9 @@
         <!--  IItemSelector  -->
         <DataTemplate DataType="itemSelectors:IItemSelector">
 
-            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+            <StackPanel
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
 
                 <CheckBox IsChecked="{Binding IsAdd, Mode=TwoWay}" />
 
@@ -90,7 +96,7 @@
 
 
 
-        <DataTemplate DataType="models:MenuParamCommandItem">
+        <DataTemplate DataType="menu:MenuParamCommandItem">
             <Button
                 Margin="0"
                 Padding="0"

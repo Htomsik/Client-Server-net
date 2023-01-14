@@ -1,12 +1,10 @@
-
 using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Serilog.Events;
 
-
-namespace Core.Infrastructure.Models.SettingsModels;
+namespace Core.Infrastructure.Models.Settings;
 
 public class Settings : ReactiveObject
 {
@@ -19,6 +17,4 @@ public class Settings : ReactiveObject
      [XmlIgnore,Reactive] public ObservableCollection<LogEventLevel> ShowedLogLevels { get; set; } = new() {LogEventLevel.Information,LogEventLevel.Error};
      
      #endregion
-     
-   
 }

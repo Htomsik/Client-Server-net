@@ -1,6 +1,6 @@
 using System.Windows.Input;
 
-namespace Core.Infrastructure.Models;
+namespace Core.Infrastructure.Models.Menu;
 
 public class MenuCommandItem
 {
@@ -26,7 +26,6 @@ public class MenuCommandItem
 
         _lazyCommand = new Lazy<ICommand?>(()=>command);
     }
-
-
+    
     #endregion
 }

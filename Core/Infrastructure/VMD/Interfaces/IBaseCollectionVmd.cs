@@ -1,6 +1,6 @@
 using DynamicData.Binding;
 
-namespace Core.Infrastructure.VMD;
+namespace Core.Infrastructure.VMD.Interfaces;
 
 public interface IBaseCollectionVmd<T> : IBaseVmd
 {

@@ -13,10 +13,12 @@ public class AboutProgramVmd : BaseTitleVmd
     
     #endregion
 
-    
+    #region Constructors
+
     public AboutProgramVmd(ProjectInfo projectInfo)
     {
         ProjectInfo = projectInfo;
     }
-    
+
+    #endregion
 }

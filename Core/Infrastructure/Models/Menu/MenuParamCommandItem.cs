@@ -1,6 +1,6 @@
 using System.Windows.Input;
 
-namespace Core.Infrastructure.Models;
+namespace Core.Infrastructure.Models.Menu;
 
 public class MenuParamCommandItem: MenuCommandItem
 {

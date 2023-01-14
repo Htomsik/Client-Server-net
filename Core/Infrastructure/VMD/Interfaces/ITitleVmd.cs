@@ -1,4 +1,4 @@
-namespace Core.Infrastructure.VMD;
+namespace Core.Infrastructure.VMD.Interfaces;
 
 public interface ITitleVmd : IBaseVmd
 {
