@@ -6,7 +6,6 @@ using Core.Infrastructure.Models.SettingsModels;
 using Core.Infrastructure.Stores;
 using Core.Infrastructure.VMD;
 using Core.Stores;
-using Core.VMD.DevPanelVmds.LogsVmds;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog.Events;
 
@@ -19,12 +18,13 @@ public partial class IocRegistration
             .InfrStoresRegs()
             .VmdsStoreRegs()
             .AllStoresRegs();
-    
+
     private static IServiceCollection VmdsStoreRegs(this IServiceCollection services) =>
         services
             .AddSingleton<IStore<ITitleVmd>, TitleVmdStore>()
-            .AddSingleton<IStore<Settings>, SettingsStore>()
-            .AddSingleton<BaseTimerReactiveStore<Settings>>(s=>(BaseTimerReactiveStore<Settings>)s.GetService<IStore<Settings>>());
+            .AddSingleton<ISaverStore<Settings, Boolean>, SettingsStore>()
+            .AddSingleton<ITimerStore<Settings>>(s => s.GetRequiredService<ISaverStore<Settings, Boolean>>())
+            .AddSingleton<IStore<Settings>>(s => s.GetRequiredService<ISaverStore<Settings, Boolean>>());
 
     private static IServiceCollection InfrStoresRegs(this IServiceCollection services) =>
         services

@@ -48,7 +48,7 @@ public class MainVmd : BaseVmd
    
     public MainVmd(ICollectionRepository<ObservableCollection<LogEvent>,LogEvent> logStore,
         IStore<ITitleVmd> titleVmdStore,
-        BaseTimerReactiveStore<Settings> settings, 
+        ITimerStore<Settings> settings, 
         ProjectInfo projectInfo)
     {
         
