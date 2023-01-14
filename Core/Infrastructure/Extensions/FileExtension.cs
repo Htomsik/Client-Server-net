@@ -29,13 +29,13 @@ public class FileExtension
             }
             catch (Exception error)
             {
-                Logger!.LogError(error, "{0}:{1}", error.Source, error.Message);
+                Logger!.LogError(error,"{Source}: {Message}", error.Source, error.Message);
 
                 ret = false;
             }
         
         if(ret)
-            Logger!.LogWarning($"Directory restored: {path}","{0}:{1}", nameof(FileExtension));
+            Logger!.LogWarning(StringExtensions.MessageTemplateBuilder($"Directory restored: {path}"));
 
         return ret;
     }
@@ -60,9 +60,9 @@ public class FileExtension
         
         if (string.IsNullOrEmpty(directoryPath?.Trim()))
             directoryPath = Path.Combine(Directory.GetCurrentDirectory(),"Data");
-        
+
         if (IsFileExist(directoryPath, fileName))
-            ret = true;
+            return true;
 
         if (!IsDirectoryExist(directoryPath))
             ret = RestoreDirectories(directoryPath);
@@ -76,13 +76,13 @@ public class FileExtension
             }
             catch (Exception error)
             {
-                Logger!.LogError(error, "{0}:{1}", error.Source, error.Message);
+                Logger!.LogError(error, "{Source}: {Message}", error.Source, error.Message);
                 
                 return false;
             }
         
         if(ret)
-            Logger!.LogWarning($"File restored: {path}","{0}:{1}", nameof(FileExtension));
+            Logger!.LogWarning(StringExtensions.MessageTemplateBuilder($"File restored: {path}"));
 
         return ret;
     }
@@ -116,13 +116,13 @@ public class FileExtension
             }
             catch (Exception error)
             {
-                Logger!.LogError(error, "{0}:{1}", error.Source, error.Message);
+                Logger!.LogError(error, "{Source}: {Message}", error.Source, error.Message);
 
                 ret = false;
             }
         
         if(ret)
-            Logger!.LogWarning($"Data saved in {path}","{0}:{1}", nameof(WriteAsync));
+            Logger!.LogWarning(StringExtensions.MessageTemplateBuilder($"Data saved in {path}"));
 
         return ret;
     }
@@ -147,7 +147,7 @@ public class FileExtension
         ret = IsFileExist(fileName, directoryPath);
         
         if(!ret)
-            _logger!.LogError($"File {path} doesn't exists");
+            _logger!.LogError(StringExtensions.MessageTemplateBuilder($"File {path} doesn't exists"));
 
         if(ret)
             try
@@ -161,13 +161,13 @@ public class FileExtension
             }
             catch (Exception error)
             {
-                Logger!.LogError(error, "{0}:{1}", error.Source, error.Message);
+                Logger!.LogError(error, "{Source}:{Message}", error.Source, error.Message);
 
                 ret = false;
             }
         
         if(ret)
-            Logger!.LogWarning($"Data restored from {path}","{0}:{1}", nameof(Read));
+            Logger!.LogWarning(StringExtensions.MessageTemplateBuilder($"Data restored from {path}"));
 
         return textFromFile;
     }

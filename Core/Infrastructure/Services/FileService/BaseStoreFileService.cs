@@ -22,7 +22,7 @@ public abstract class BaseStoreFileService<T,TStore> : ReactiveObject, IFileServ
     
     #region Constructors
 
-    protected BaseStoreFileService(TStore store,IParseService parseService,ILogger<BaseStoreFileService<T,TStore>> logger,string fileName) 
+    protected BaseStoreFileService(TStore store,IParseService parseService,ILogger logger,string fileName) 
     {
         Store = store ?? throw new ArgumentNullException(nameof(store));
 
@@ -45,7 +45,7 @@ public abstract class BaseStoreFileService<T,TStore> : ReactiveObject, IFileServ
     {
         if (!FileExtension.IsFileExist(_fileName))
         {
-            _logger.LogWarning($"{nameof(Get)}:{_fileName} doesn't exists");
+            _logger.LogWarning(StringExtensions.MessageTemplateBuilder($"{_fileName} doesn't exists"));
             return;
         }
         
@@ -53,7 +53,7 @@ public abstract class BaseStoreFileService<T,TStore> : ReactiveObject, IFileServ
 
         if (string.IsNullOrEmpty(nonSerialize.Trim()))
         {
-            _logger.LogWarning($"{nameof(Get)}:{_fileName} Data is null");
+            _logger.LogWarning(StringExtensions.MessageTemplateBuilder($"{_fileName} Data is null"));
             return;
         }
         
@@ -61,13 +61,13 @@ public abstract class BaseStoreFileService<T,TStore> : ReactiveObject, IFileServ
 
         if (deSerialize == null)
         {
-            _logger.LogWarning($"{nameof(Get)}:{_fileName} Data is null");
+            _logger.LogWarning(StringExtensions.MessageTemplateBuilder($"{_fileName} Data is null"));
             return;
         }
         
         Store.CurrentValue = deSerialize;
             
-        _logger.LogInformation($"{nameof(Get)}:Data restored from {_fileName}");
+        _logger.LogInformation(StringExtensions.MessageTemplateBuilder($"Data restored from {_fileName}"));
 
         AfterGet();
     }
@@ -87,9 +87,9 @@ public abstract class BaseStoreFileService<T,TStore> : ReactiveObject, IFileServ
         var isSaved = await FileExtension.WriteAsync(serialized, _fileName);
         
         if(isSaved)
-            _logger.LogInformation($"{nameof(Set)}:{_fileName} saved confirmed");
+            _logger.LogInformation(StringExtensions.MessageTemplateBuilder($"{_fileName} save confirmed"));
         else
-            _logger.LogError($"{nameof(Set)}:{_fileName} saved failed");
+            _logger.LogError(StringExtensions.MessageTemplateBuilder($"{_fileName} save failed"));
 
         AfterSet();
     }
