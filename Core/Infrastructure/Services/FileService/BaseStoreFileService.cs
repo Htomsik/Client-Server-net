@@ -1,19 +1,16 @@
-using System.Reactive.Linq;
 using AppInfrastructure.Stores.DefaultStore;
 using Core.Infrastructure.Extensions;
 using Core.Infrastructure.Services.ParseService;
-using DynamicData.Binding;
 using Microsoft.Extensions.Logging;
 using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
 
 namespace Core.Infrastructure.Services.FileService;
 
-public abstract class BaseStoreFileService<T> : ReactiveObject, IFileService
+public abstract class BaseStoreFileService<T,TStore> : ReactiveObject, IFileService where TStore : IStore<T>
 {
     #region Fields
 
-    protected readonly IStore<T> Store;
+    protected readonly TStore Store;
 
     private readonly IParseService _parseService;
 
@@ -25,7 +22,7 @@ public abstract class BaseStoreFileService<T> : ReactiveObject, IFileService
     
     #region Constructors
 
-    protected BaseStoreFileService(IStore<T> store,IParseService parseService,ILogger<BaseStoreFileService<T>> logger,string fileName) 
+    protected BaseStoreFileService(TStore store,IParseService parseService,ILogger<BaseStoreFileService<T,TStore>> logger,string fileName) 
     {
         Store = store ?? throw new ArgumentNullException(nameof(store));
 
@@ -35,12 +32,14 @@ public abstract class BaseStoreFileService<T> : ReactiveObject, IFileService
 
         _fileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
 
-        Store.CurrentValueChangedNotifier += Set;
+        SetStoreSubscriptions(store);
     }
     
     #endregion
 
     #region Methods
+
+    protected virtual void SetStoreSubscriptions(TStore store) => store.CurrentValueChangedNotifier += Set; 
     
     public void Get()
     {
