@@ -22,6 +22,7 @@ public partial class IocRegistration
         service
             .AddSingleton<MainVmd>()
             .AddSingleton<MainMenuVmd>()
+            .AddSingleton<StatusLineVmd>()
             .AddSingleton<DevVmd>()
             .AddSingleton<LogsVmd>()
             .AddTransient<LogsSettingsVmd>()
