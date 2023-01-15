@@ -93,12 +93,12 @@ public class MainVmd : BaseVmd
 
         #region Properties initializing : VMDS
 
-        DevPanelVmd = (IBaseVmd?)HostWorker.Services.GetService(typeof(DevVmd));
+        DevPanelVmd = HostWorker.Services.GetRequiredService<DevVmd>();
 
-        MainMenuVmd = (IBaseVmd?)HostWorker.Services.GetService(typeof(MainMenuVmd));
+        MainMenuVmd = HostWorker.Services.GetRequiredService<MainMenuVmd>();
+
         
-        HostWorker.Services.GetService<BaseVmdNavigationService<ITitleVmd>>()!.Navigate(typeof(HomeVmd));
-
+        
         #endregion
     }
     #endregion
