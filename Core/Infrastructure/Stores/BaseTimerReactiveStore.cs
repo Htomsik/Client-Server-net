@@ -35,7 +35,14 @@ public abstract class BaseTimerReactiveStore<TValue> : BaseReactiveStore<TValue>
     #endregion
 
     #region Methods
-    
+
+    protected override void RebuildSubscriptions()
+    {
+        base.RebuildSubscriptions();
+
+        OnTimerChangeNotifier(0);
+    }
+
     public void SaveNow()
     {
         RebuildSubscriptions();
@@ -46,7 +53,7 @@ public abstract class BaseTimerReactiveStore<TValue> : BaseReactiveStore<TValue>
     public void SaveNowWithoutFile()
     {
         RebuildSubscriptions();
-            
+        
         OnCurrentValueChanged(false);
     } 
     

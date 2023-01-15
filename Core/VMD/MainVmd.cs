@@ -75,6 +75,11 @@ public class MainVmd : BaseVmd
             .WhenAnyValue(x => x.LastLog)
             .Throttle(TimeSpan.FromSeconds(6))
             .Subscribe(_ => LastLog = null);
+
+        this.WhenAnyValue(x => x.SaveTimer)
+            .Throttle(TimeSpan.FromSeconds(2))
+            .Where(x=>x != 0)
+            .Subscribe(_ => SaveTimer = 0);
         
         #endregion
 
