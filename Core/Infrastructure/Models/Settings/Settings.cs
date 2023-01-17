@@ -1,5 +1,5 @@
-using System.Collections.ObjectModel;
 using System.Xml.Serialization;
+using DynamicData.Binding;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Serilog.Events;
@@ -8,13 +8,49 @@ namespace Core.Infrastructure.Models.Settings;
 
 public class Settings : ReactiveObject
 {
-    #region Dev
+    #region Properties
 
-     [Reactive] public int DevLogsCount { get; set; } = 50;
+    #region Dev
+    
+    [XmlIgnore, Reactive] public bool IsDevMode { get; set; } = false;
+    [Reactive] public int DevLogsCount { get; set; } = 50;
      
-     [XmlIgnore, Reactive] public bool IsDevMode { get; set; } = false;
+    #region ShowedLogLevels
+
+    private IDisposable _showedLogLevelsDispose;
      
-     [XmlIgnore,Reactive] public ObservableCollection<LogEventLevel> ShowedLogLevels { get; set; } = new() {LogEventLevel.Information,LogEventLevel.Error};
+    [Reactive] 
+    public ObservableCollectionExtended<LogEventLevel> ShowedLogLevels { get; set; }  = new (new List<LogEventLevel>
+    { 
+        LogEventLevel.Error, LogEventLevel.Information
+    });
+
+    #endregion
      
-     #endregion
+    #endregion
+
+    #endregion
+    
+    #region Constructors
+    public Settings()
+    {
+        SetShowedLogLevelsSubscribes();
+
+        this
+            .WhenAnyValue(x => x.ShowedLogLevels)
+            .Subscribe(_ => SetShowedLogLevelsSubscribes());
+    }
+    #endregion
+    
+    #region Methods
+    private void SetShowedLogLevelsSubscribes()
+    {
+        _showedLogLevelsDispose?.Dispose();
+         
+        _showedLogLevelsDispose = 
+            ShowedLogLevels
+                .ToObservableChangeSet()
+                .Subscribe(_ => this.RaisePropertyChanged(nameof(ShowedLogLevels)));
+    }
+    #endregion
 }
