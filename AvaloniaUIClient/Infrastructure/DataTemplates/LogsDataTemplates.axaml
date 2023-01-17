@@ -28,7 +28,7 @@
                 <avalonia:MaterialIcon Kind="Clock" />
                 <TextBlock
                     Margin="5,0,0,0"
-                    Text="{Binding Timestamp.Now}" />
+                    Text="{Binding Timestamp}" />
             </StackPanel>
 
             <StackPanel

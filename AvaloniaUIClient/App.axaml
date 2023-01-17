@@ -93,9 +93,7 @@
             </StackPanel>
         </DataTemplate>
 
-
-
-
+        <!--  Menu param  -->
         <DataTemplate DataType="menu:MenuParamCommandItem">
             <Button
                 Margin="0"
