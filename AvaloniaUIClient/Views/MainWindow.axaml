@@ -24,7 +24,7 @@
 
     <Grid
         ColumnDefinitions="*,*"
-        RowDefinitions="50,*,25">
+        RowDefinitions="50,*,30">
 
         <!--  Upper Bar  -->
         <styles:ColorZone
@@ -67,7 +67,7 @@
 
         </styles:ColorZone>
 
-        <!--  Last log panel  -->
+        <!--  Status line  -->
         <Border
             Grid.Row="2"
             Grid.Column="0"
@@ -75,31 +75,7 @@
             BorderBrush="{DynamicResource PrimaryHueDarkBrush}"
             BorderThickness="0,2,0,0">
 
-            <Grid>
-                <ContentControl
-                    HorizontalAlignment="Left"
-                    Content="{Binding LastLog}" />
-
-                <StackPanel
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    IsVisible="{Binding SaveTimer, Converter={StaticResource IntIsNotNullConverter}, Mode=OneWay}"
-                    ToolTip.Tip="Save settings timer"
-                    ToolTip.ShowDelay="0"
-                    Orientation="Horizontal">
-
-                    <avalonia:MaterialIcon
-                        VerticalAlignment="Center"
-                        Kind="Clock" />
-
-                    <TextBlock
-                        Margin="2,0,0,0"
-                        VerticalAlignment="Center"
-                        Classes="Body1"
-                        Text="{Binding SaveTimer}" />
-                </StackPanel>
-
-            </Grid>
+            <ContentControl Content="{Binding StatusLineVmd}" />
 
         </Border>
 

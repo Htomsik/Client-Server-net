@@ -5,6 +5,7 @@ using Avalonia.Controls.Templates;
 using AvaloniaUIClient.Infrastructure.Views;
 using AvaloniaUIClient.Infrastructure.Views.DevPanelViews;
 using AvaloniaUIClient.Infrastructure.Views.DevPanelViews.LogsPanel;
+using AvaloniaUIClient.Views;
 using AvaloniaUIClient.Views.TitleViews;
 using Core.VMD;
 using Core.VMD.DevPanelVmds;
@@ -27,7 +28,8 @@ public class ViewLocator : IDataTemplate
         {typeof(SettingsVmd),typeof(SettingsViews)},
         {typeof(StoresVmd),typeof(StoresDevView)},
         {typeof(AboutProgramVmd),typeof(AboutProgramView)},
-        {typeof(LogsSettingsVmd),typeof(LogsDevSettingsView)}
+        {typeof(LogsSettingsVmd),typeof(LogsDevSettingsView)},
+        {typeof(StatusLineVmd),typeof(StatusLineView)}
     };
 
     private ILogger? _logger;

@@ -19,17 +19,41 @@ public class SelectedItems<T, TItemSelector> : ReactiveObject where TItemSelecto
             .Transform(x => x.Item)
             .AsObservableCache();
     
+    
+    
     #endregion
 
     #region Constructors
     
-    public SelectedItems(IEnumerable<T> inputItems, IEnumerable<T> outputItems) : this(inputItems)
+    public SelectedItems(IEnumerable<T> inputItems, ICollection<T> outputItems) : this(inputItems)
     {
         foreach (var item in AllItems.Where(x => outputItems.Contains(x.Item)))
         {
             item.IsAdd = true;
         }
-        
+
+        Filter
+            .Connect()
+            .ToCollection()
+            .Subscribe(added =>
+            {
+                var removed = 
+                    AllItems
+                        .Where(elem => !added.Contains(elem.Item))
+                        .Select(elem => elem.Item)
+                        .Where(outputItems.Contains);
+                
+                foreach (var elem in removed)
+                {
+                    outputItems.Remove(elem);
+                }
+                
+                foreach (var elem in added)
+                {
+                    if(!outputItems.Contains(elem))
+                        outputItems.Add(elem);
+                }
+            });
     }
 
 
