@@ -8,11 +8,36 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.2" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.2">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\DAL.SqlLite\DAL.SqlLite.csproj" />
+      <ProjectReference Include="..\DAL.SqlServer\DAL.SqlServer.csproj" />
+      <ProjectReference Include="..\DAL\DAL.csproj" />
       <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="WebApplication1\Areas\Identity\Pages\_ViewStart.cshtml" />
+      <_ContentIncludedByDefault Remove="WebApplication1\Views\Home\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="WebApplication1\Views\Home\Privacy.cshtml" />
+      <_ContentIncludedByDefault Remove="WebApplication1\Views\Shared\Error.cshtml" />
+      <_ContentIncludedByDefault Remove="WebApplication1\Views\Shared\_Layout.cshtml" />
+      <_ContentIncludedByDefault Remove="WebApplication1\Views\Shared\_LoginPartial.cshtml" />
+      <_ContentIncludedByDefault Remove="WebApplication1\Views\Shared\_ValidationScriptsPartial.cshtml" />
+      <_ContentIncludedByDefault Remove="WebApplication1\Views\_ViewImports.cshtml" />
+      <_ContentIncludedByDefault Remove="WebApplication1\Views\_ViewStart.cshtml" />
+      <_ContentIncludedByDefault Remove="WebApplication1\appsettings.Development.json" />
+      <_ContentIncludedByDefault Remove="WebApplication1\appsettings.json" />
+      <_ContentIncludedByDefault Remove="WebApplication1\obj\project.assets.json" />
+      <_ContentIncludedByDefault Remove="WebApplication1\obj\project.packagespec.json" />
+      <_ContentIncludedByDefault Remove="WebApplication1\obj\WebApplication1.csproj.nuget.dgspec.json" />
+      <_ContentIncludedByDefault Remove="WebApplication1\Properties\launchSettings.json" />
     </ItemGroup>
 
 </Project>
