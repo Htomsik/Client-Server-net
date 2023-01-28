@@ -26,4 +26,10 @@
       </None>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\DAL\DAL.csproj" />
+      <ProjectReference Include="..\HTTPClients\HTTPClients.csproj" />
+      <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
+    </ItemGroup>
+
 </Project>
