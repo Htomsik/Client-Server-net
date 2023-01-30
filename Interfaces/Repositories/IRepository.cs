@@ -14,7 +14,7 @@ public interface IRepository<T> where T : IEntity
 
     #region Item interactions
 
-    Task<T> Get(int id, CancellationToken cancel = default);
+    Task<T?> Get(int id, CancellationToken cancel = default);
     
     Task<ITemPage<T>> GetPage(int pageIndex, int pageSize, CancellationToken cancel = default);
     
