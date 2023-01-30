@@ -1,6 +1,6 @@
 namespace Interfaces.Repositories;
 
-public interface ITemPage<T>
+public interface ITemPage<out T>
 {
     IEnumerable<T> Items { get; }
     
