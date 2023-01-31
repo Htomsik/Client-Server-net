@@ -6,28 +6,26 @@ public static class Program
 {
     public static async Task Main(string[] args)
     {
-        var host = CreateHostBuilder(args);
-        
+        var host = CreateHostBuilder(args).Build();
+
+        host.ConfigureAfterBuild();
+
         await host.RunAsync();
-        
+
         host.Services.GetService<Startup>().Initialize();
     }
 
     #region Methods
 
-    private static WebApplication CreateHostBuilder(string[] args)
+    private static WebApplicationBuilder CreateHostBuilder(string[] args)
     {
         var host = WebApplication.CreateBuilder(args);
         
         host.ConfigureDefaultServices();
         
         host.ConfigureServices();
-
-       var buildHost = host.Build();
         
-       buildHost.ConfigureAfterBuild();
-        
-       return buildHost;
+        return host;
     }
     
     private static void ConfigureDefaultServices(this WebApplicationBuilder builder) =>
@@ -38,7 +36,8 @@ public static class Program
     
     private static void ConfigureServices(this WebApplicationBuilder builder) =>
         builder.Services
-            .AddDataBase(builder.Configuration);
+            .AddDataBase(builder.Configuration)
+            .AddServices();
 
     private static void ConfigureAfterBuild(this WebApplication app)
     {
