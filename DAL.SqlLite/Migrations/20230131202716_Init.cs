@@ -48,9 +48,20 @@ namespace DAL.SqlLite.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Sources_Name",
+                table: "Sources",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Values_SourceId",
                 table: "Values",
                 column: "SourceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Values_Time",
+                table: "Values",
+                column: "Time");
         }
 
         /// <inheritdoc />
