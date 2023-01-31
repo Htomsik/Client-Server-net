@@ -36,9 +36,12 @@ namespace DAL.SqlServer.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Sources");
                 });
@@ -67,6 +70,8 @@ namespace DAL.SqlServer.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("SourceId");
+
+                    b.HasIndex("Time");
 
                     b.ToTable("Values");
                 });

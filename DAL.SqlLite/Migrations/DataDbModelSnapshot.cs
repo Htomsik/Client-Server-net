@@ -33,6 +33,9 @@ namespace DAL.SqlLite.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Sources");
                 });
 
@@ -58,6 +61,8 @@ namespace DAL.SqlLite.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("SourceId");
+
+                    b.HasIndex("Time");
 
                     b.ToTable("Values");
                 });
