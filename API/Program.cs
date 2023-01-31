@@ -1,4 +1,4 @@
-using API.Infrastructure.DI;
+using API.Infrastructure.IOC;
 
 namespace API;
 

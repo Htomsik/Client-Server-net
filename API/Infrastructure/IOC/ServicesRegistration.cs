@@ -1,6 +1,6 @@
-namespace API.Infrastructure.DI;
+namespace API.Infrastructure.IOC;
 
-internal static partial class DiRegistration
+internal static partial class IoCRegistration
 {
     public static IServiceCollection AddServices(this IServiceCollection services)
         => services

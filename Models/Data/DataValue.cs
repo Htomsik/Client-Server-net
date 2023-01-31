@@ -12,6 +12,6 @@ public class DataValue : Entity
     
     public DataSource Source { get; set; }
     
-    public bool isFault { get; set; }
+    public bool IsFault { get; set; }
     
 }

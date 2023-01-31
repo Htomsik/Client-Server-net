@@ -2,9 +2,9 @@ using API.Data;
 using DAL.Context;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Infrastructure.DI;
+namespace API.Infrastructure.IOC;
 
-internal static partial class DiRegistration
+internal static partial class IoCRegistration
 {
     private const string ConnectionString = "Data Source=";
 
