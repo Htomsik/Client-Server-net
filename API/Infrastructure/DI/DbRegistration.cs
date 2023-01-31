@@ -1,3 +1,4 @@
+using API.Data;
 using DAL.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,7 +9,9 @@ internal static partial class DiRegistration
     private const string ConnectionString = "Data Source=";
 
     public static IServiceCollection AddDataBase(this IServiceCollection services, IConfiguration configuration) => 
-        services.AddDbContext<DataDb>(db =>
+        services
+            .AddTransient<IDbInitializer, DataDbInitializer>()
+            .AddDbContext<DataDb>(db =>
         {
             var type = configuration["Database:Type"];
             
