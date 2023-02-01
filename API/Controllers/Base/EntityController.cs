@@ -68,7 +68,7 @@ public abstract class EntityController<T> : ControllerBase where T : Entity
        if (!result)
            return BadRequest(item);
 
-       return CreatedAtAction(nameof(Get), new { id = item.Id });
+       return CreatedAtAction(nameof(Get), new { id = item.Id },_repository.Get(item.Id));
     }
     #endregion
 
@@ -81,7 +81,7 @@ public abstract class EntityController<T> : ControllerBase where T : Entity
         if (!await _repository.Update(item))
             return NotFound(item);
 
-        return AcceptedAtAction(nameof(Get), new { id = item.Id });
+        return AcceptedAtAction(nameof(Get), new { id = item.Id }, _repository.Get(item.Id));
     }
     #endregion
 
@@ -109,6 +109,7 @@ public abstract class EntityController<T> : ControllerBase where T : Entity
     
     #region Get
     [HttpGet("{id:int}")]
+    [ActionName("Get")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Get(int id) =>
