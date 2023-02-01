@@ -13,7 +13,7 @@ public abstract class EntityController<T> : ControllerBase where T : Entity
     #endregion
 
     #region Constructors
-    public EntityController(IRepository<T> repository)
+    protected EntityController(IRepository<T> repository)
     {
         _repository = repository;
     }
