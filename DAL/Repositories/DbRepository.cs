@@ -47,8 +47,11 @@ public class DbRepository<T> : IRepository<T> where T : Entity, new()
 
         if (totalCount == 0)
             return new Page(Enumerable.Empty<T>(), 0, pageIndex, pageSize);
+        
+        if (query is not IOrderedQueryable<T>)
+            query = query.OrderBy(item => item.Id);
 
-        if (pageIndex > 0)
+        if (pageIndex > 1)
             query = query.Skip(pageIndex * pageSize);
 
         query = query.Take(pageSize);
@@ -67,8 +70,12 @@ public class DbRepository<T> : IRepository<T> where T : Entity, new()
     {
         if (count <= 0) 
             return Enumerable.Empty<T>();
-
-        var query = Items;
+        
+        IQueryable<T> query = Items switch
+        {
+            IOrderedQueryable<T> orderedQuery => orderedQuery,
+            { } q => q.OrderBy(i => i.Id)
+        };
 
         if (skip > 0)
             query = query.Skip(skip);
@@ -146,10 +153,7 @@ public class DbRepository<T> : IRepository<T> where T : Entity, new()
         if (elemToDelete is null)
             return false;
         
-        if (AutoSaveChanges)
-            await SaveChanges(cancel).ConfigureAwait(false);
-
-        return true;
+        return await Delete(elemToDelete,cancel).ConfigureAwait(false);
     }
     #endregion
 
