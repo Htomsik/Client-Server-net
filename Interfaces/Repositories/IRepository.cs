@@ -16,7 +16,7 @@ public interface IRepository<T> where T : IEntity
 
     Task<T?> Get(int id, CancellationToken cancel = default);
     
-    Task<ITemPage<T>> GetPage(int pageIndex, int pageSize, CancellationToken cancel = default);
+    Task<IPageItem<T>> GetPage(int pageIndex, int pageSize, CancellationToken cancel = default);
     
     Task<bool> Add(T item, CancellationToken cancel = default);
 

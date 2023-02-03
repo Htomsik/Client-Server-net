@@ -20,7 +20,7 @@ public class DbRepository<T> : IRepository<T> where T : Entity, new()
     #endregion
 
     #region Records
-    protected record Page(IEnumerable<T> Items, int TotalCount, int PageIndex, int PageSize) : ITemPage<T>
+    protected record PageItem(IEnumerable<T> Items, int TotalCount, int PageIndex, int PageSize) : IPageItem<T>
     {
         public int TotalPagesCount => (int)Math.Ceiling((double)TotalCount / PageSize);
     }
@@ -36,17 +36,17 @@ public class DbRepository<T> : IRepository<T> where T : Entity, new()
 
     #region Methods
     #region Page interactions
-    public async Task<ITemPage<T>> GetPage(int pageIndex, int pageSize, CancellationToken cancel = default)
+    public async Task<IPageItem<T>> GetPage(int pageIndex, int pageSize, CancellationToken cancel = default)
     {
         if (pageSize <= 0)
-            return new Page(Enumerable.Empty<T>(), pageSize, pageIndex, pageSize);
+            return new PageItem(Enumerable.Empty<T>(), pageSize, pageIndex, pageSize);
 
         var query = Items;
         
         var totalCount = await query.CountAsync(cancel).ConfigureAwait(false);
 
         if (totalCount == 0)
-            return new Page(Enumerable.Empty<T>(), 0, pageIndex, pageSize);
+            return new PageItem(Enumerable.Empty<T>(), 0, pageIndex, pageSize);
         
         if (query is not IOrderedQueryable<T>)
             query = query.OrderBy(item => item.Id);
@@ -58,7 +58,7 @@ public class DbRepository<T> : IRepository<T> where T : Entity, new()
 
         var items = await query.ToArrayAsync(cancel).ConfigureAwait(false);
 
-        return new Page(items, totalCount, pageIndex, pageSize);
+        return new PageItem(items, totalCount, pageIndex, pageSize);
     }
     #endregion
     

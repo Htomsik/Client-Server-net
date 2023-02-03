@@ -25,7 +25,7 @@ public abstract class EntityController<T> : ControllerBase where T : Entity
     [HttpGet("page[[{pageIndex:int}:{pageSize:int}]]")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<ITemPage<T>>> GetPage(int pageIndex, int pageSize)
+    public async Task<ActionResult<IPageItem<T>>> GetPage(int pageIndex, int pageSize)
     {
         var result = await _repository.GetPage(pageIndex, pageSize);
 
