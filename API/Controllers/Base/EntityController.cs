@@ -121,7 +121,7 @@ public abstract class EntityController<T> : ControllerBase where T : Entity
 
     #region Extensions
     #region exist/id
-    [HttpGet("exist/id{id:int}")]
+    [HttpGet("exist/id/{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
     public async Task<IActionResult> Exist(int id) => 
