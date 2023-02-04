@@ -1,28 +1,43 @@
-
-
 using API.Data;
+using API.Infrastructure.IOC;
 
 namespace API;
 
-public class Startup
+public record Startup(IConfiguration Configuration)
 {
-    #region Fields
-    private readonly IDbInitializer _dbInitializer;
-    #endregion
-
-    #region Constructors
-
-    public Startup(IDbInitializer dbInitializer)
+    public void ConfigureServices(IServiceCollection services)
     {
-        _dbInitializer = dbInitializer;
+        services
+            .AddDataBase(Configuration)
+            .AddServices();
+        
+        services.AddEndpointsApiExplorer();
+        
+        services.AddControllers();
+        
+        services.AddSwaggerGen();
     }
 
-    #endregion
-
-    #region Methods
-    public  void Initialize()
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbInitializer db)
     {
-        _dbInitializer.Initialize();
+        db.Initialize();
+
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
+        
+        app.UseHttpsRedirection();
+        
+        app.UseRouting();
+
+        app.UseAuthorization();
+
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+        });
     }
-    #endregion
 }
