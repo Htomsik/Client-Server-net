@@ -1,11 +1,10 @@
 ﻿using HTTPClients.Repositories;
 using Interfaces.Repositories;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Models.Data;
 
-namespace HttpTester;
+namespace ConsoleUI;
 
 public class Program
 {
@@ -46,7 +45,7 @@ public class Program
         var editedDs = new DataSource
         {
             Id=1213,
-            Description = "HttpTester",
+            Description = "ConsoleUI",
             Name = "HttpTesterName"
         };
 
