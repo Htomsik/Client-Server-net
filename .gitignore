@@ -6,3 +6,4 @@ riderModule.iml
 /lib-blazor/
 **/wwwroot/lib
 **/wwwroot/lib-*
+**/wwwroot/css
