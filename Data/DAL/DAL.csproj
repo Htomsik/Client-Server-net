@@ -8,8 +8,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Models\Models.csproj" />
-      <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
+      <ProjectReference Include="..\..\Base\Models\Models.csproj" />
+      <ProjectReference Include="..\..\Base\Interfaces\Interfaces.csproj" />
     </ItemGroup>
 
     <ItemGroup>

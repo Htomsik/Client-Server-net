@@ -19,10 +19,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DAL.SqlLite\DAL.SqlLite.csproj" />
-      <ProjectReference Include="..\DAL.SqlServer\DAL.SqlServer.csproj" />
-      <ProjectReference Include="..\DAL\DAL.csproj" />
-      <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
+      <ProjectReference Include="..\..\Data\DAL.SqlLite\DAL.SqlLite.csproj" />
+      <ProjectReference Include="..\..\Data\DAL.SqlServer\DAL.SqlServer.csproj" />
+      <ProjectReference Include="..\..\Data\DAL\DAL.csproj" />
+      <ProjectReference Include="..\..\Base\Interfaces\Interfaces.csproj" />
     </ItemGroup>
 
     <ItemGroup>
