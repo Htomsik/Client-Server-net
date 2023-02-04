@@ -1,0 +1,5 @@
+2023-02-04T18:46:04.1856841+03:00 [INF] (API//) Microsoft.Hosting.Lifetime Now listening on: "http://localhost:5152"
+2023-02-04T18:46:04.2126090+03:00 [INF] (API//) Microsoft.Hosting.Lifetime Application started. Press Ctrl+C to shut down.
+2023-02-04T18:46:04.2136293+03:00 [INF] (API//) Microsoft.Hosting.Lifetime Hosting environment: "Development"
+2023-02-04T18:46:04.2145017+03:00 [INF] (API//) Microsoft.Hosting.Lifetime Content root path: "D:\WorkBench\obsdian\MVVMBase\WebAPI\API"
+2023-02-04T18:46:13.7589912+03:00 [INF] (API//) Microsoft.Hosting.Lifetime Application is shutting down...
