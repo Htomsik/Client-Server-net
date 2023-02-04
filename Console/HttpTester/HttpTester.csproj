@@ -8,8 +8,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\HTTPClients\HTTPClients.csproj" />
-      <ProjectReference Include="..\Models\Models.csproj" />
+      <ProjectReference Include="..\..\Data\HTTPClients\HTTPClients.csproj" />
+      <ProjectReference Include="..\..\Base\Models\Models.csproj" />
     </ItemGroup>
 
     <ItemGroup>
