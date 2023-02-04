@@ -18,6 +18,7 @@
       <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap\bootstrap.min.css.map" />
       <_ContentIncludedByDefault Remove="wwwroot\css\app.css" />
       <_ContentIncludedByDefault Remove="wwwroot\css\app.min.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\sample-data\weather.json" />
     </ItemGroup>
 
 </Project>
