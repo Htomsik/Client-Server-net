@@ -20,5 +20,5 @@
       <_ContentIncludedByDefault Remove="wwwroot\css\app.min.css" />
       <_ContentIncludedByDefault Remove="wwwroot\sample-data\weather.json" />
     </ItemGroup>
-
+    
 </Project>
