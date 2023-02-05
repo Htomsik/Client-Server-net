@@ -15,6 +15,7 @@ internal static partial class IoCRegistration
     
     private static IServiceCollection AddInfrastructureServices(this IServiceCollection services) =>
         services
+            .AddAutoMapper(typeof(Startup))
             .AddScoped(typeof(IRepository<>),typeof(DbRepository<>))
             .AddScoped(typeof(INamedRepository<>),typeof(DbNameRepository<>));
 }
