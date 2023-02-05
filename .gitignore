@@ -3,8 +3,8 @@ obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
-/lib-blazor/
 **/wwwroot/lib
 **/wwwroot/lib-*
 **/wwwroot/css
 /.idea/
+logs/
