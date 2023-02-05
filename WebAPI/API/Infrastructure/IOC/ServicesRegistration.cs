@@ -7,7 +7,15 @@ internal static partial class IoCRegistration
 {
     public static IServiceCollection AddServices(this IServiceCollection services)
         => services
-            .AddTransient<Startup>()
+            .AddInfrastructureServices()
+            .AddBusinessServices();
+    
+    private static IServiceCollection AddBusinessServices(this IServiceCollection services) =>
+        services;
+    
+    private static IServiceCollection AddInfrastructureServices(this IServiceCollection services) =>
+        services
+            .AddAutoMapper(typeof(Startup))
             .AddScoped(typeof(IRepository<>),typeof(DbRepository<>))
             .AddScoped(typeof(INamedRepository<>),typeof(DbNameRepository<>));
 }
