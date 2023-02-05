@@ -20,5 +20,10 @@
       <_ContentIncludedByDefault Remove="wwwroot\css\app.min.css" />
       <_ContentIncludedByDefault Remove="wwwroot\sample-data\weather.json" />
     </ItemGroup>
-    
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Common\Domain\Domain.csproj" />
+      <ProjectReference Include="..\..\Data\HTTPClients\HTTPClients.csproj" />
+    </ItemGroup>
+
 </Project>
