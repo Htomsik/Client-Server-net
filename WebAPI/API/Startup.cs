@@ -1,5 +1,8 @@
 using API.Data;
 using API.Infrastructure.IOC;
+using DAL.Context;
+using Microsoft.AspNetCore.Identity;
+using Models.Identity;
 
 namespace API;
 
@@ -10,6 +13,11 @@ public record Startup(IConfiguration Configuration)
         services
             .AddDataBase(Configuration)
             .AddServices();
+
+        services
+            .AddIdentity<User, Role>()
+            .AddEntityFrameworkStores<DataDb>()
+            .AddDefaultTokenProviders();
         
         services.AddEndpointsApiExplorer();
         
