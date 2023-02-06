@@ -5,7 +5,7 @@ namespace Domain.identity;
 public class LoginUserDTO
 {
     [Required]
-    public string UserName { get; set; }
+    public string Name { get; set; }
     
     [Required]
     [DataType(DataType.EmailAddress)]
@@ -18,5 +18,5 @@ public class LoginUserDTO
 
 public class UserDTO : LoginUserDTO
 {
-    public ICollection<string> Roles { get; set; }
+    public ICollection<RoleDTO> Roles { get; set; }
 }
