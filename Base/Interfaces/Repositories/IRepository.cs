@@ -34,7 +34,7 @@ public interface IRepository<T> where T : IEntity
 
     Task<bool> Exist(int id, CancellationToken cancel = default);
 
-    Task<bool> Exist(T? item, CancellationToken cancel = default);
+    Task<bool> Exist(T item, CancellationToken cancel = default);
 
     #endregion
 }

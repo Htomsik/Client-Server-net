@@ -98,7 +98,7 @@ public class DbRepository<T> : IRepository<T> where T : class, IEntity, new()
         }
     }
     
-    public async Task<T?> Add(T? item, CancellationToken cancel = default)
+    public async Task<T?> Add(T item, CancellationToken cancel = default)
     {
         if (item is null)
             throw new ArgumentNullException(nameof(item));
@@ -114,7 +114,7 @@ public class DbRepository<T> : IRepository<T> where T : class, IEntity, new()
         return item;
     }
     
-    public async Task<T?> Update( T? item, CancellationToken cancel = default)
+    public async Task<T?> Update(T item, CancellationToken cancel = default)
     {
         if (item is null)
             throw new ArgumentNullException(nameof(item));
@@ -127,7 +127,7 @@ public class DbRepository<T> : IRepository<T> where T : class, IEntity, new()
         return item;
     }
 
-    public async Task<T?> Delete(T? item, CancellationToken cancel = default)
+    public async Task<T?> Delete(T item, CancellationToken cancel = default)
     {
         if (item is null)
             throw new ArgumentNullException(nameof(item));
@@ -167,7 +167,7 @@ public class DbRepository<T> : IRepository<T> where T : class, IEntity, new()
     public async Task<bool> Exist(int id, CancellationToken cancel = default) =>
         await Items.AnyAsync(elem => elem.Id == id, cancel).ConfigureAwait(false);
 
-    public async Task<bool> Exist(T? item, CancellationToken cancel = default) =>
+    public async Task<bool> Exist(T item, CancellationToken cancel = default) =>
         item is null ?
             throw new ArgumentNullException(nameof(item)) :
             await Items.AnyAsync(elem=>elem.Id == item.Id,cancel).ConfigureAwait(false);

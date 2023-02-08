@@ -61,7 +61,7 @@ public abstract class EntityController<T> : ControllerBase where T : Entity
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public async Task<IActionResult> Add(T? item)
+    public async Task<IActionResult> Add(T item)
     {
         if (!ModelState.IsValid)
             return BadRequest(item);
@@ -78,7 +78,7 @@ public abstract class EntityController<T> : ControllerBase where T : Entity
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Update(T? item)
+    public async Task<IActionResult> Update(T item)
     {
         if (!ModelState.IsValid)
             return BadRequest(item);
@@ -95,7 +95,7 @@ public abstract class EntityController<T> : ControllerBase where T : Entity
     [HttpDelete]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete(T? item)
+    public async Task<IActionResult> Delete(T item)
     {
         if (await _repository.Delete(item) is not { } result)
             return NotFound(item);
