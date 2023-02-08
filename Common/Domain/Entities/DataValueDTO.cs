@@ -2,7 +2,7 @@ using Interfaces.Entities;
 
 namespace Domain.Entities;
 
-public class DataValueInfo : IEntity
+public class DataValueDTO : IEntity
 {
     public int Id { get; set; }
     

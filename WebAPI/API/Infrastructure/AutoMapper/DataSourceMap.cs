@@ -7,6 +7,6 @@ namespace API.Infrastructure.AutoMapper;
 public class DataSourceMap : Profile
 {
     public DataSourceMap() =>
-        CreateMap<DataSourceInfo, DataSource>()
+        CreateMap<DataSourceDTO, DataSource>()
             .ReverseMap();
 }
