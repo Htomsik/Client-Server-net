@@ -66,7 +66,7 @@ public abstract class EntityController<T> : ControllerBase where T : Entity
         if (!ModelState.IsValid)
             return BadRequest(item);
         
-        if (await _repository.Update(item) is not { } result)
+        if (await _repository.Add(item) is not { } result)
            return BadRequest(item);
         
         return CreatedAtAction(nameof(Get), new { id = result.Id }, result);
