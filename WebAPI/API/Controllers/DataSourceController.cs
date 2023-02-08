@@ -6,5 +6,5 @@ namespace API.Controllers;
 
 public sealed class DataSourceController : EntityController<DataSource>
 {
-    public DataSourceController(IRepository<DataSource> repository) : base(repository) { }
+    public DataSourceController(INamedRepository<DataSource> repository) : base(repository) { }
 }

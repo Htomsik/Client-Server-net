@@ -38,6 +38,9 @@ public class DbNameRepository<T> : DbRepository<T>, INamedRepository<T> where T 
     public async Task<bool> Exist(string name, CancellationToken cancel = default) =>
         await Items.AnyAsync(elem => elem.Name == name, cancel).ConfigureAwait(false);
 
+    protected override async Task<bool> ValidateItem(T item, CancellationToken cancel = default) => 
+        await Exist(item.Name, cancel) && 
+        await base.ValidateItem(item, cancel);
     #endregion
     #endregion
 }

@@ -85,7 +85,7 @@ public class DbRepository<T> : IRepository<T> where T : class, IEntity, new()
     #endregion
 
     #region Item interactions
-    public async Task<T?> Get(int id, CancellationToken cancel = default)
+    public  async Task<T?> Get(int id, CancellationToken cancel = default)
     {
         switch(Items)
         {
@@ -103,7 +103,7 @@ public class DbRepository<T> : IRepository<T> where T : class, IEntity, new()
         if (item is null)
             throw new ArgumentNullException(nameof(item));
         
-        if (await Exist(item.Id, cancel))
+        if (!await ValidateItem(item, cancel))
             return null;
         
         await _dataDb.AddAsync(item, cancel).ConfigureAwait(false);
@@ -132,9 +132,6 @@ public class DbRepository<T> : IRepository<T> where T : class, IEntity, new()
         if (item is null)
             throw new ArgumentNullException(nameof(item));
         
-        if (!await Exist(item, cancel))
-            return null;
-
         _dataDb.Remove(item);
         
         if (AutoSaveChanges)
@@ -175,6 +172,9 @@ public class DbRepository<T> : IRepository<T> where T : class, IEntity, new()
     public async Task<int> SaveChanges(CancellationToken cancel = default) => 
         await _dataDb.SaveChangesAsync(cancel).ConfigureAwait(false);
 
+    protected virtual async Task<bool> ValidateItem(T item, CancellationToken cancel = default) => await Exist(item, cancel);
+
     #endregion
+
     #endregion
 }
