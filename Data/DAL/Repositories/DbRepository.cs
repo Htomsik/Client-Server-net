@@ -1,11 +1,11 @@
 using DAL.Context;
+using Interfaces.Entities;
 using Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Models.Base;
 
 namespace DAL.Repositories;
 
-public class DbRepository<T> : IRepository<T> where T : Entity, new()
+public class DbRepository<T> : IRepository<T> where T : class, IEntity, new()
 {
     #region Properties
     protected  IQueryable<T> Items => Set;

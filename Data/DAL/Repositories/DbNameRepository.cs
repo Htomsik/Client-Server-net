@@ -1,11 +1,11 @@
 using DAL.Context;
+using Interfaces.Entities;
 using Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Models.Base;
 
 namespace DAL.Repositories;
 
-public class DbNameRepository<T> : DbRepository<T>, INamedRepository<T> where T : NamedEntity, new()
+public class DbNameRepository<T> : DbRepository<T>, INamedRepository<T> where T : class, INamedEntity, new()
 {
     #region Constructos
     public DbNameRepository(DataDb db) : base(db) { }
