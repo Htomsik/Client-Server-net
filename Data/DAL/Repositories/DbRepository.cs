@@ -98,23 +98,23 @@ public class DbRepository<T> : IRepository<T> where T : class, IEntity, new()
         }
     }
     
-    public async Task<bool> Add(T item, CancellationToken cancel = default)
+    public async Task<T?> Add(T? item, CancellationToken cancel = default)
     {
         if (item is null)
             throw new ArgumentNullException(nameof(item));
         
         if (await Exist(item.Id, cancel))
-            return false;
+            return null;
         
         await _dataDb.AddAsync(item, cancel).ConfigureAwait(false);
         
         if (AutoSaveChanges)
             await SaveChanges(cancel).ConfigureAwait(false);
 
-        return true;
+        return item;
     }
     
-    public async Task<bool> Update( T item, CancellationToken cancel = default)
+    public async Task<T?> Update( T? item, CancellationToken cancel = default)
     {
         if (item is null)
             throw new ArgumentNullException(nameof(item));
@@ -124,26 +124,26 @@ public class DbRepository<T> : IRepository<T> where T : class, IEntity, new()
         if (AutoSaveChanges)
             await SaveChanges(cancel).ConfigureAwait(false);
 
-        return true;
+        return item;
     }
 
-    public async Task<bool> Delete(T item, CancellationToken cancel = default)
+    public async Task<T?> Delete(T? item, CancellationToken cancel = default)
     {
         if (item is null)
             throw new ArgumentNullException(nameof(item));
         
         if (!await Exist(item, cancel))
-            return false;
+            return null;
 
         _dataDb.Remove(item);
         
         if (AutoSaveChanges)
             await SaveChanges(cancel).ConfigureAwait(false);
 
-        return true;
+        return item;
     }
 
-    public async Task<bool> Delete(int id, CancellationToken cancel = default)
+    public async Task<T?> Delete(int id, CancellationToken cancel = default)
     {
         var elemToDelete = Set.Local.FirstOrDefault(elem => elem.Id == id);
 
@@ -154,7 +154,7 @@ public class DbRepository<T> : IRepository<T> where T : class, IEntity, new()
                 .ConfigureAwait(false);
 
         if (elemToDelete is null)
-            return false;
+            return null;
         
         return await Delete(elemToDelete,cancel).ConfigureAwait(false);
     }
@@ -167,7 +167,7 @@ public class DbRepository<T> : IRepository<T> where T : class, IEntity, new()
     public async Task<bool> Exist(int id, CancellationToken cancel = default) =>
         await Items.AnyAsync(elem => elem.Id == id, cancel).ConfigureAwait(false);
 
-    public async Task<bool> Exist(T item, CancellationToken cancel = default) =>
+    public async Task<bool> Exist(T? item, CancellationToken cancel = default) =>
         item is null ?
             throw new ArgumentNullException(nameof(item)) :
             await Items.AnyAsync(elem=>elem.Id == item.Id,cancel).ConfigureAwait(false);

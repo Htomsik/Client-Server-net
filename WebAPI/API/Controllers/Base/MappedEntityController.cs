@@ -45,7 +45,7 @@ public abstract class MappedEntityController<T,TBase> : ControllerBase
         public int TotalPagesCount => (int)Math.Ceiling((double)TotalCount / PageSize);
     }
 
-    protected IPageItem<T> ToItem(IPageItem<TBase> pageItem) => new PageItem(
+    protected IPageItem<T> ToItem(IPageItem<TBase?> pageItem) => new PageItem(
         ToItem(pageItem.Items),
         pageItem.TotalCount,
         pageItem.PageIndex,
@@ -76,13 +76,14 @@ public abstract class MappedEntityController<T,TBase> : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<IActionResult> Add(T item)
     {
-        var result = await _repository.Add(ToBase(item));
-
-        if (!result)
+        if (!ModelState.IsValid)
             return BadRequest(item);
-
-        // ReSharper disable once Mvc.ActionNotResolved
-        return CreatedAtAction(nameof(Get), new { id = item.Id }, Get(item.Id));
+        
+        if (await _repository.Add(ToBase(item)) is not { } result)
+            return BadRequest(item);
+        
+        return CreatedAtAction(nameof(Get), new { id = result.Id }, ToItem(result));
+        
     }
     #endregion
 
@@ -92,31 +93,44 @@ public abstract class MappedEntityController<T,TBase> : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Update(T item)
     {
-        if (!await _repository.Update(ToBase(item)))
+        if (!ModelState.IsValid)
+            return BadRequest(item);
+        
+        if (await _repository.Update(ToBase(item)) is not { } result)
             return NotFound(item);
 
-        return AcceptedAtAction(nameof(Get), new { id = item.Id }, Get(item.Id));
+        return AcceptedAtAction(nameof(Get), new { id = result.Id },  ToBase(item));
     }
     #endregion
 
     #region Delete
+
     [HttpDelete]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete(T item) => 
-        await _repository.Delete(ToBase(item)) ? 
-            Ok(item) : 
-            NotFound(item);
+    public async Task<IActionResult> Delete(T item)
+    {
+        if (await _repository.Delete(ToBase(item)) is not { } result)
+            return NotFound(item);
+
+        return Ok(ToItem(result));
+    }
+       
     #endregion
 
     #region Delete{id}
+
     [HttpDelete("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete(int id) =>
-        await _repository.Delete(id) ? 
-            Ok(id) :
-            NotFound(id);
+    public async Task<IActionResult> Delete(int id)
+    {
+        if (await _repository.Delete(id) is not { } result)
+            return NotFound(id);
+
+        return Ok(ToItem(result));
+    }
+     
     #endregion
     
     #region Get
@@ -160,13 +174,13 @@ public abstract class MappedEntityController<T,TBase> : ControllerBase
     #endregion
 
     #region Helpers : private methods
-    protected virtual TBase ToBase(T item) => _mapper.Map<TBase>(item);
+    protected virtual TBase? ToBase(T item) => _mapper.Map<TBase>(item);
     
     protected virtual IEnumerable<TBase> ToBase(IEnumerable<T> items) => _mapper.Map<IEnumerable<TBase>>(items);
 
-    protected virtual T ToItem(T item) => _mapper.Map<T>(item);
+    protected virtual T? ToItem(TBase item) => _mapper.Map<T>(item);
     
-    protected virtual IEnumerable<T>  ToItem(IEnumerable<TBase> items) => _mapper.Map<IEnumerable<T>>(items);
+    protected virtual IEnumerable<T> ToItem(IEnumerable<TBase?> items) => _mapper.Map<IEnumerable<T>>(items);
     #endregion
 
     #endregion
