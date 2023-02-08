@@ -1,6 +1,10 @@
+using Interfaces.Entities;
+
 namespace Domain.identity;
 
-public class RoleDTO
+public class RoleDTO : INamedEntity
 {
-    private string Name { get; set; }
+    public int Id { get; set; }
+    
+    public string Name { get; set; }
 }
