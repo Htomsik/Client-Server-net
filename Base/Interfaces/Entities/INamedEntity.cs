@@ -5,5 +5,5 @@ namespace Interfaces.Entities;
 public interface INamedEntity : IEntity
 {
     [Required]
-    string Name { get; }
+    string Name { get; set; }
 }

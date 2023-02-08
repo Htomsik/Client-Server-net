@@ -3,7 +3,7 @@ using Interfaces.Entities;
 
 namespace Domain.Entities;
 
-public class DataSourceInfo : INamedEntity
+public class DataSourceDTO : INamedEntity
 {
     public int Id { get; set; }
     
