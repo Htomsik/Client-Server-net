@@ -7,7 +7,7 @@ public interface INamedRepository<T> : IRepository<T> where T:INamedEntity
     #region Item Interactions
     Task<T?> Get(string name, CancellationToken cancel = default);
 
-    Task<bool> Delete(string name, CancellationToken cancel = default);
+    Task<T?> Delete(string name, CancellationToken cancel = default);
     #endregion
 
     #region Extensions

@@ -63,12 +63,13 @@ public abstract class EntityController<T> : ControllerBase where T : Entity
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<IActionResult> Add(T item)
     {
-       var result = await _repository.Add(item);
-
-       if (!result)
+        if (!ModelState.IsValid)
+            return BadRequest(item);
+        
+        if (await _repository.Add(item) is not { } result)
            return BadRequest(item);
-
-       return CreatedAtAction(nameof(Get), new { id = item.Id },_repository.Get(item.Id));
+        
+        return CreatedAtAction(nameof(Get), new { id = result.Id }, result);
     }
     #endregion
 
@@ -76,23 +77,31 @@ public abstract class EntityController<T> : ControllerBase where T : Entity
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Update(T item)
     {
-        if (!await _repository.Update(item))
+        if (!ModelState.IsValid)
+            return BadRequest(item);
+        
+        if (await _repository.Update(item) is not { } result)
             return NotFound(item);
 
-        return AcceptedAtAction(nameof(Get), new { id = item.Id }, _repository.Get(item.Id));
+        return AcceptedAtAction(nameof(Get), new { id = result.Id }, result);
     }
     #endregion
 
     #region Delete
+
     [HttpDelete]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete(T item) => 
-        await _repository.Delete(item) ? 
-            Ok(item) : 
-            NotFound(item);
+    public async Task<IActionResult> Delete(T item)
+    {
+        if (await _repository.Delete(item) is not { } result)
+            return NotFound(item);
+
+        return Ok(result);
+    }
     #endregion
 
     #region Delete{id}
@@ -100,10 +109,14 @@ public abstract class EntityController<T> : ControllerBase where T : Entity
     [HttpDelete("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete(int id) =>
-        await _repository.Delete(id) ? 
-            Ok(id) :
-            NotFound(id);
+    public async Task<IActionResult> Delete(int id)
+    {
+        if (await _repository.Delete(id) is not { } result)
+            return NotFound(id);
+
+        return Ok(result);
+    }
+   
     
     #endregion
     
@@ -134,7 +147,7 @@ public abstract class EntityController<T> : ControllerBase where T : Entity
     [HttpPost("exist")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-    public async Task<IActionResult> Exist(T item) =>
+    public async Task<IActionResult> Exist(T? item) =>
         await _repository.Exist(item) ? 
             Ok(true) : 
             NotFound(false);

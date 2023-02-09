@@ -68,37 +68,67 @@ public class HttpRepository<T> : IRepository<T> where T : IEntity
     public async Task<T?> Get(int id, CancellationToken cancel = default) =>
         await Client.GetFromJsonAsync<T>($"{id}",cancel).ConfigureAwait(false);
     
-    public async Task<bool> Add(T item, CancellationToken cancel = default)
+    public async Task<T?> Add(T? item, CancellationToken cancel = default)
     {
         var response = await Client.PostAsJsonAsync("", item, cancel).ConfigureAwait(false);
 
-        return response.StatusCode != HttpStatusCode.BadRequest && response.IsSuccessStatusCode;
+        var result = await response
+            .EnsureSuccessStatusCode()
+            .Content
+            .ReadFromJsonAsync<T>(cancellationToken: cancel)
+            .ConfigureAwait(false);
+
+        return result;
     }
     
-    public async Task<bool> Update( T item, CancellationToken cancel = default)
+    public async Task<T?> Update( T? item, CancellationToken cancel = default)
     {
         var response = await Client.PutAsJsonAsync("", item, cancel).ConfigureAwait(false);
 
-        return response.StatusCode != HttpStatusCode.NotFound && response.IsSuccessStatusCode;
+        var result = await response
+            .EnsureSuccessStatusCode()
+            .Content
+            .ReadFromJsonAsync<T>(cancellationToken: cancel)
+            .ConfigureAwait(false);
+
+        return result;
     }
 
-    public async Task<bool> Delete(T item, CancellationToken cancel = default)
+    public async Task<T?> Delete(T item, CancellationToken cancel = default)
     {
         var request = new HttpRequestMessage(HttpMethod.Delete, "")
         {
             Content = JsonContent.Create(item)
         };
-
-        var response = await Client.SendAsync(request, cancel).ConfigureAwait(false);
         
-        return response.StatusCode != HttpStatusCode.NotFound && response.IsSuccessStatusCode;
+        var response = await Client.SendAsync(request, cancel).ConfigureAwait(false);
+
+        if (response.IsSuccessStatusCode)
+            return default;
+
+        var result = await response
+            .EnsureSuccessStatusCode()
+            .Content
+            .ReadFromJsonAsync<T>(cancellationToken: cancel)
+            .ConfigureAwait(false);
+
+        return result;
     }
 
-    public async Task<bool> Delete(int id, CancellationToken cancel = default)
+    public async Task<T?> Delete(int id, CancellationToken cancel = default)
     {
         var response = await Client.DeleteAsync($"{id}", cancel).ConfigureAwait(false);
 
-        return response.StatusCode != HttpStatusCode.NotFound && response.IsSuccessStatusCode;
+        if (response.IsSuccessStatusCode)
+            return default;
+        
+        var result = await response
+            .EnsureSuccessStatusCode()
+            .Content
+            .ReadFromJsonAsync<T>(cancellationToken: cancel)
+            .ConfigureAwait(false);
+
+        return result;
     }
     #endregion
 
@@ -113,7 +143,7 @@ public class HttpRepository<T> : IRepository<T> where T : IEntity
         return response.StatusCode != HttpStatusCode.NotFound && response.IsSuccessStatusCode;
     }
 
-    public async Task<bool> Exist(T item, CancellationToken cancel = default)
+    public async Task<bool> Exist(T? item, CancellationToken cancel = default)
     {
         var response = await Client.PostAsJsonAsync("exist", item, cancel).ConfigureAwait(false);
 
