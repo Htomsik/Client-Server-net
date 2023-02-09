@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Interfaces.Entities;
+using Interfaces.Other;
 
 namespace Domain.identity;
 
@@ -22,6 +23,8 @@ public class LoginUserDTO
 public class UserDTO : LoginUserDTO, INamedEntity
 {
     public int Id { get; set; }
+
+    private ITokens Tokens { get; set; }
     
     public ICollection<RoleDTO> Roles { get; set; }
 }
