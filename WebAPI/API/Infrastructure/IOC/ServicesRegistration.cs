@@ -1,5 +1,7 @@
+using API.Services;
 using DAL.Repositories;
 using Interfaces.Repositories;
+using Services.Identity;
 
 namespace API.Infrastructure.IOC;
 
@@ -17,5 +19,6 @@ internal static partial class IoCRegistration
         services
             .AddAutoMapper(typeof(Startup))
             .AddScoped(typeof(IRepository<>),typeof(DbRepository<>))
-            .AddScoped(typeof(INamedRepository<>),typeof(DbNameRepository<>));
+            .AddScoped(typeof(INamedRepository<>),typeof(DbNameRepository<>))
+            .AddScoped<IAuthService, AuthService>();
 }
