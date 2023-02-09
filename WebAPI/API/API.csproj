@@ -21,6 +21,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Common\Domain\Domain.csproj" />
+      <ProjectReference Include="..\..\Common\Services\Services.csproj" />
       <ProjectReference Include="..\..\Data\DAL.SqlLite\DAL.SqlLite.csproj" />
       <ProjectReference Include="..\..\Data\DAL.SqlServer\DAL.SqlServer.csproj" />
       <ProjectReference Include="..\..\Data\DAL\DAL.csproj" />
