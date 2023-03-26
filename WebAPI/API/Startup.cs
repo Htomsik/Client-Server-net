@@ -17,7 +17,7 @@ public record Startup(IConfiguration Configuration)
         services
             .AddIdentity<User, Role>()
             .AddEntityFrameworkStores<DataDb>()
-            .AddDefaultTokenProviders();
+            .AddTokenProvider(Configuration["Security:JWT:Issuer"], typeof(DataProtectorTokenProvider<User>));
         
         services.AddEndpointsApiExplorer();
         

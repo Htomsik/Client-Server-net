@@ -9,8 +9,18 @@ internal class RoleConfiguration : IEntityTypeConfiguration<Role>
     public void Configure(EntityTypeBuilder<Role> builder) =>
         builder.HasData
         (
-            new { Id = 1,Name = Role.Administrators, }, 
-            new { Id = 2,Name = Role.Users }
+            new 
+            { 
+                Id = 1,
+                Name = Role.Administrators, 
+                NormalizedName = Role.Administrators.ToUpper()
+            }, 
+            new
+            {
+                Id = 2,
+                Name = Role.Users,
+                NormalizedName = Role.Users.ToUpper()
+            }
         );
     
 }

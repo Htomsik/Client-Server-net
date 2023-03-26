@@ -14,7 +14,7 @@ public class AuthService : IAuthService
 {
     #region Fileds
 
-    private readonly SymmetricSecurityKey _key;
+    private readonly IConfiguration _configuration;
 
     private readonly UserManager<User> _userManager;
 
@@ -22,6 +22,10 @@ public class AuthService : IAuthService
     
     private readonly IMapper _mapper;
 
+    #endregion
+    
+    #region Constants
+    private const string RefreshTokenName = "RefreshToken";
     #endregion
 
     #region Constructors
@@ -32,11 +36,10 @@ public class AuthService : IAuthService
         SignInManager<User> signInManager,
         IMapper mapper)
     {
-    
+        _configuration = configuration;
         _userManager = userManager;
         _signInManager = signInManager;
         _mapper = mapper;
-        _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:TokenKey"]));
     }
 
     #endregion
@@ -56,11 +59,11 @@ public class AuthService : IAuthService
     {
         var user = await _userManager.FindByNameAsync(loginUser.Name);
         
-        await _userManager.RemoveAuthenticationTokenAsync(user, "API", "RefreshToken");
+        await _userManager.RemoveAuthenticationTokenAsync(user, "API", RefreshTokenName);
         
-        var newRefreshToken = await _userManager.GenerateUserTokenAsync(user, "API", "RefreshToken");
+        var newRefreshToken = await _userManager.GenerateUserTokenAsync(user, _configuration["Security:JWT:Issuer"]!, RefreshTokenName);
         
-        var result = await _userManager.SetAuthenticationTokenAsync(user, "API", "RefreshToken", newRefreshToken);
+        var result = await _userManager.SetAuthenticationTokenAsync(user, _configuration["Security:JWT:Issuer"]!, RefreshTokenName, newRefreshToken);
 
         if (!result.Succeeded)
             return null;
@@ -70,11 +73,18 @@ public class AuthService : IAuthService
 
     private JwtSecurityToken GenerateTokenOptions(List<Claim> authClaims)
     {
+        var jwtSettings = _configuration.GetSection("Security:JWT");
         
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]));
+        
+        var expiration = DateTime.Now.AddHours(Convert.ToDouble(
+            jwtSettings.GetSection("LifetimeHours").Value));
+
         var token = new JwtSecurityToken(
-            expires: DateTime.Now.AddHours(3),
+            issuer: jwtSettings.GetSection("Issuer").Value,
+            expires: expiration,
             claims: authClaims,
-            signingCredentials: new SigningCredentials(_key, SecurityAlgorithms.HmacSha256)
+            signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
         );
 
         return token;
