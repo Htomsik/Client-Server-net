@@ -9,11 +9,17 @@ internal sealed class  DataDbInitializer : IDbInitializer
 
     private readonly DataDb _db;
 
+    private readonly IConfiguration _configuration;
+
     #endregion
 
     #region Constructors
 
-    public DataDbInitializer(DataDb db) => _db = db;
+    public DataDbInitializer(DataDb db, IConfiguration configuration)
+    {
+        _db = db;
+        _configuration = configuration;
+    }
 
     #endregion
 
@@ -21,11 +27,16 @@ internal sealed class  DataDbInitializer : IDbInitializer
 
     public async Task<bool> Initialize(CancellationToken cancel = default)
     {
+        if (Convert.ToBoolean(_configuration["Database:ReCreateOnStartup"]))
+        {
+            await _db.Database.EnsureDeletedAsync(cancel).ConfigureAwait(false);
+
+            await _db.Database.EnsureCreatedAsync(cancel).ConfigureAwait(false);
+        }
+        
         await _db.Database.MigrateAsync(cancel).ConfigureAwait(false);
 
-        if (await _db.Sources.AnyAsync(cancel).ConfigureAwait(false)) return true;
-
-        return false;
+        return await _db.Sources.AnyAsync(cancel).ConfigureAwait(false);
     }
 
     #endregion

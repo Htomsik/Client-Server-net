@@ -8,3 +8,4 @@ riderModule.iml
 **/wwwroot/css
 /.idea/
 logs/
+*.db*
