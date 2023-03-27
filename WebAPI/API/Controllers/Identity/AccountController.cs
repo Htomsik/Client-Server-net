@@ -60,7 +60,7 @@ public class AccountController : ControllerBase
         
         _logger.LogInformation("User {0} authorize successful", userDto.Name);
         
-        return Accepted(tokens);
+        return Accepted(_mapper.Map<TokensDTO>(tokens));
     }
 
     #endregion
@@ -91,7 +91,7 @@ public class AccountController : ControllerBase
         
         _logger.LogInformation("User {0} registration successful", userDto.Name);
         
-        return Accepted(tokens);
+        return Accepted(_mapper.Map<TokensDTO>(tokens));
     }
 
     #endregion
