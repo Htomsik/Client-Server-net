@@ -16,6 +16,8 @@ public class AuthService : IAuthService
 
     private readonly IConfiguration _configuration;
 
+    private readonly IConfigurationSection _jwtConfiguration;
+
     private readonly UserManager<User> _userManager;
 
     private readonly SignInManager<User> _signInManager;
@@ -37,6 +39,7 @@ public class AuthService : IAuthService
         IMapper mapper)
     {
         _configuration = configuration;
+        _jwtConfiguration = _configuration.GetSection("Security:JWT");
         _userManager = userManager;
         _signInManager = signInManager;
         _mapper = mapper;
@@ -48,7 +51,7 @@ public class AuthService : IAuthService
 
     private async Task<string> CreateToken(LoginUserDTO user)
     {
-        var claims = new List<Claim> { new (JwtRegisteredClaimNames.NameId, user.Name) };
+        var claims = new List<Claim> { new (ClaimTypes.Name, user.Name) };
         
         var token = GenerateTokenOptions(claims);
 
@@ -73,15 +76,13 @@ public class AuthService : IAuthService
 
     private JwtSecurityToken GenerateTokenOptions(List<Claim> authClaims)
     {
-        var jwtSettings = _configuration.GetSection("Security:JWT");
-        
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfiguration["Key"]));
         
         var expiration = DateTime.Now.AddHours(Convert.ToDouble(
-            jwtSettings.GetSection("LifetimeHours").Value));
+            _jwtConfiguration.GetSection("LifetimeHours").Value));
 
         var token = new JwtSecurityToken(
-            issuer: jwtSettings.GetSection("Issuer").Value,
+            issuer: _jwtConfiguration.GetSection("Issuer").Value,
             expires: expiration,
             claims: authClaims,
             signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
