@@ -1,6 +1,8 @@
-namespace Interfaces.Other;
+﻿using Interfaces.Other;
 
-public interface ITokens
+namespace Domain.Entities;
+
+public class TokensDTO : ITokens
 {
     public string Token { get; set; }
     

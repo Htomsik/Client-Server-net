@@ -127,7 +127,37 @@ public class AuthService : IAuthService
         return await Authorize(loginUser);
     }
 
-    public async Task<Tokens?> RefreshTokens(Tokens tokens) => new ();
+    public async Task<Tokens?> RefreshTokens(Tokens tokens)
+    {
+        var jwtSecurity = new JwtSecurityTokenHandler();
+
+        var content = jwtSecurity.ReadJwtToken(tokens.Token);
+        
+        var userName = content.Claims.ToList().FirstOrDefault(elem => elem.Type == ClaimTypes.Name)?.Value;
+
+        if (string.IsNullOrEmpty(userName))
+            return null;
+
+        var user = await _userManager.FindByNameAsync(userName);
+
+        var isValid = await _userManager.VerifyUserTokenAsync(user, _jwtConfiguration.GetSection("Issuer").Value, 
+            RefreshTokenName, tokens.RefreshToken);
+
+        if (isValid)
+        {
+            var loginUser = _mapper.Map<LoginUserDTO>(user);
+            
+            return new Tokens
+            {
+                Token = await CreateToken(loginUser),
+                RefreshToken = await CreateRefreshToken(loginUser),
+            };
+        }
+
+        await _userManager.UpdateSecurityStampAsync(user);
+
+        return null;
+    }
     
     #endregion
 

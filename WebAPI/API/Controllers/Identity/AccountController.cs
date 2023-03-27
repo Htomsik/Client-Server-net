@@ -1,5 +1,8 @@
+using AutoMapper;
+using Domain.Entities;
 using Domain.identity;
 using Microsoft.AspNetCore.Mvc;
+using Models.Identity;
 using Services.Identity;
 
 namespace API.Controllers.Identity;
@@ -13,20 +16,23 @@ public class AccountController : ControllerBase
     private readonly ILogger<AccountController> _logger;
     
     private readonly IAuthService _authService;
+    
+    private readonly IMapper _mapper;
 
     #endregion
 
     #region Constructors
 
-    public AccountController(ILogger<AccountController> logger, IAuthService authService)
+    public AccountController(ILogger<AccountController> logger, IAuthService authService, IMapper mapper)
     {
         _logger = logger;
         _authService = authService;
+        _mapper = mapper;
     }
     
     #endregion
-
-    #region Methods
+    
+    #region Controllers
 
     #region Login
 
@@ -86,6 +92,37 @@ public class AccountController : ControllerBase
         _logger.LogInformation("User {0} registration successful", userDto.Name);
         
         return Accepted(tokens);
+    }
+
+    #endregion
+
+    #region RefreshTokens
+
+    [HttpPost("RefreshTokens")]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status202Accepted)]
+    public async Task<IActionResult> RefreshTokens(TokensDTO tokensDto)
+    {
+        _logger.LogInformation("Refresh token attempts");
+
+        if (!ModelState.IsValid)
+        {
+            _logger.LogInformation("Token model invalid");
+            return BadRequest(null!);
+        }
+
+        var tokens = await _authService.RefreshTokens(_mapper.Map<Tokens>(tokensDto));
+
+        if (tokens is null)
+        {
+            _logger.LogInformation("Refresh token denied");
+            return Unauthorized(null!);
+        }
+        
+        _logger.LogInformation("Refresh token successful");
+
+        return Accepted(_mapper.Map<TokensDTO>(tokens));
     }
 
     #endregion

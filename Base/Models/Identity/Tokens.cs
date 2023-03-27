@@ -1,6 +1,6 @@
-using Interfaces.Other;
+﻿using Interfaces.Other;
 
-namespace Domain.identity;
+namespace Models.Identity;
 
 public class Tokens : ITokens
 {

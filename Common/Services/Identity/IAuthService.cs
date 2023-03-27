@@ -1,4 +1,5 @@
 using Domain.identity;
+using Models.Identity;
 
 namespace Services.Identity;
 
