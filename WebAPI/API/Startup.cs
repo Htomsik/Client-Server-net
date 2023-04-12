@@ -1,4 +1,5 @@
 using API.Data;
+using API.Infrastructure.Configuration;
 using API.Infrastructure.IOC;
 using API.MiddleWare;
 using DAL.Context;
@@ -24,7 +25,7 @@ public record Startup(IConfiguration Configuration)
         
         services.AddControllers();
         
-        services.AddSwaggerGen();
+        services.ConfigureSwagger();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbInitializer db)
