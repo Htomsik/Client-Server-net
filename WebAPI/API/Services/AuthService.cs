@@ -13,9 +13,7 @@ namespace API.Services;
 public class AuthService : IAuthService
 {
     #region Fileds
-
-    private readonly IConfiguration _configuration;
-
+    
     private readonly IConfigurationSection _jwtConfiguration;
 
     private readonly UserManager<User> _userManager;
@@ -38,8 +36,7 @@ public class AuthService : IAuthService
         SignInManager<User> signInManager,
         IMapper mapper)
     {
-        _configuration = configuration;
-        _jwtConfiguration = _configuration.GetSection("Security:JWT");
+        _jwtConfiguration = configuration.GetSection("Security:JWT");
         _userManager = userManager;
         _signInManager = signInManager;
         _mapper = mapper;
@@ -64,9 +61,9 @@ public class AuthService : IAuthService
         
         await _userManager.RemoveAuthenticationTokenAsync(user, "API", RefreshTokenName);
         
-        var newRefreshToken = await _userManager.GenerateUserTokenAsync(user, _configuration["Security:JWT:Issuer"]!, RefreshTokenName);
+        var newRefreshToken = await _userManager.GenerateUserTokenAsync(user, _jwtConfiguration["Issuer"]!, RefreshTokenName);
         
-        var result = await _userManager.SetAuthenticationTokenAsync(user, _configuration["Security:JWT:Issuer"]!, RefreshTokenName, newRefreshToken);
+        var result = await _userManager.SetAuthenticationTokenAsync(user, _jwtConfiguration["Issuer"]!, RefreshTokenName, newRefreshToken);
 
         if (!result.Succeeded)
             return null;
