@@ -1,5 +1,6 @@
 using API.Data;
 using API.Infrastructure.IOC;
+using API.MiddleWare;
 using DAL.Context;
 using Microsoft.AspNetCore.Identity;
 using Models.Identity;
@@ -42,7 +43,9 @@ public record Startup(IConfiguration Configuration)
         app.UseRouting();
 
         app.UseAuthorization();
-
+        
+        app.UseMiddleware<JwtMiddleware>();
+        
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();

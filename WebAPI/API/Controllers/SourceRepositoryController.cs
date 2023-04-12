@@ -6,6 +6,7 @@ using Models.Data;
 
 namespace API.Controllers;
 
+[Authorize]
 public class SourceRepositoryController : MappedEntityController<DataSourceDTO, DataSource>
 {
     public SourceRepositoryController(INamedRepository<DataSource> repository, IMapper mapper) : base(repository, mapper)

@@ -1,6 +1,7 @@
 using AutoMapper;
 using Domain.Entities;
 using Domain.identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.Identity;
 using Services.Identity;
@@ -35,7 +36,7 @@ public class AccountController : ControllerBase
     #region Controllers
 
     #region Login
-
+    [AllowAnonymous]
     [HttpPost("Login")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -66,7 +67,7 @@ public class AccountController : ControllerBase
     #endregion
     
     #region Registration
-
+    [AllowAnonymous]
     [HttpPost("Registration")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -97,7 +98,7 @@ public class AccountController : ControllerBase
     #endregion
 
     #region RefreshTokens
-
+    [AllowAnonymous]
     [HttpPost("RefreshTokens")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
