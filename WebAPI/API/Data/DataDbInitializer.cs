@@ -106,10 +106,11 @@ internal sealed class  DataDbInitializer : IDbInitializer
         {
             await _db.Database.MigrateAsync(cancel).ConfigureAwait(false);
         }
-        catch (Exception error)
+        catch (Exception  error)
         {
             _logger.LogError(error,"{Source}: {Message}", error.Source, error.Message);
-            ret = false;
+            //Todo: find best way handling sql exceptions
+            //ret = false;
             errorsCounter++;
         }
         
