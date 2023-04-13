@@ -103,7 +103,7 @@ public class DbRepository<T> : IRepository<T> where T : class, IEntity, new()
         if (item is null)
             throw new ArgumentNullException(nameof(item));
         
-        if (!await ValidateItem(item, cancel))
+        if (await ValidateItem(item, cancel))
             return null;
         
         await _dataDb.AddAsync(item, cancel).ConfigureAwait(false);
@@ -119,6 +119,9 @@ public class DbRepository<T> : IRepository<T> where T : class, IEntity, new()
         if (item is null)
             throw new ArgumentNullException(nameof(item));
 
+        if (!await ValidateItem(item, cancel))
+            return null;
+
         _dataDb.Update(item);
         
         if (AutoSaveChanges)
@@ -131,6 +134,9 @@ public class DbRepository<T> : IRepository<T> where T : class, IEntity, new()
     {
         if (item is null)
             throw new ArgumentNullException(nameof(item));
+        
+        if (!await ValidateItem(item, cancel))
+            return null;
         
         _dataDb.Remove(item);
         
