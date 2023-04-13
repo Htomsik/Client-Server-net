@@ -12,26 +12,28 @@ internal static partial class IoCRegistration
         services
             .AddTransient<IDbInitializer, DataDbInitializer>()
             .AddDbContext<DataDb>(db =>
-        {
-            var type = configuration["Database:Type"];
-            
-            switch (type)
             {
-                case "MSSQL":
-                    db.UseSqlServer($"{ConnectionString}{configuration.GetConnectionString(type)}", 
-                        x => x.MigrationsAssembly(nameof(DAL) + ".SqlServer"));
-                    break;
+                var dbConfiguration = configuration.GetSection("Database");
                 
-                case "SQLLite":
-                    db.UseSqlite( $"{ConnectionString}{configuration.GetConnectionString(type)}", 
-                        x=>x.MigrationsAssembly(nameof(DAL) + ".SqlLite"));
-                    break;
+                var type = dbConfiguration["Type"];
+            
+                switch (type)
+                {
+                    case "MSSQL":
+                        db.UseSqlServer($"{ConnectionString}{dbConfiguration.GetConnectionString(type)}", 
+                            x => x.MigrationsAssembly(nameof(DAL) + ".SqlServer"));
+                        break;
+                    
+                    case "SQLLite":
+                        db.UseSqlite( $"{ConnectionString}{dbConfiguration.GetConnectionString(type)}", 
+                            x=>x.MigrationsAssembly(nameof(DAL) + ".SqlLite"));
+                        break;
 
-                case null: 
-                    throw new ArgumentNullException($"{nameof(type)} can't be null. Check configuration file/");
-                
-                default: 
-                    throw new NotSupportedException($"DataBase {type} doesn't supported");
-            }
-        });
+                    case null: 
+                        throw new ArgumentNullException($"{nameof(type)} can't be null. Check configuration file/");
+                    
+                    default: 
+                        throw new NotSupportedException($"DataBase {type} doesn't supported");
+                }
+            });
 }
