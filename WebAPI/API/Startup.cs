@@ -18,10 +18,17 @@ public record Startup(IConfiguration Configuration)
         services.AddSwaggerGen();
     }
 
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbInitializer db)
+    public void Configure(IApplicationBuilder app, 
+        IWebHostEnvironment env, 
+        IDbInitializer db, 
+        ILogger<Startup> logger)
     {
-        db.Initialize();
-
+        if (!db.Initialize().Result)
+        {
+            logger.LogCritical("Db initializing failed. Application startup terminated");
+            Environment.FailFast("Application startup terminated. Db can't initialized");
+        }
+        
         if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();

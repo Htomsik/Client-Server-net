@@ -6,9 +6,9 @@ using Models.Data;
 
 namespace API.Controllers;
 
-public class SourceRepositoryController : MappedEntityController<DataSourceInfo, DataSource>
+public class SourceRepositoryController : MappedEntityController<DataSourceDTO, DataSource>
 {
-    public SourceRepositoryController(IRepository<DataSource> repository, IMapper mapper) : base(repository, mapper)
+    public SourceRepositoryController(INamedRepository<DataSource> repository, IMapper mapper) : base(repository, mapper)
     {
     }
 }
