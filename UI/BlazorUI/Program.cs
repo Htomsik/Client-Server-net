@@ -12,7 +12,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-builder.Services.AddApi<IRepository<DataSourceInfo>, HttpRepository<DataSourceInfo>>("api/SourceRepository/");
+builder.Services.AddApi<IRepository<DataSourceDTO>, HttpRepository<DataSourceDTO>>("api/SourceRepository/");
 
 await builder.Build().RunAsync();
 

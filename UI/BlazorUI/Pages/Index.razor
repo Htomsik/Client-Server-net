@@ -2,7 +2,7 @@
 @using Interfaces.Repositories
 @using Domain.Entities
 
-@inject IRepository<DataSourceInfo> Repository
+@inject IRepository<DataSourceDTO> Repository
 
 <EditForm Model="_newDataSourceInfo" OnValidSubmit="Add">
     <div class="row">
@@ -61,9 +61,9 @@ else
 @code {
     #region Fields
 
-    private DataSourceInfo _newDataSourceInfo = new ();
+    private DataSourceDTO _newDataSourceInfo = new ();
     
-    private IList<DataSourceInfo>? _items;
+    private IList<DataSourceDTO>? _items;
 
     #endregion
     
@@ -73,18 +73,19 @@ else
 
     private async Task UpdateSources() => _items = (await Repository.GetMany()).ToList();
 
-    private async Task Remove(DataSourceInfo item) 
+    private async Task Remove(DataSourceDTO item) 
     {
         if (_items is not {Count: > 0 }) return;
-        
-        if (await Repository.Delete(item))
+
+        await Repository.Delete(item);
             _items.Remove(item);
     }
 
     private async Task Add()
     {
-        if(!await Repository.Add(_newDataSourceInfo)) return;
+        await Repository.Add(_newDataSourceInfo);
         _items.Add(_newDataSourceInfo);
+        
         _newDataSourceInfo = new();
     }
 
