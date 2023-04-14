@@ -35,15 +35,15 @@ public class AccountController : ControllerBase
     
     #region Controllers
 
-    #region Login
+    #region Authorization
     [AllowAnonymous]
-    [HttpPost("Login")]
+    [HttpPost("Authorization")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
-    public async Task<IActionResult> Login(LoginUserDTO userDto)
+    public async Task<IActionResult> Authorization(LoginUserDTO userDto)
     {
-        _logger.LogInformation("Login attempt: {0}",userDto.Name);
+        _logger.LogInformation("Authorization attempt: {0}",userDto.Name);
 
         if (!ModelState.IsValid)
         {
