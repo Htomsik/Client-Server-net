@@ -9,6 +9,9 @@
 
     <ItemGroup>
         <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.2" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.2" />
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.2" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.2">
           <PrivateAssets>all</PrivateAssets>
@@ -26,6 +29,7 @@
       <ProjectReference Include="..\..\Data\DAL.SqlServer\DAL.SqlServer.csproj" />
       <ProjectReference Include="..\..\Data\DAL\DAL.csproj" />
       <ProjectReference Include="..\..\Base\Interfaces\Interfaces.csproj" />
+      <ProjectReference Include="..\..\UI\BlazorUI\BlazorUI.csproj" />
     </ItemGroup>
 
     <ItemGroup>

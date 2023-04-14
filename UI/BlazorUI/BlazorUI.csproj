@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.2" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.2" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.175" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap\bootstrap.min.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap\bootstrap.min.css.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\app.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\app.min.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\sample-data\weather.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Common\Domain\Domain.csproj" />
+      <ProjectReference Include="..\..\Data\HTTPClients\HTTPClients.csproj" />
+    </ItemGroup>
+
+</Project>

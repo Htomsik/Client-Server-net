@@ -1,0 +1,94 @@
+@page "/"
+@using Interfaces.Repositories
+@using Domain.Entities
+
+@inject IRepository<DataSourceDTO> Repository
+
+<EditForm Model="_newDataSourceInfo" OnValidSubmit="Add">
+    <div class="row">
+        <div class="col-3">
+            <InputText id="new-datasource-name" @bind-Value="_newDataSourceInfo.Name"/>
+        </div>
+        <div class="col-9">
+            <InputText id="new-datasource-description" @bind-Value="_newDataSourceInfo.Description"/>
+        </div>
+    </div>
+    <button class="btn btn-outline-primary" type="submit">Создать</button>
+</EditForm>
+
+<hr/>
+
+<button @onclick="async () => await UpdateSources()" style="margin-left: 0; margin-right: auto; " class="btn btn-primary" >
+    Update
+</button>
+
+<hr/>
+
+@if (_items is { } items)
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>Название</th>
+            <th>Описание</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in items)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@item.Description</td>
+                <td>
+                    <button class="btn btn-outline-danger" @onclick="async ()=> await Remove(item)" >
+                       <i class="fa fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Loading...</p>
+}
+
+
+@code {
+    #region Fields
+
+    private DataSourceDTO _newDataSourceInfo = new ();
+    
+    private IList<DataSourceDTO>? _items;
+
+    #endregion
+    
+    #region Methods
+    
+    protected override async Task OnInitializedAsync() => await UpdateSources();
+
+    private async Task UpdateSources() => _items = (await Repository.GetMany()).ToList();
+
+    private async Task Remove(DataSourceDTO item) 
+    {
+        if (_items is not {Count: > 0 }) return;
+
+        await Repository.Delete(item);
+            _items.Remove(item);
+    }
+
+    private async Task Add()
+    {
+        await Repository.Add(_newDataSourceInfo);
+        _items.Add(_newDataSourceInfo);
+        
+        _newDataSourceInfo = new();
+    }
+
+    #endregion
+
+}

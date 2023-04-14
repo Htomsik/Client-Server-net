@@ -42,9 +42,13 @@ public record Startup(IConfiguration Configuration)
         if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
+            app.UseWebAssemblyDebugging();
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+        
+        app.UseBlazorFrameworkFiles();
+        app.UseStaticFiles();
         
         app.UseHttpsRedirection();
         
@@ -57,6 +61,7 @@ public record Startup(IConfiguration Configuration)
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
+            endpoints.MapFallbackToFile("index.html");
         });
     }
 }
