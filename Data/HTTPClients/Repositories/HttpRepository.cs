@@ -103,9 +103,7 @@ public class HttpRepository<T> : IRepository<T> where T : IEntity
         
         var response = await Client.SendAsync(request, cancel).ConfigureAwait(false);
 
-        if (response.IsSuccessStatusCode)
-            return default;
-
+        
         var result = await response
             .EnsureSuccessStatusCode()
             .Content
@@ -118,9 +116,6 @@ public class HttpRepository<T> : IRepository<T> where T : IEntity
     public async Task<T?> Delete(int id, CancellationToken cancel = default)
     {
         var response = await Client.DeleteAsync($"{id}", cancel).ConfigureAwait(false);
-
-        if (response.IsSuccessStatusCode)
-            return default;
         
         var result = await response
             .EnsureSuccessStatusCode()
