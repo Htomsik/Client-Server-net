@@ -4,8 +4,9 @@ using Interfaces.Other;
 
 namespace Domain.identity;
 
-public class LoginUserDTO     
+public class LoginUserDTO 
 {
+    
     [Required]
     public string Name { get; set; }
     
@@ -16,15 +17,14 @@ public class LoginUserDTO
     [Required]
     [DataType(DataType.Password)]
     public string Password { get; set; }
-
     
 }
 
-public class UserDTO : LoginUserDTO, INamedEntity
+public class UserDTO : LoginUserDTO, IUser
 {
     public int Id { get; set; }
 
-    private ITokens Tokens { get; set; }
+    public ITokens Tokens { get; set; }
     
     public ICollection<RoleDTO> Roles { get; set; }
 }

@@ -16,7 +16,7 @@ public class AccountController : ControllerBase
 
     private readonly ILogger<AccountController> _logger;
     
-    private readonly IAuthService _authService;
+    private readonly IAuthService<LoginUserDTO, Tokens> _authService;
     
     private readonly IMapper _mapper;
 
@@ -24,7 +24,7 @@ public class AccountController : ControllerBase
 
     #region Constructors
 
-    public AccountController(ILogger<AccountController> logger, IAuthService authService, IMapper mapper)
+    public AccountController(ILogger<AccountController> logger, IAuthService<LoginUserDTO, Tokens> authService, IMapper mapper)
     {
         _logger = logger;
         _authService = authService;

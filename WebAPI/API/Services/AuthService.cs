@@ -10,7 +10,7 @@ using Services.Identity;
 
 namespace API.Services;
 
-public class AuthService : IAuthService
+public class AuthService : IAuthService<LoginUserDTO, Tokens>
 {
     #region Fileds
     
@@ -92,7 +92,7 @@ public class AuthService : IAuthService
 
     #region IAuthService
 
-    public async Task<Tokens?> Authorize(LoginUserDTO loginUser)
+    public async Task<Tokens?> Authorize(LoginUserDTO loginUser, CancellationToken cancel = default)
     {
         var loginResult = await _signInManager.PasswordSignInAsync(
             loginUser.Name,
@@ -110,7 +110,7 @@ public class AuthService : IAuthService
         };
     }
 
-    public async Task<Tokens?> Registration(LoginUserDTO loginUser)
+    public async Task<Tokens?> Registration(LoginUserDTO loginUser, CancellationToken cancel = default)
     {
         var user = _mapper.Map<User>(loginUser);
 
@@ -124,7 +124,7 @@ public class AuthService : IAuthService
         return await Authorize(loginUser);
     }
 
-    public async Task<Tokens?> RefreshTokens(Tokens tokens)
+    public async Task<Tokens?> RefreshTokens(Tokens tokens, CancellationToken cancel = default)
     {
         var jwtSecurity = new JwtSecurityTokenHandler();
 
