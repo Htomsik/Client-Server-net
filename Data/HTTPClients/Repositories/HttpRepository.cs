@@ -8,7 +8,7 @@ namespace HTTPClients.Repositories;
 public class HttpRepository<T> : IRepository<T> where T : IEntity
 {
     #region Fields
-    protected readonly HttpClient Client;
+    public HttpClient Client { get; }
     #endregion
     
     #region Records/Classes

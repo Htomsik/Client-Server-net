@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Common\Domain\Domain.csproj" />
       <ProjectReference Include="..\..\Data\HTTPClients\HTTPClients.csproj" />
       <ProjectReference Include="..\..\Base\Models\Models.csproj" />
     </ItemGroup>
