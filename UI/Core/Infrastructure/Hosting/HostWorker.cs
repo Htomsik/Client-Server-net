@@ -36,5 +36,6 @@ internal class HostWorker
             .StoresRegistration()
             .ServiceRegistration()
             .VmdRegistration()
+            .HttpClientsRegistration(host.Configuration)
             .AdditionalRegistration();
 }
