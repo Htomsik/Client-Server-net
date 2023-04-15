@@ -1,11 +1,9 @@
 ﻿using AppInfrastructure.Stores.DefaultStore;
 using Core.Infrastructure.Models.Entities;
-using Core.Infrastructure.Services.AccountService;
-using Interfaces.Other;
 using Microsoft.Extensions.Logging;
 using Services.Identity;
 
-namespace Core.Services;
+namespace Core.Infrastructure.Services.AccountService;
 
 internal sealed class AccountService : IAccountService
 {

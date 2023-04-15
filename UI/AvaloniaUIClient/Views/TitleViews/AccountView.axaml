@@ -1,0 +1,56 @@
+﻿<UserControl
+    x:Class="AvaloniaUIClient.Views.TitleViews.AccountView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+    d:DesignWidth="800"
+    d:DesignHeight="450"
+    mc:Ignorable="d">
+
+    <StackPanel
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center">
+
+        <StackPanel.Styles>
+            <Style Selector=":is(Control)">
+                <Setter Property="Margin" Value="1" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+            </Style>
+        </StackPanel.Styles>
+
+        <avalonia:MaterialIcon
+            Width="150"
+            Height="150"
+            Kind="Account" />
+
+        <TextBox Text="{Binding Account.Name}" />
+
+        <TextBox Text="{Binding Account.Email}" />
+
+        <TextBox Text="{Binding Account.Password}" />
+
+        <Grid ColumnDefinitions="*,*,*">
+
+            <Button
+                Grid.Column="0"
+                Content="Login"
+                Command="{Binding Login}" />
+
+            <Button
+                Grid.Column="1"
+                Content="Registration"
+                Command="{Binding Registration}" />
+
+            <Button
+                Grid.Column="2"
+                Content="Logout"
+                Command="{Binding Logout}" />
+
+        </Grid>
+
+    </StackPanel>
+
+</UserControl>

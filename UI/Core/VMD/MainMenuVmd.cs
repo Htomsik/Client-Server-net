@@ -43,6 +43,7 @@ public class MainMenuVmd : BaseMenuVmd<MenuParamCommandItem>
         MenuItems = new ObservableCollection<MenuParamCommandItem>
         {
             new ("Home",(ICommand)NavigationCommand!,typeof(HomeVmd)),
+            new ("Account",(ICommand?)NavigationCommand!,typeof(AccountVmd))
         };
 
         ProjectInfo = projectInfo;
