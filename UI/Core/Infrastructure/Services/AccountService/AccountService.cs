@@ -1,5 +1,6 @@
 ﻿using AppInfrastructure.Stores.DefaultStore;
 using Core.Infrastructure.Models.Entities;
+using Core.Infrastructure.Services.Other;
 using Microsoft.Extensions.Logging;
 using Services.Identity;
 
@@ -12,6 +13,8 @@ internal sealed class AccountService : IAccountService
     private readonly ILogger _logger;
 
     private readonly IAuthService<AuthUser, Tokens> _authService;
+    
+    private readonly IUiThreadOperation _uiThreadOperation;
 
     private User _account; 
 
@@ -22,10 +25,12 @@ internal sealed class AccountService : IAccountService
     public AccountService(
         ILogger<AccountService> logger, 
         IAuthService<AuthUser, Tokens> autService,
-        IStore<User> userStore)
+        IStore<User> userStore,
+        IUiThreadOperation uiThreadOperation)
     {
         _logger = logger;
         _authService = autService;
+        _uiThreadOperation = uiThreadOperation;
         _account = userStore.CurrentValue;
 
         userStore.CurrentValueChangedNotifier += () =>
@@ -58,7 +63,12 @@ internal sealed class AccountService : IAccountService
         
         if (ret)
         {
-            _account.Tokens = new Tokens(tokens!);
+            await _uiThreadOperation.InvokeAsync(() =>
+            {
+                _account.Tokens.Token = tokens.Token;
+                _account.Tokens.RefreshToken = tokens.RefreshToken;
+            });
+            
             _logger.LogInformation("Authorization success. Account: {acc}", _account.Name);
         }
         else
@@ -90,7 +100,12 @@ internal sealed class AccountService : IAccountService
         
         if (ret)
         {
-            _account.Tokens = new Tokens(tokens!);
+            await _uiThreadOperation.InvokeAsync(() =>
+            {
+                _account.Tokens.Token = tokens.Token;
+                _account.Tokens.RefreshToken = tokens.RefreshToken;
+            });
+            
             _logger.LogInformation("Registration success. Account: {acc}", _account.Name);
         }
         else
