@@ -4,13 +4,13 @@ using Interfaces.Other;
 
 namespace Domain.identity;
 
-public class LoginUserDTO 
+public class LoginUserDTO  : IAuthUser
 {
+    public int Id { get; set; }
     
     [Required]
     public string Name { get; set; }
     
-    [Required]
     [DataType(DataType.EmailAddress)]
     public string Email { get; set; }
     
@@ -22,8 +22,7 @@ public class LoginUserDTO
 
 public class UserDTO : LoginUserDTO, IUser
 {
-    public int Id { get; set; }
-
+    
     public ITokens Tokens { get; set; }
     
     public ICollection<RoleDTO> Roles { get; set; }
