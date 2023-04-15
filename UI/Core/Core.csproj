@@ -26,6 +26,8 @@
       </None>
     </ItemGroup>
 
-   
-
+    <ItemGroup>
+      <ProjectReference Include="..\..\Base\Interfaces\Interfaces.csproj" />
+    </ItemGroup>
+    
 </Project>

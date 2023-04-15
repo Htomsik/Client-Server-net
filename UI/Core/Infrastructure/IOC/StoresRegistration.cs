@@ -2,6 +2,7 @@
 using AppInfrastructure.Stores.DefaultStore;
 using AppInfrastructure.Stores.Repositories.Collection;
 using Core.Infrastructure.Logging;
+using Core.Infrastructure.Models.Entities;
 using Core.Infrastructure.Models.Settings;
 using Core.Infrastructure.Stores.Interfaces;
 using Core.Infrastructure.VMD.Interfaces;
@@ -22,6 +23,9 @@ public partial class IocRegistration
     private static IServiceCollection VmdsStoreRegs(this IServiceCollection services) =>
         services
             .AddSingleton<IStore<ITitleVmd>, TitleVmdStore>()
+            .AddSingleton<ISaverStore<User, bool>, UserStore>()
+            .AddSingleton<ITimerStore<User>>(s => s.GetRequiredService<ISaverStore<User, bool>>())
+            .AddSingleton<IStore<User>>(s => s.GetRequiredService<ISaverStore<User, bool>>())
             .AddSingleton<ISaverStore<Settings, Boolean>, SettingsStore>()
             .AddSingleton<ITimerStore<Settings>>(s => s.GetRequiredService<ISaverStore<Settings, Boolean>>())
             .AddSingleton<IStore<Settings>>(s => s.GetRequiredService<ISaverStore<Settings, Boolean>>());

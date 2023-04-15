@@ -43,7 +43,9 @@ public partial class App : Application
     private void StartupEvents()
     {
         Services.GetService<SettingsFileService>().Get();
-
+        
+        Services.GetService<UserFleService>().Get();
+        
         Services.GetService<BaseVmdNavigationService<ITitleVmd>>();
     }
 }

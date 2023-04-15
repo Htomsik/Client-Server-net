@@ -20,7 +20,9 @@ public static partial class IocRegistration
         services.AddSingleton<BaseVmdNavigationService<ITitleVmd>, TitleVmdsNavigationService>();
 
     private static IServiceCollection AdditionalServiceRegs(this IServiceCollection services) =>
-        services.AddSingleton<SettingsFileService>();
+        services
+            .AddSingleton<SettingsFileService>()
+            .AddSingleton<UserFleService>();
     
     private static IServiceCollection InfrServicesRegs(this IServiceCollection services) =>
         services
