@@ -14,7 +14,7 @@ public sealed class SettingsFileService : BaseStoreFileService<Settings,ISaverSt
         IConfiguration configuration,
         ISaverStore<Settings,bool> store, 
         IParseService parseService,
-        ILogger<BaseStoreFileService<Settings,ISaverStore<Settings,bool>>> logger) : base(store, parseService, logger, "Settings.json")
+        ILogger<SettingsFileService> logger) : base(store, parseService, logger, "Settings.json")
     {
         _configuration = configuration;
     }
