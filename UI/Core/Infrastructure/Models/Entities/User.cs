@@ -8,8 +8,7 @@ namespace Core.Infrastructure.Models.Entities;
 
 public class User : AuthUser, IUser
 {
-    [Reactive]
-    public ITokens? Tokens { get; set; }
+    [Reactive] public ITokens? Tokens { get; set; } = new Tokens();
 }
 
 public class AuthUser : ReactiveObject, IAuthUser
