@@ -1,5 +1,4 @@
 ﻿using System.Net.Mail;
-using System.Reactive.Disposables;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 using Interfaces.Entities;
@@ -10,48 +9,35 @@ using ReactiveUI.Validation.Helpers;
 
 namespace Core.Infrastructure.Models.Entities;
 
-public class User : AuthUser, IUser
+public class User : RegUser, IUser
 {
     [Reactive] public ITokens? Tokens { get; set; } = new Tokens();
+    
+    public User() : this(false){}
+    public User(bool withValidation = false) : base(withValidation){}
 }
 
-public class AuthUser : ReactiveValidationObject, IAuthUser
+
+public class RegUser : AuthUser, IRegUser
 {
-    [Reactive] public int Id { get; set; }
-    
-    [Reactive] public string? Name { get; set; }
-    
+    #region Properties
+
     [Reactive] public string? Email { get; set; }
-    
-    [XmlIgnore] [Reactive] public string? Password { get; set; }
-    
-    
-    public AuthUser(bool withValidation = false)
-    {
-        if (withValidation)
-            SetValidation();
-    }
 
+    #endregion
+
+    #region Constructors
+
+    public RegUser() : this(false){}
+    
+    public RegUser(bool withValidation = false) : base(withValidation){}
+
+    #endregion
+    
     #region Methods
-    
-    private void SetValidation()
+
+    protected override void SetValidation()
     {
-        this.ValidationRule(
-            viewModel => viewModel.Name, 
-            name => name?.Length is >= 3 and <= 10,
-            "Name must be more than 3 and less than 10");
-        
-        this.ValidationRule(
-            viewModel => viewModel.Name,
-            name =>
-            {
-                if (name is null)
-                    return false;
-
-                return new Regex(@"^[A-Za-z]+$").IsMatch(name);
-            },
-            "Name must contain only English letters");
-
         this.ValidationRule(
             viewModel => viewModel.Email,
             email =>
@@ -69,6 +55,59 @@ public class AuthUser : ReactiveValidationObject, IAuthUser
                 }
             },
             "invalid email format");
+        
+        base.SetValidation();
+    }
+
+    #endregion
+    
+}
+
+public class AuthUser : ReactiveValidationObject, IAuthUser
+{
+    #region Properties
+
+    [Reactive] public int Id { get; set; }
+    
+    [Reactive] public string? Name { get; set; }
+    
+    [XmlIgnore] [Reactive] public string? Password { get; set; }
+
+    #endregion
+    
+    #region Constructors
+
+    public AuthUser() : this(false){}
+    
+    public AuthUser(bool withValidation = false)
+    {
+        if (withValidation)
+            SetValidation();
+    }
+
+    #endregion
+    
+    #region Methods
+    
+    protected virtual void SetValidation()
+    {
+        this.ValidationRule(
+            viewModel => viewModel.Name, 
+            name => name?.Length is >= 3 and <= 10,
+            "Name must be more than 3 and less than 10");
+        
+        this.ValidationRule(
+            viewModel => viewModel.Name,
+            name =>
+            {
+                if (name is null)
+                    return false;
+
+                return new Regex(@"^[A-Za-z]+$").IsMatch(name);
+            },
+            "Name must contain only English letters");
+
+        
 
         this.ValidationRule(
             viewModel => viewModel.Password, 

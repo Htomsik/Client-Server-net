@@ -7,13 +7,13 @@ using Services.Identity;
 
 namespace Core.Infrastructure.Services.AccountService;
 
-internal sealed class AccountService : IAccountService<AuthUser>
+internal sealed class AccountService : IAccountService<AuthUser, RegUser>
 {
     #region Fields
 
     private readonly ILogger _logger;
 
-    private readonly IAuthService<AuthUser, Tokens> _authService;
+    private readonly IAuthService<AuthUser,RegUser, Tokens> _authService;
     
     private readonly IUiThreadOperation _uiThreadOperation;
 
@@ -25,7 +25,7 @@ internal sealed class AccountService : IAccountService<AuthUser>
 
     public AccountService(
         ILogger<AccountService> logger, 
-        IAuthService<AuthUser, Tokens> autService,
+        IAuthService<AuthUser,RegUser, Tokens> autService,
         IStore<User> userStore,
         IUiThreadOperation uiThreadOperation)
     {
@@ -47,9 +47,7 @@ internal sealed class AccountService : IAccountService<AuthUser>
         Tokens? tokens = null;
 
         bool ret = true;
-
-        authUser.Email = "ex@example.com"; // Todo Create new DTO for Auth on API
-
+        
         _logger.LogInformation("Authorization attempt. Account: {acc}", authUser.Name);
         
         try
@@ -69,8 +67,7 @@ internal sealed class AccountService : IAccountService<AuthUser>
             await _uiThreadOperation.InvokeAsync(() =>
             {
                 _account.Name = authUser.Name;
-                _account.Email = authUser.Email;
-                
+
                 _account.Tokens.Token = tokens.Token;
                 _account.Tokens.RefreshToken = tokens.RefreshToken;
             });
@@ -84,7 +81,7 @@ internal sealed class AccountService : IAccountService<AuthUser>
         return ret;
     }
 
-    public async Task<bool> Registration(AuthUser authUser,CancellationToken cancel = default)
+    public async Task<bool> Registration(RegUser authUser,CancellationToken cancel = default)
     {
         Tokens? tokens = null;
 

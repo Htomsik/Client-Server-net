@@ -82,7 +82,7 @@ public class DialogService : BaseVmd, IDialogService
                 ReactiveCommand
                     .CreateFromObservable(() => 
                         Observable.StartAsync(ProcessAndClose)
-                            .TakeUntil(Cancel),DialogVmd?.CanProses);
+                            .TakeUntil(Cancel),DialogVmd?.CanProcess);
             
             IsOpen = true;
         }

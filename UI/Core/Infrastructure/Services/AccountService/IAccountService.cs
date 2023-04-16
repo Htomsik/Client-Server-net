@@ -2,9 +2,11 @@
 
 namespace Core.Infrastructure.Services.AccountService;
 
-public interface IAccountService<TAutUser> where TAutUser : IAuthUser
+public interface IAccountService<in TAuthUser, in TRegUser>
+    where TAuthUser : IAuthUser
+    where TRegUser : IRegUser
 {
-    public Task<bool> Authorization(TAutUser authUser,CancellationToken cancel = default);
+    public Task<bool> Authorization(TAuthUser authUser,CancellationToken cancel = default);
 
-    public Task<bool> Registration(TAutUser authUser,CancellationToken cancel = default);
+    public Task<bool> Registration(TRegUser authUser,CancellationToken cancel = default);
 }

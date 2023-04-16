@@ -4,5 +4,5 @@ public interface IDialogVmd : ITitleVmd
 {
     public Task<bool> Process(CancellationToken cancel = default);
 
-    public IObservable<bool> CanProses { get; }
+    public IObservable<bool> CanProcess { get; }
 }
