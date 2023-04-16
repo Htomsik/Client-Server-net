@@ -10,7 +10,7 @@ using Services.Identity;
 
 namespace API.Services;
 
-public class AuthService : IAuthService<LoginUserDTO, Tokens>
+public class AuthService : IAuthService<LoginUserDTO,RegistratonUserDTO, Tokens>
 {
     #region Fileds
     
@@ -110,7 +110,7 @@ public class AuthService : IAuthService<LoginUserDTO, Tokens>
         };
     }
 
-    public async Task<Tokens?> Registration(LoginUserDTO loginUser, CancellationToken cancel = default)
+    public async Task<Tokens?> Registration(RegistratonUserDTO loginUser, CancellationToken cancel = default)
     {
         var user = _mapper.Map<User>(loginUser);
 

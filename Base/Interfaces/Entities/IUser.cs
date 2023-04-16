@@ -9,7 +9,10 @@ public interface IUser : IAuthUser
 
 public interface IAuthUser : INamedEntity
 {
-    public string Email { get; set; }
-    
     public string Password { get; set; }
+}
+
+public interface IRegUser : IAuthUser
+{
+    public string Email { get; set; }
 }
