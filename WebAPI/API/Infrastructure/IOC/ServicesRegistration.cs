@@ -22,5 +22,5 @@ internal static partial class IoCRegistration
             .AddAutoMapper(typeof(Startup))
             .AddScoped(typeof(IRepository<>),typeof(DbRepository<>))
             .AddScoped(typeof(INamedRepository<>),typeof(DbNameRepository<>))
-            .AddScoped<IAuthService<LoginUserDTO, Tokens>, AuthService>();
+            .AddScoped<IAuthService<LoginUserDTO,RegistratonUserDTO, Tokens>, AuthService>();
 }

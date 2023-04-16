@@ -16,7 +16,7 @@ public class AccountController : ControllerBase
 
     private readonly ILogger<AccountController> _logger;
     
-    private readonly IAuthService<LoginUserDTO, Tokens> _authService;
+    private readonly IAuthService<LoginUserDTO,RegistratonUserDTO, Tokens> _authService;
     
     private readonly IMapper _mapper;
 
@@ -24,7 +24,7 @@ public class AccountController : ControllerBase
 
     #region Constructors
 
-    public AccountController(ILogger<AccountController> logger, IAuthService<LoginUserDTO, Tokens> authService, IMapper mapper)
+    public AccountController(ILogger<AccountController> logger, IAuthService<LoginUserDTO,RegistratonUserDTO, Tokens> authService, IMapper mapper)
     {
         _logger = logger;
         _authService = authService;
@@ -72,7 +72,7 @@ public class AccountController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
-    public async Task<IActionResult> Registration(LoginUserDTO userDto)
+    public async Task<IActionResult> Registration(RegistratonUserDTO userDto)
     {
         _logger.LogInformation("Registration attempt: {0}",userDto.Name);
 
