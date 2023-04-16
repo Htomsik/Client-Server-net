@@ -31,12 +31,6 @@ public class DialogService : BaseVmd, IDialogService
         Cancel = ReactiveCommand.Create(() => { IsOpen = false; });
         
         Open = ReactiveCommand.Create(() => { IsOpen = true;},CanOpen);
-
-        Process =
-            ReactiveCommand
-                .CreateFromObservable(() => 
-                    Observable.StartAsync(ProcessAndClose)
-                        .TakeUntil(Cancel),CanProcess);
         
         #endregion
     }
@@ -59,10 +53,7 @@ public class DialogService : BaseVmd, IDialogService
     
     #region Process
     
-    public ICommand Process { get; }
-    
-    private IObservable<bool> CanProcess =>
-        this.WhenAnyValue(x => x.IsOpen, open=> open == true);
+    public ICommand Process { get; private set; }
     
     #endregion
     
@@ -86,7 +77,16 @@ public class DialogService : BaseVmd, IDialogService
         ChangeVmd(dialogVmdType);
 
         if (DialogVmd != null)
+        {
+            Process =
+                ReactiveCommand
+                    .CreateFromObservable(() => 
+                        Observable.StartAsync(ProcessAndClose)
+                            .TakeUntil(Cancel),DialogVmd?.CanProses);
+            
             IsOpen = true;
+        }
+            
     }
 
     private async Task ProcessAndClose(CancellationToken cancel)

@@ -48,6 +48,8 @@ internal sealed class AccountService : IAccountService<AuthUser>
 
         bool ret = true;
 
+        authUser.Email = "ex@example.com"; // Todo Create new DTO for Auth on API
+
         _logger.LogInformation("Authorization attempt. Account: {acc}", authUser.Name);
         
         try

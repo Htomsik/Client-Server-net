@@ -6,7 +6,7 @@ namespace Core.VMD.TitleVmds.Account;
 public sealed class RegistrationVmd : AuthorizationVmd
 {
     public override string Title { get; } = "Registration";
-    
+
     public RegistrationVmd(IAccountService<AuthUser> accountService) : base(accountService) { }
 
     #region Methods

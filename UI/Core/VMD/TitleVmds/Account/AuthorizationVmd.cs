@@ -1,9 +1,8 @@
-﻿
-using Core.Infrastructure.Models.Entities;
+﻿using Core.Infrastructure.Models.Entities;
 using Core.Infrastructure.Services.AccountService;
 using Core.Infrastructure.VMD;
 using Core.Infrastructure.VMD.Interfaces;
-using Interfaces.Entities;
+using ReactiveUI.Validation.Extensions;
 
 namespace Core.VMD.TitleVmds.Account;
 
@@ -13,7 +12,7 @@ public class AuthorizationVmd : BaseTitleVmd, IDialogVmd
 
     public override string Title { get; } = "Authorization";
 
-    public IAuthUser Account { get; set; } = new AuthUser();
+    public AuthUser Account { get; set; } = new(true);
 
     #endregion
 
@@ -28,6 +27,8 @@ public class AuthorizationVmd : BaseTitleVmd, IDialogVmd
     public AuthorizationVmd(IAccountService<AuthUser> accountService)
     {
         AccountService = accountService;
+
+        CanProses = Account.IsValid();
     }
     
     #endregion
@@ -35,6 +36,8 @@ public class AuthorizationVmd : BaseTitleVmd, IDialogVmd
     #region Methods
 
     public virtual async Task<bool> Process(CancellationToken cancel = default) => await AccountService.Authorization((AuthUser)Account, cancel);
+    
+    public IObservable<bool> CanProses { get; } 
     
     #endregion
     

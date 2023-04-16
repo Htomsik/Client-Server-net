@@ -9,28 +9,19 @@
     mc:Ignorable="d">
 
     <StackPanel Orientation="Vertical">
+
         <TextBox
-            Height="24"
-            Margin="0,10,0,20"
             UseFloatingWatermark="True"
             Watermark="UserName"
             Text="{Binding Account.Name}" />
 
         <TextBox
-            Height="24"
-            Margin="0,10,0,20"
-            UseFloatingWatermark="True"
-            Watermark="Email"
-            Text="{Binding Account.Email}" />
-
-        <TextBox
-            Height="24"
-            Margin="0,10,0,20"
             Watermark="Password"
             UseFloatingWatermark="True"
             Classes="revealPasswordButton"
             PasswordChar="*"
             Text="{Binding Account.Password}" />
+
     </StackPanel>
 
 </UserControl>
