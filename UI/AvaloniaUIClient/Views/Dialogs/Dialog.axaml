@@ -30,6 +30,8 @@
 
         <StackPanel
             Grid.Row="2"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
             Orientation="Horizontal">
 
             <Button
