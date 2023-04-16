@@ -5,6 +5,7 @@ using Avalonia.Markup.Xaml;
 using AvaloniaUIClient.Infrastructure.IOC;
 using AvaloniaUIClient.Views;
 using Core.Infrastructure.Hosting;
+using Core.Infrastructure.Services.AccountService;
 using Core.Infrastructure.Services.NavigationService;
 using Core.Infrastructure.VMD.Interfaces;
 using Core.Services;
@@ -45,6 +46,8 @@ public partial class App : Application
         Services.GetService<SettingsFileService>().Get();
         
         Services.GetService<UserFleService>().Get();
+
+        Services.GetService<ITokenService>().Refresh();
         
         Services.GetService<BaseVmdNavigationService<ITitleVmd>>();
     }

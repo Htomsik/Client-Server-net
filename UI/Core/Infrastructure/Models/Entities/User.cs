@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 using Interfaces.Entities;
 using Interfaces.Other;
+using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using ReactiveUI.Validation.Extensions;
 using ReactiveUI.Validation.Helpers;
@@ -14,9 +15,14 @@ public class User : RegUser, IUser
     [Reactive] public ITokens? Tokens { get; set; } = new Tokens();
     
     public User() : this(false){}
-    public User(bool withValidation = false) : base(withValidation){}
-}
 
+    public User(bool withValidation = false) : base(withValidation)
+    {
+        this
+            .WhenAnyValue(x => x.Tokens.Token)
+            .Subscribe(_=>this.RaisePropertyChanged(nameof(Tokens)));
+    }
+}
 
 public class RegUser : AuthUser, IRegUser
 {

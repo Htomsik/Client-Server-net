@@ -33,6 +33,7 @@ public static partial class IocRegistration
             .AddSingleton<IVmdDialogService>(s=>s.GetRequiredService<IDialogService>())
             .AddSingleton<IViewDialogService>(s=>s.GetRequiredService<IVmdDialogService>())
             .AddTransient<IAccountService<AuthUser, RegUser>, AccountService>()
+            .AddTransient<ITokenService, TokenService>()
             .AddTransient<ProjectInfo>()
             .AddTransient<IParseService,ParseService>()
             .AddSingleton<IObserver<Exception>,GlobalExceptionHandler>()

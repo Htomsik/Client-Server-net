@@ -81,21 +81,32 @@
 
                 <Grid
                     Row="2"
-                    ColumnDefinitions="*,*,*">
+                    ColumnDefinitions="*,*,*,*">
+
                     <Button
                         Grid.Column="0"
                         Padding="0"
                         Classes="Outline"
                         Content="Login"
                         Command="{Binding Login}" />
+
                     <Button
                         Grid.Column="1"
                         Padding="0"
                         Classes="Outline"
                         Content="Registration"
                         Command="{Binding Registration}" />
+
                     <Button
                         Grid.Column="2"
+                        Padding="0"
+                        IsVisible="{Binding Settings.IsDevMode}"
+                        Classes="Outline"
+                        Content="Refresh Tokens"
+                        Command="{Binding RefreshTokens}" />
+
+                    <Button
+                        Grid.Column="3"
                         Padding="0"
                         Classes="Outline"
                         Content="Logout"

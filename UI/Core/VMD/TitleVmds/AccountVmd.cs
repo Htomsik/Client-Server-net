@@ -36,7 +36,8 @@ public class AccountVmd : BaseTitleVmd
     public AccountVmd(
         ISaverStore<User, bool> userStore,
         IStore<Settings> settingsStore,
-        IVmdDialogService dialogService)
+        IVmdDialogService dialogService,
+        ITokenService tokenService)
     {
         _dialogService = dialogService;
         
@@ -66,9 +67,11 @@ public class AccountVmd : BaseTitleVmd
             userStore.SaveNow();
         },CanLogout);
 
-        Login = ReactiveCommand.Create(()=> _dialogService.ChangeVmdAndOpen(typeof(AuthorizationVmd)));
+        Login = ReactiveCommand.Create(()=> _dialogService.ChangeVmdAndOpen(typeof(AuthorizationVmd)),CanLogin);
         
-        Registration = ReactiveCommand.Create(()=> _dialogService.ChangeVmdAndOpen(typeof(RegistrationVmd)));
+        Registration = ReactiveCommand.Create(()=> _dialogService.ChangeVmdAndOpen(typeof(RegistrationVmd)),CanLogin);
+
+        RefreshTokens = ReactiveCommand.CreateFromTask(tokenService.Refresh,CanRefreshTokens);
 
         #endregion
     }
@@ -91,6 +94,17 @@ public class AccountVmd : BaseTitleVmd
     public IReactiveCommand Registration { get; }
 
     #endregion
+    
+    #region RefreshTokens
+
+    public IReactiveCommand RefreshTokens { get; }
+    
+    private IObservable<bool> CanRefreshTokens =>
+        this.WhenAnyValue(
+            x => x.Account.Tokens.RefreshToken,
+            rtoken=>!string.IsNullOrEmpty(rtoken));
+
+    #endregion
 
     #region Logout
     public IReactiveCommand Logout { get;}
@@ -99,7 +113,6 @@ public class AccountVmd : BaseTitleVmd
         this.WhenAnyValue(x => x.Account.Name, acc=> !string.IsNullOrEmpty(acc));
 
     #endregion
-
     
     #endregion
 }
