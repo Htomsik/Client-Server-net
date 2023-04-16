@@ -5,52 +5,145 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+    xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
+    xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
     d:DesignWidth="800"
     d:DesignHeight="450"
     mc:Ignorable="d">
 
-    <StackPanel
-        HorizontalAlignment="Center"
-        VerticalAlignment="Center">
+    <UserControl.Styles>
+        <Style Selector="styles|ColorZone">
+            <Setter Property="ClipToBounds" Value="True" />
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Padding" Value="3" />
+        </Style>
+    </UserControl.Styles>
 
-        <StackPanel.Styles>
-            <Style Selector=":is(Control)">
-                <Setter Property="Margin" Value="1" />
-                <Setter Property="VerticalAlignment" Value="Center" />
-                <Setter Property="HorizontalAlignment" Value="Center" />
-            </Style>
-        </StackPanel.Styles>
+    <Grid RowDefinitions="*,Auto">
 
-        <avalonia:MaterialIcon
-            Width="150"
-            Height="150"
-            Kind="Account" />
+        <!--  Account Info  -->
+        <styles:Card
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            BorderBrush="white"
+            BorderThickness="1">
 
-        <TextBox Text="{Binding Account.Name}" />
+            <Grid
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                RowDefinitions="Auto,Auto,Auto">
 
-        <TextBox Text="{Binding Account.Email}" />
+                <Grid.Styles>
+                    <Style Selector=":is(Control)">
+                        <Setter Property="Margin" Value="1" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+                    </Style>
+                </Grid.Styles>
 
-        <TextBox Text="{Binding Account.Password}" />
+                <avalonia:MaterialIcon
+                    Grid.Row="0"
+                    Width="100"
+                    Height="100"
+                    Kind="Account" />
 
-        <Grid ColumnDefinitions="*,*,*">
+                <StackPanel Grid.Row="1">
 
-            <Button
-                Grid.Column="0"
-                Content="Login"
-                Command="{Binding Login}" />
+                    <StackPanel
+                        HorizontalAlignment="Left"
+                        Orientation="Horizontal">
 
-            <Button
-                Grid.Column="1"
-                Content="Registration"
-                Command="{Binding Registration}" />
+                        <TextBlock
+                            Opacity="0.61"
+                            Classes="Body2"
+                            Text="Username:" />
 
-            <Button
-                Grid.Column="2"
-                Content="Logout"
-                Command="{Binding Logout}" />
+                        <TextBlock
+                            Classes="Body1"
+                            Text="{Binding Account.Name}" />
+                    </StackPanel>
 
-        </Grid>
+                    <StackPanel
+                        HorizontalAlignment="Left"
+                        Orientation="Horizontal">
 
-    </StackPanel>
+                        <TextBlock
+                            Opacity="0.61"
+                            Classes="Body2"
+                            Text="Email:" />
+
+                        <TextBlock
+                            Classes="Body1"
+                            Text="{Binding Account.Email}" />
+                    </StackPanel>
+
+                </StackPanel>
+
+                <Grid
+                    Row="2"
+                    ColumnDefinitions="*,*,*">
+                    <Button
+                        Grid.Column="0"
+                        Padding="0"
+                        Classes="Outline"
+                        Content="Login"
+                        Command="{Binding Login}" />
+                    <Button
+                        Grid.Column="1"
+                        Padding="0"
+                        Classes="Outline"
+                        Content="Registration"
+                        Command="{Binding Registration}" />
+                    <Button
+                        Grid.Column="2"
+                        Padding="0"
+                        Classes="Outline"
+                        Content="Logout"
+                        Command="{Binding Logout}" />
+                </Grid>
+
+            </Grid>
+        </styles:Card>
+
+        <!--  Tokens Info  -->
+        <StackPanel
+            Grid.Row="1"
+            IsVisible="{Binding Settings.IsDevMode}">
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    Classes="Headline6"
+                    Text="Id:" />
+
+                <TextBlock
+                    Classes="Body1"
+                    Text="{Binding Account.Id}" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    Classes="Headline6"
+                    Text="AToken:" />
+
+                <TextBlock
+                    Classes="Body1"
+                    Text="{Binding Account.Tokens.Token}" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+
+                <TextBlock
+                    Classes="Headline6"
+                    Text="RToken:" />
+
+                <TextBlock
+                    Classes="Body1"
+                    Text="{Binding Account.Tokens.RefreshToken}" />
+            </StackPanel>
+
+
+        </StackPanel>
+    </Grid>
+
 
 </UserControl>

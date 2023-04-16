@@ -32,14 +32,14 @@ public class MainVmd : BaseVmd
     [Reactive]
     public ITitleVmd? TitleVmd { get; private set; }
     
-    public IDialogService DialogService { get; private set; }
+    public IViewDialogService DialogService { get; private set; }
 
     #endregion
 
     #region Constructors
 
     public MainVmd(
-        IDialogService dialogService,
+        IViewDialogService dialogService,
         IStore<ITitleVmd> titleVmdStore,
         IStore<Settings> settings, 
         ProjectInfo projectInfo)

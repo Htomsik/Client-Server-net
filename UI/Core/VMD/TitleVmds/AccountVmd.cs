@@ -1,9 +1,11 @@
-﻿using System.Reactive.Linq;
+﻿using AppInfrastructure.Stores.DefaultStore;
 using Core.Infrastructure.Models.Entities;
+using Core.Infrastructure.Models.Settings;
 using Core.Infrastructure.Services.AccountService;
+using Core.Infrastructure.Services.DialogService;
 using Core.Infrastructure.Stores.Interfaces;
 using Core.Infrastructure.VMD;
-using DynamicData.Binding;
+using Core.VMD.TitleVmds.Account;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
@@ -17,14 +19,31 @@ public class AccountVmd : BaseTitleVmd
 
     [Reactive]
     public User Account { get; set; }
+    
+    [Reactive]
+    public Settings? Settings { get; set; }
+
+    #endregion
+
+    #region Fields
+
+    private readonly IVmdDialogService _dialogService;
 
     #endregion
     
     #region Constructors
 
-    public AccountVmd(ISaverStore<User, bool> userStore, IAccountService accountService)
+    public AccountVmd(
+        ISaverStore<User, bool> userStore,
+        IAccountService accountService,
+        IStore<Settings> settingsStore,
+        IVmdDialogService dialogService)
     {
+        _dialogService = dialogService;
+        
         Account = userStore.CurrentValue;
+        
+        Settings = settingsStore.CurrentValue;
 
         #region Subscriptions
 
@@ -33,6 +52,11 @@ public class AccountVmd : BaseTitleVmd
             Account = userStore.CurrentValue;
         };
 
+        settingsStore.CurrentValueChangedNotifier += () =>
+        {
+            Settings = settingsStore.CurrentValue;
+        };
+        
         #endregion
 
         #region Commands
@@ -43,12 +67,9 @@ public class AccountVmd : BaseTitleVmd
             userStore.SaveNow();
         },CanLogout);
 
-        Login = ReactiveCommand.CreateFromObservable((() => 
-            Observable
-            .StartAsync(accountService.Authorization)), CanLogin);
+        Login = ReactiveCommand.Create(()=> _dialogService.ChangeVmdAndOpen(typeof(AuthorizationVmd)));
         
-
-        Registration = ReactiveCommand.CreateFromTask(accountService.Registration,CanLogin);
+        Registration = ReactiveCommand.Create(()=> _dialogService.ChangeVmdAndOpen(typeof(RegistrationVmd)));
 
         #endregion
     }

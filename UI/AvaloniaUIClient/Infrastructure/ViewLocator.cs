@@ -13,6 +13,7 @@ using Core.VMD;
 using Core.VMD.DevPanelVmds;
 using Core.VMD.DevPanelVmds.LogsVmds;
 using Core.VMD.TitleVmds;
+using Core.VMD.TitleVmds.Account;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ReactiveUI;
@@ -32,8 +33,10 @@ public class ViewLocator : IDataTemplate
         {typeof(AboutProgramVmd),typeof(AboutProgramView)},
         {typeof(LogsSettingsVmd),typeof(LogsDevSettingsView)},
         {typeof(StatusLineVmd),typeof(StatusLineView)},
+        {typeof(AccountVmd), typeof(AccountView)},
         {typeof(DialogService), typeof(Dialog)},
-        {typeof(AccountVmd), typeof(AccountView)}
+        {typeof(AuthorizationVmd), typeof(AuthorizatonDialog)},
+        {typeof(RegistrationVmd), typeof(RegistrationDialog)}
     };
 
     private ILogger? _logger;
