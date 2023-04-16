@@ -35,7 +35,6 @@ public class AccountVmd : BaseTitleVmd
 
     public AccountVmd(
         ISaverStore<User, bool> userStore,
-        IAccountService accountService,
         IStore<Settings> settingsStore,
         IVmdDialogService dialogService)
     {

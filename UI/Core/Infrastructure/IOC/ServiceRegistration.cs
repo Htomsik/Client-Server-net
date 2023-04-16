@@ -1,5 +1,6 @@
 ﻿using Core.Infrastructure.Extensions;
 using Core.Infrastructure.Logging;
+using Core.Infrastructure.Models.Entities;
 using Core.Infrastructure.Services.AccountService;
 using Core.Infrastructure.Services.DialogService;
 using Core.Infrastructure.Services.NavigationService;
@@ -31,7 +32,7 @@ public static partial class IocRegistration
             .AddSingleton<IDialogService, DialogService>()
             .AddSingleton<IVmdDialogService>(s=>s.GetRequiredService<IDialogService>())
             .AddSingleton<IViewDialogService>(s=>s.GetRequiredService<IVmdDialogService>())
-            .AddTransient<IAccountService, AccountService>()
+            .AddTransient<IAccountService<AuthUser>, AccountService>()
             .AddTransient<ProjectInfo>()
             .AddTransient<IParseService,ParseService>()
             .AddSingleton<IObserver<Exception>,GlobalExceptionHandler>()

@@ -1,10 +1,9 @@
-﻿using AppInfrastructure.Stores.DefaultStore;
+﻿
 using Core.Infrastructure.Models.Entities;
 using Core.Infrastructure.Services.AccountService;
 using Core.Infrastructure.VMD;
 using Core.Infrastructure.VMD.Interfaces;
 using Interfaces.Entities;
-using ReactiveUI;
 
 namespace Core.VMD.TitleVmds.Account;
 
@@ -13,34 +12,29 @@ public class AuthorizationVmd : BaseTitleVmd, IDialogVmd
     #region Properties
 
     public override string Title { get; } = "Authorization";
-    
-    public  IUser Account { get; set; }
+
+    public IAuthUser Account { get; set; } = new AuthUser();
 
     #endregion
 
     #region Fields
 
-    protected readonly IAccountService AccountService;
+    protected readonly IAccountService<AuthUser> AccountService;
 
     #endregion
     
     #region Constructors
 
-    public AuthorizationVmd(IAccountService accountService, IStore<User> userStore)
+    public AuthorizationVmd(IAccountService<AuthUser> accountService)
     {
         AccountService = accountService;
-        
-        Account = userStore.CurrentValue;
-
-        userStore.CurrentValueChangedNotifier += () => Account = userStore.CurrentValue;
-        
     }
     
     #endregion
     
     #region Methods
 
-    public virtual async Task<bool> Process(CancellationToken cancel = default) => await AccountService.Authorization(cancel);
+    public virtual async Task<bool> Process(CancellationToken cancel = default) => await AccountService.Authorization((AuthUser)Account, cancel);
     
     #endregion
     

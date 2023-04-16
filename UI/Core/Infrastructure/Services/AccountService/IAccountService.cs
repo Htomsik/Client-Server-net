@@ -1,8 +1,10 @@
-﻿namespace Core.Infrastructure.Services.AccountService;
+﻿using Interfaces.Entities;
 
-public interface IAccountService
+namespace Core.Infrastructure.Services.AccountService;
+
+public interface IAccountService<TAutUser> where TAutUser : IAuthUser
 {
-    public Task<bool> Authorization(CancellationToken cancel = default);
+    public Task<bool> Authorization(TAutUser authUser,CancellationToken cancel = default);
 
-    public Task<bool> Registration(CancellationToken cancel = default);
+    public Task<bool> Registration(TAutUser authUser,CancellationToken cancel = default);
 }

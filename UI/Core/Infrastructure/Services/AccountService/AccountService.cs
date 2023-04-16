@@ -1,12 +1,13 @@
 ﻿using AppInfrastructure.Stores.DefaultStore;
 using Core.Infrastructure.Models.Entities;
 using Core.Infrastructure.Services.Other;
+using Interfaces.Entities;
 using Microsoft.Extensions.Logging;
 using Services.Identity;
 
 namespace Core.Infrastructure.Services.AccountService;
 
-internal sealed class AccountService : IAccountService
+internal sealed class AccountService : IAccountService<AuthUser>
 {
     #region Fields
 
@@ -41,17 +42,17 @@ internal sealed class AccountService : IAccountService
 
     #endregion
     
-    public async Task<bool> Authorization(CancellationToken cancel = default)
+    public async Task<bool> Authorization(AuthUser authUser,CancellationToken cancel = default)
     {
         Tokens? tokens = null;
 
         bool ret = true;
 
-        _logger.LogInformation("Authorization attempt. Account: {acc}", _account.Name);
+        _logger.LogInformation("Authorization attempt. Account: {acc}", authUser.Name);
         
         try
         {
-            tokens = await _authService.Authorize(_account, cancel).ConfigureAwait(false);
+            tokens = await _authService.Authorize(authUser, cancel).ConfigureAwait(false);
         }
         catch (Exception error)
         {
@@ -65,6 +66,9 @@ internal sealed class AccountService : IAccountService
         {
             await _uiThreadOperation.InvokeAsync(() =>
             {
+                _account.Name = authUser.Name;
+                _account.Email = authUser.Email;
+                
                 _account.Tokens.Token = tokens.Token;
                 _account.Tokens.RefreshToken = tokens.RefreshToken;
             });
@@ -78,7 +82,7 @@ internal sealed class AccountService : IAccountService
         return ret;
     }
 
-    public async Task<bool> Registration(CancellationToken cancel = default)
+    public async Task<bool> Registration(AuthUser authUser,CancellationToken cancel = default)
     {
         Tokens? tokens = null;
 
@@ -88,7 +92,7 @@ internal sealed class AccountService : IAccountService
         
         try
         {
-            tokens = await _authService.Registration(_account, cancel).ConfigureAwait(false);
+            tokens = await _authService.Registration(authUser, cancel).ConfigureAwait(false);
         }
         catch (Exception error)
         {
@@ -102,6 +106,9 @@ internal sealed class AccountService : IAccountService
         {
             await _uiThreadOperation.InvokeAsync(() =>
             {
+                _account.Name = authUser.Name;
+                _account.Email = authUser.Email;
+                
                 _account.Tokens.Token = tokens.Token;
                 _account.Tokens.RefreshToken = tokens.RefreshToken;
             });
