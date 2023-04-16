@@ -6,7 +6,9 @@ using AvaloniaUIClient.Infrastructure.Views;
 using AvaloniaUIClient.Infrastructure.Views.DevPanelViews;
 using AvaloniaUIClient.Infrastructure.Views.DevPanelViews.LogsPanel;
 using AvaloniaUIClient.Views;
+using AvaloniaUIClient.Views.Dialogs;
 using AvaloniaUIClient.Views.TitleViews;
+using Core.Infrastructure.Services.DialogService;
 using Core.VMD;
 using Core.VMD.DevPanelVmds;
 using Core.VMD.DevPanelVmds.LogsVmds;
@@ -30,6 +32,7 @@ public class ViewLocator : IDataTemplate
         {typeof(AboutProgramVmd),typeof(AboutProgramView)},
         {typeof(LogsSettingsVmd),typeof(LogsDevSettingsView)},
         {typeof(StatusLineVmd),typeof(StatusLineView)},
+        {typeof(DialogService), typeof(Dialog)},
         {typeof(AccountVmd), typeof(AccountView)}
     };
 

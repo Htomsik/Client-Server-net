@@ -1,0 +1,54 @@
+﻿<UserControl
+    x:Class="AvaloniaUIClient.Views.Dialogs.Dialog"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
+    d:DesignWidth="800"
+    d:DesignHeight="450"
+    mc:Ignorable="d">
+
+    <Grid
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        RowDefinitions="25,*, 50">
+
+        <styles:ColorZone Mode="PrimaryDark">
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Classes="Headline6"
+                Text="{Binding DialogVmd.Title}" />
+        </styles:ColorZone>
+
+        <ContentControl
+            Grid.Row="1"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Content="{Binding DialogVmd}" />
+
+        <StackPanel
+            Grid.Row="2"
+            Orientation="Horizontal">
+
+            <Button
+                Margin="3"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Classes="Outline"
+                Content="OK"
+                Command="{Binding Process}" />
+
+            <Button
+                Margin="3"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Classes="Outline"
+                Content="Cancel"
+                Command="{Binding Cancel}" />
+        </StackPanel>
+
+    </Grid>
+
+</UserControl>

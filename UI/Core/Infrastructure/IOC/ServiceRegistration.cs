@@ -1,6 +1,7 @@
 ﻿using Core.Infrastructure.Extensions;
 using Core.Infrastructure.Logging;
 using Core.Infrastructure.Services.AccountService;
+using Core.Infrastructure.Services.DialogService;
 using Core.Infrastructure.Services.NavigationService;
 using Core.Infrastructure.Services.ParseService;
 using Core.Infrastructure.VMD.Interfaces;
@@ -27,6 +28,9 @@ public static partial class IocRegistration
     
     private static IServiceCollection InfrServicesRegs(this IServiceCollection services) =>
         services
+            .AddSingleton<IDialogService, DialogService>()
+            .AddSingleton<IVmdDialogService>(s=>s.GetRequiredService<IDialogService>())
+            .AddSingleton<IViewDialogService>(s=>s.GetRequiredService<IVmdDialogService>())
             .AddTransient<IAccountService, AccountService>()
             .AddTransient<ProjectInfo>()
             .AddTransient<IParseService,ParseService>()
