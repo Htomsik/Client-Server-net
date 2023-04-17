@@ -7,8 +7,8 @@
     xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
     xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
     xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
-    d:DesignWidth="800"
-    d:DesignHeight="450"
+    d:DesignWidth="300"
+    d:DesignHeight="300"
     mc:Ignorable="d">
 
     <UserControl.Styles>
@@ -17,144 +17,62 @@
             <Setter Property="Margin" Value="5" />
             <Setter Property="Padding" Value="3" />
         </Style>
+
+        <Style Selector="TextBlock.HeadTb">
+            <Setter Property="Opacity" Value="0.62" />
+        </Style>
     </UserControl.Styles>
 
-    <Grid RowDefinitions="*,Auto">
+    <Grid
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        RowDefinitions="Auto,Auto,Auto">
+        <Grid.Styles>
+            <Style Selector=":is(Control)">
+                <Setter Property="Margin" Value="1" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+            </Style>
+        </Grid.Styles>
 
-        <!--  Account Info  -->
-        <styles:Card
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            BorderBrush="white"
-            BorderThickness="1">
+        <avalonia:MaterialIcon
+            Grid.Row="0"
+            Width="100"
+            Height="100"
+            Kind="Account" />
 
-            <Grid
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                RowDefinitions="Auto,Auto,Auto">
-
-                <Grid.Styles>
-                    <Style Selector=":is(Control)">
-                        <Setter Property="Margin" Value="1" />
-                        <Setter Property="VerticalAlignment" Value="Center" />
-                        <Setter Property="HorizontalAlignment" Value="Center" />
-                    </Style>
-                </Grid.Styles>
-
-                <avalonia:MaterialIcon
-                    Grid.Row="0"
-                    Width="100"
-                    Height="100"
-                    Kind="Account" />
-
-                <StackPanel Grid.Row="1">
-
-                    <StackPanel
-                        HorizontalAlignment="Left"
-                        Orientation="Horizontal">
-
-                        <TextBlock
-                            Opacity="0.61"
-                            Classes="Body2"
-                            Text="Username:" />
-
-                        <TextBlock
-                            Classes="Body1"
-                            Text="{Binding Account.Name}" />
-                    </StackPanel>
-
-                    <StackPanel
-                        HorizontalAlignment="Left"
-                        Orientation="Horizontal">
-
-                        <TextBlock
-                            Opacity="0.61"
-                            Classes="Body2"
-                            Text="Email:" />
-
-                        <TextBlock
-                            Classes="Body1"
-                            Text="{Binding Account.Email}" />
-                    </StackPanel>
-
-                </StackPanel>
-
-                <Grid
-                    Row="2"
-                    ColumnDefinitions="*,*,*,*">
-
-                    <Button
-                        Grid.Column="0"
-                        Padding="0"
-                        Classes="Outline"
-                        Content="Login"
-                        Command="{Binding Login}" />
-
-                    <Button
-                        Grid.Column="1"
-                        Padding="0"
-                        Classes="Outline"
-                        Content="Registration"
-                        Command="{Binding Registration}" />
-
-                    <Button
-                        Grid.Column="2"
-                        Padding="0"
-                        IsVisible="{Binding Settings.IsDevMode}"
-                        Classes="Outline"
-                        Content="Refresh Tokens"
-                        Command="{Binding RefreshTokens}" />
-
-                    <Button
-                        Grid.Column="3"
-                        Padding="0"
-                        Classes="Outline"
-                        Content="Logout"
-                        Command="{Binding Logout}" />
-                </Grid>
-
-            </Grid>
-        </styles:Card>
-
-        <!--  Tokens Info  -->
-        <StackPanel
-            Grid.Row="1"
-            IsVisible="{Binding Settings.IsDevMode}">
-
-            <StackPanel Orientation="Horizontal">
+        <StackPanel Grid.Row="1">
+            <StackPanel
+                HorizontalAlignment="Left"
+                Orientation="Horizontal">
                 <TextBlock
-                    Classes="Headline6"
-                    Text="Id:" />
+                    Classes="Body2 HeadTb"
+                    Text="Username:" />
 
                 <TextBlock
                     Classes="Body1"
-                    Text="{Binding Account.Id}" />
+                    Text="{Binding Account.Name}" />
             </StackPanel>
-
-            <StackPanel Orientation="Horizontal">
-                <TextBlock
-                    Classes="Headline6"
-                    Text="AToken:" />
-
-                <TextBlock
-                    Classes="Body1"
-                    Text="{Binding Account.Tokens.Token}" />
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal">
-
-                <TextBlock
-                    Classes="Headline6"
-                    Text="RToken:" />
-
-                <TextBlock
-                    Classes="Body1"
-                    Text="{Binding Account.Tokens.RefreshToken}" />
-            </StackPanel>
-
-
         </StackPanel>
+
+        <WrapPanel Grid.Row="2">
+            <Button
+                Padding="0"
+                Classes="Outline"
+                Content="Login"
+                Command="{Binding Login}" />
+
+            <Button
+                Padding="0"
+                Classes="Outline"
+                Content="Registration"
+                Command="{Binding Registration}" />
+
+            <Button
+                Padding="0"
+                Classes="Outline"
+                Content="Logout"
+                Command="{Binding Logout}" />
+        </WrapPanel>
     </Grid>
-
-
 </UserControl>

@@ -70,9 +70,7 @@ public class AccountVmd : BaseTitleVmd
         Login = ReactiveCommand.Create(()=> _dialogService.ChangeVmdAndOpen(typeof(AuthorizationVmd)),CanLogin);
         
         Registration = ReactiveCommand.Create(()=> _dialogService.ChangeVmdAndOpen(typeof(RegistrationVmd)),CanLogin);
-
-        RefreshTokens = ReactiveCommand.CreateFromTask(tokenService.Refresh,CanRefreshTokens);
-
+        
         #endregion
     }
 
@@ -95,17 +93,6 @@ public class AccountVmd : BaseTitleVmd
 
     #endregion
     
-    #region RefreshTokens
-
-    public IReactiveCommand RefreshTokens { get; }
-    
-    private IObservable<bool> CanRefreshTokens =>
-        this.WhenAnyValue(
-            x => x.Account.Tokens.RefreshToken,
-            rtoken=>!string.IsNullOrEmpty(rtoken));
-
-    #endregion
-
     #region Logout
     public IReactiveCommand Logout { get;}
 
