@@ -1,7 +1,4 @@
-﻿using AppInfrastructure.Stores.DefaultStore;
-using Core.Infrastructure.Models.Entities;
-using Core.Infrastructure.Models.Settings;
-using Core.Infrastructure.Services.AccountService;
+﻿using Core.Infrastructure.Models.Entities;
 using Core.Infrastructure.Services.DialogService;
 using Core.Infrastructure.Stores.Interfaces;
 using Core.Infrastructure.VMD;
@@ -20,9 +17,6 @@ public class AccountVmd : BaseTitleVmd
     [Reactive]
     public User Account { get; set; }
     
-    [Reactive]
-    public Settings? Settings { get; set; }
-
     #endregion
 
     #region Fields
@@ -35,26 +29,17 @@ public class AccountVmd : BaseTitleVmd
 
     public AccountVmd(
         ISaverStore<User, bool> userStore,
-        IStore<Settings> settingsStore,
-        IVmdDialogService dialogService,
-        ITokenService tokenService)
+        IVmdDialogService dialogService)
     {
         _dialogService = dialogService;
         
         Account = userStore.CurrentValue;
         
-        Settings = settingsStore.CurrentValue;
-
         #region Subscriptions
 
         userStore.CurrentValueChangedNotifier += _ =>
         {
             Account = userStore.CurrentValue;
-        };
-
-        settingsStore.CurrentValueChangedNotifier += () =>
-        {
-            Settings = settingsStore.CurrentValue;
         };
         
         #endregion

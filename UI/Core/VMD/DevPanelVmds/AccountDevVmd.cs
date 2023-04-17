@@ -1,6 +1,4 @@
-﻿using AppInfrastructure.Stores.DefaultStore;
-using Core.Infrastructure.Models.Entities;
-using Core.Infrastructure.Models.Settings;
+﻿using Core.Infrastructure.Models.Entities;
 using Core.Infrastructure.Services.AccountService;
 using Core.Infrastructure.Services.DialogService;
 using Core.Infrastructure.Stores.Interfaces;
@@ -11,15 +9,17 @@ namespace Core.VMD.DevPanelVmds;
 
 public sealed class AccountDevVmd : AccountVmd
 {
+    #region Constructors
+
     public AccountDevVmd(
         ISaverStore<User, bool> userStore, 
-        IStore<Settings> settingsStore, 
         IVmdDialogService dialogService, 
-        ITokenService tokenService) 
-        : base(userStore, settingsStore, dialogService, tokenService)
+        ITokenService tokenService) : base(userStore, dialogService)
     {
         RefreshTokens = ReactiveCommand.CreateFromTask(tokenService.Refresh,CanRefreshTokens);
     }
+
+    #endregion
     
     #region Commands
 
@@ -31,5 +31,7 @@ public sealed class AccountDevVmd : AccountVmd
             rtoken=>!string.IsNullOrEmpty(rtoken));
 
     #endregion
+
+   
 }
    
