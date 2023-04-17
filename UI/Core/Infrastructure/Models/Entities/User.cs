@@ -48,7 +48,7 @@ public class RegUser : AuthUser, IRegUser
             viewModel => viewModel.Email,
             email =>
             {
-                if (email is null)
+                if (string.IsNullOrEmpty(email))
                     return false;
                 try
                 {
@@ -66,7 +66,6 @@ public class RegUser : AuthUser, IRegUser
     }
 
     #endregion
-    
 }
 
 public class AuthUser : ReactiveValidationObject, IAuthUser
@@ -106,7 +105,7 @@ public class AuthUser : ReactiveValidationObject, IAuthUser
             viewModel => viewModel.Name,
             name =>
             {
-                if (name is null)
+                if (string.IsNullOrEmpty(name))
                     return false;
 
                 return new Regex(@"^[A-Za-z]+$").IsMatch(name);
@@ -125,7 +124,7 @@ public class AuthUser : ReactiveValidationObject, IAuthUser
             viewModel => viewModel.Password, 
             pass =>
             {
-                if (pass is null)
+                if (string.IsNullOrEmpty(pass))
                     return false;
                     
                 return new Regex(@"[A-Z]+").IsMatch(pass);
@@ -136,7 +135,7 @@ public class AuthUser : ReactiveValidationObject, IAuthUser
             viewModel => viewModel.Password, 
             pass =>
             {
-                if (pass is null)
+                if (string.IsNullOrEmpty(pass))
                     return false;
                     
                 return new Regex(@"[0-9]+").IsMatch(pass);
@@ -147,7 +146,7 @@ public class AuthUser : ReactiveValidationObject, IAuthUser
             viewModel => viewModel.Password, 
             pass =>
             {
-                if (pass is null)
+                if (string.IsNullOrEmpty(pass))
                     return false;
                     
                 return new Regex(@"[!@#$%^&*()_+=\[{\]};:<>|./?,-]").IsMatch(pass);
