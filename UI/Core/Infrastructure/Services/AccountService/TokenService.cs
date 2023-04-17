@@ -21,7 +21,7 @@ public sealed class TokenService : ReactiveObject, ITokenService
 
     private IUser _account;
 
-    private ISaverStore<User, bool> _userStore;
+    private readonly ISaverStore<User, bool> _userStore;
 
     #endregion
 
@@ -55,6 +55,12 @@ public sealed class TokenService : ReactiveObject, ITokenService
         bool ret = true;
         
         _logger.LogInformation("Refresh tokens attempt. Account: {acc}", _account.Name);
+
+        if (string.IsNullOrEmpty(_account.Tokens.RefreshToken))
+        {
+            _logger.LogWarning("Refresh tokens failed. Refresh token is null. Account: {acc}", _account.Name);
+            return false;
+        }
         
         try
         {
@@ -79,10 +85,10 @@ public sealed class TokenService : ReactiveObject, ITokenService
                 _account.Tokens.RefreshToken = tokens.RefreshToken;
             });
             
-            _logger.LogInformation("Refresh tokens success. Account: {acc}", _account.Name);
+            _logger.LogWarning("Refresh tokens success. Account: {acc}", _account.Name);
         }
         else
-            _logger.LogInformation("Refresh tokens failed. Account: {acc}", _account.Name);
+            _logger.LogWarning("Refresh tokens failed. Account: {acc}", _account.Name);
         
 
         return ret;
