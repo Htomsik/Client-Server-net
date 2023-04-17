@@ -20,6 +20,11 @@
             <TabItem Header="Stores">
                 <ContentControl Content="{Binding StoresPanelVmd}" />
             </TabItem>
+
+            <!--  Stores  -->
+            <TabItem Header="Account">
+                <ContentControl Content="{Binding AccountDevVmd}" />
+            </TabItem>
         </TabControl>
     </Grid>
 

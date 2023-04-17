@@ -36,7 +36,8 @@ public class ViewLocator : IDataTemplate
         {typeof(AccountVmd), typeof(AccountView)},
         {typeof(DialogService), typeof(Dialog)},
         {typeof(AuthorizationVmd), typeof(AuthorizatonDialog)},
-        {typeof(RegistrationVmd), typeof(RegistrationDialog)}
+        {typeof(RegistrationVmd), typeof(RegistrationDialog)},
+        {typeof(AccountDevVmd), typeof(AccountDevView)}
     };
 
     private ILogger? _logger;

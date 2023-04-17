@@ -35,5 +35,6 @@ public partial class IocRegistration
             .AddSingleton<LogsVmd>()
             .AddTransient<LogsSettingsVmd>()
             .AddSingleton<StoresVmd>()
+            .AddSingleton<AccountDevVmd>()
             .AddTransient<AboutProgramVmd>();
 }
