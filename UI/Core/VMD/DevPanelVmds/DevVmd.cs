@@ -10,16 +10,20 @@ public sealed class DevVmd : BaseVmd
     public StoresVmd StoresPanelVmd { get; }
     
     public AccountDevVmd AccountDevVmd { get; }
+    public NotificationsVmd NotificationsPanelVmd { get; }
     
     public DevVmd(
         LogsVmd logsVmd, 
         StoresVmd storesVmd, 
-        AccountDevVmd accountDevVmd)
+        AccountDevVmd accountDevVmd,
+        NotificationsVmd notificationsVmd)
     {
         LogsPanelVmd = logsVmd;
 
         StoresPanelVmd = storesVmd;
 
         AccountDevVmd = accountDevVmd;
+        
+        NotificationsPanelVmd = notificationsVmd;
     }
 }

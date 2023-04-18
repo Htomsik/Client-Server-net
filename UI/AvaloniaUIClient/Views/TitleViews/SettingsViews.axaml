@@ -73,6 +73,29 @@
         </styles:Card>
 
 
+        <!--  Themes  -->
+        <styles:ColorZone
+            Margin="5"
+            Padding="3">
+
+            <Grid RowDefinitions="25,*">
+
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Classes="Headline6"
+                    Text="Themes" />
+
+                <ContentControl
+                    Grid.Row="1"
+                    Content="{Binding ThemeVmd}" />
+
+            </Grid>
+
+        </styles:ColorZone>
+
     </WrapPanel>
 </UserControl>
 

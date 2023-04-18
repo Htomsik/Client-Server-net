@@ -10,7 +10,7 @@ using Core.VMD.TitleVmds;
 using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
 
-namespace Core.VMD;
+namespace Core.VMD.MenuVmd;
 
 public class MainMenuVmd : BaseMenuVmd<MenuParamCommandItem>
 {

@@ -1,6 +1,7 @@
 ﻿using Core.VMD;
 using Core.VMD.DevPanelVmds;
 using Core.VMD.DevPanelVmds.LogsVmds;
+using Core.VMD.MenuVmd;
 using Core.VMD.TitleVmds;
 using Core.VMD.TitleVmds.Account;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +18,7 @@ public partial class IocRegistration
 
     private static IServiceCollection TitleVmdRegs(this IServiceCollection services) =>
         services
+            .AddTransient<ThemeVmd>()
             .AddTransient<HomeVmd>()
             .AddTransient<SettingsVmd>()
             .AddTransient<AccountVmd>();
@@ -35,6 +37,7 @@ public partial class IocRegistration
             .AddSingleton<LogsVmd>()
             .AddTransient<LogsSettingsVmd>()
             .AddSingleton<StoresVmd>()
+            .AddSingleton<NotificationsVmd>()
             .AddSingleton<AccountDevVmd>()
             .AddTransient<AboutProgramVmd>();
 }

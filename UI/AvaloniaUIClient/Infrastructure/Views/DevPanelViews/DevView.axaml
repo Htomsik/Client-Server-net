@@ -25,6 +25,11 @@
             <TabItem Header="Account">
                 <ContentControl Content="{Binding AccountDevVmd}" />
             </TabItem>
+
+            <!--  Notifications  -->
+            <TabItem Header="Notifications">
+                <ContentControl Content="{Binding NotificationsPanelVmd}" />
+            </TabItem>
         </TabControl>
     </Grid>
 

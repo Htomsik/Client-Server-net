@@ -1,0 +1,28 @@
+﻿<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!--  Add Controls for Previewer Here  -->
+        </Border>
+    </Design.PreviewWith>
+
+    <!--  Manager  -->
+    <Style Selector="WindowNotificationManager">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <ReversibleStackPanel
+                    Name="PART_Items"
+                    ClipToBounds="True" />
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+    <!--  Card  -->
+    <Style Selector="NotificationCard">
+        <Setter Property="Height" Value="60" />
+        <Setter Property="Background" Value="{DynamicResource background}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryHueDarkBrush}" />
+    </Style>
+</Styles>
