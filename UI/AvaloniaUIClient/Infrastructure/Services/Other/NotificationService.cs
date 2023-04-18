@@ -21,22 +21,28 @@ public sealed class NotificationService : INotificationService
 
     private readonly ILogger _logger;
     
+    private readonly IUiThreadOperation _uiThreadOperation;
+
     #endregion
 
     #region Constructors
 
-    public NotificationService(ILogger<NotificationService> logger)
+    public NotificationService(ILogger<NotificationService> logger, IUiThreadOperation uiThreadOperation)
     {
         _logger = logger;
+        _uiThreadOperation = uiThreadOperation;
     }
 
     #endregion
 
     #region Methods
     
-    public void Notify(string message,string title = "Info", NotifyLevel level = NotifyLevel.Information)
+    public async void Notify(string message,string title = "Info", NotifyLevel level = NotifyLevel.Information)
     {
-        _notificationManager.Show(new Notification(title, message, (NotificationType)level, TimeOut));
+        await _uiThreadOperation.InvokeAsync(() =>
+        {
+            _notificationManager.Show(new Notification(title, message, (NotificationType)level, TimeOut));
+        });
     }
   
     #endregion
