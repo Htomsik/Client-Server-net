@@ -6,14 +6,17 @@ using AvaloniaUIClient.Infrastructure.Views;
 using AvaloniaUIClient.Infrastructure.Views.DevPanelViews;
 using AvaloniaUIClient.Infrastructure.Views.DevPanelViews.LogsPanel;
 using AvaloniaUIClient.Views;
+using AvaloniaUIClient.Views.MenuViews;
 using AvaloniaUIClient.Views.TitleViews;
 using Core.VMD;
 using Core.VMD.DevPanelVmds;
 using Core.VMD.DevPanelVmds.LogsVmds;
+using Core.VMD.MenuVmd;
 using Core.VMD.TitleVmds;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ReactiveUI;
+using MainMenuView = AvaloniaUIClient.Infrastructure.Views.MenuViews.MainMenuView;
 
 namespace AvaloniaUIClient.Infrastructure;
 
@@ -30,7 +33,8 @@ public class ViewLocator : IDataTemplate
         {typeof(AboutProgramVmd),typeof(AboutProgramView)},
         {typeof(LogsSettingsVmd),typeof(LogsDevSettingsView)},
         {typeof(StatusLineVmd),typeof(StatusLineView)},
-        {typeof(NotificationsVmd), typeof(NotificationView)}
+        {typeof(NotificationsVmd), typeof(NotificationView)},
+        {typeof(ThemeVmd),typeof(MenuView)}
     };
 
     private ILogger? _logger;

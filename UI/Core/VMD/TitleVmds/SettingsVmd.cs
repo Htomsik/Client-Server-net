@@ -1,6 +1,7 @@
 using AppInfrastructure.Stores.DefaultStore;
 using Core.Infrastructure.Models.Settings;
 using Core.Infrastructure.VMD;
+using Core.VMD.MenuVmd;
 using ReactiveUI.Fody.Helpers;
 
 namespace Core.VMD.TitleVmds;
@@ -12,8 +13,14 @@ public sealed class SettingsVmd : BaseTitleVmd
     [Reactive]
     public Settings Settings { get; private set; }
 
-    public SettingsVmd(IStore<Settings> settings)
+    public ThemeVmd ThemeVmd { get; }
+
+    public SettingsVmd(
+        IStore<Settings> settings, 
+        ThemeVmd themeVmd)
     {
         Settings = settings.CurrentValue;
+
+        ThemeVmd = themeVmd;
     }
 }

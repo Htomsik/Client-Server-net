@@ -5,6 +5,7 @@ using Core.Infrastructure.Models.Settings;
 using Core.Infrastructure.VMD;
 using Core.Infrastructure.VMD.Interfaces;
 using Core.VMD.DevPanelVmds;
+using Core.VMD.MenuVmd;
 using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI.Fody.Helpers;
 

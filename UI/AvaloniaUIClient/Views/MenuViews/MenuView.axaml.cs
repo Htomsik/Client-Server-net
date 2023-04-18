@@ -1,11 +1,11 @@
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace AvaloniaUIClient.Infrastructure.Views;
+namespace AvaloniaUIClient.Views.MenuViews;
 
-public partial class MainMenuView : UserControl
+public partial class MenuView : UserControl
 {
-    public MainMenuView()
+    public MenuView()
     {
         InitializeComponent();
     }

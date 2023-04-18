@@ -1,6 +1,7 @@
 ﻿using Core.VMD;
 using Core.VMD.DevPanelVmds;
 using Core.VMD.DevPanelVmds.LogsVmds;
+using Core.VMD.MenuVmd;
 using Core.VMD.TitleVmds;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,6 +16,7 @@ public partial class IocRegistration
 
     private static IServiceCollection TitleVmdRegs(this IServiceCollection services) =>
         services
+            .AddTransient<ThemeVmd>()
             .AddTransient<HomeVmd>()
             .AddTransient<SettingsVmd>();
 
