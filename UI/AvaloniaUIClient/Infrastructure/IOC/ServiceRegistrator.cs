@@ -8,5 +8,7 @@ internal static partial class IocRegistrator
 {
     public static IServiceCollection ServiceRegistrator(this IServiceCollection services) =>
         services
+            .AddSingleton<NotificationService>()
+            .AddSingleton<INotificationService>(s=>s.GetRequiredService<NotificationService>())
             .AddTransient<IUiThreadOperation,UiThreadOperation>();
 }
