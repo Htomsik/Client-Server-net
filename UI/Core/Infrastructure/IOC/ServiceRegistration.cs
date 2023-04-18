@@ -3,6 +3,7 @@ using Core.Infrastructure.Logging;
 using Core.Infrastructure.Models.Entities;
 using Core.Infrastructure.Services.AccountService;
 using Core.Infrastructure.Services.DialogService;
+using Core.Infrastructure.Services.EncryptService;
 using Core.Infrastructure.Services.NavigationService;
 using Core.Infrastructure.Services.ParseService;
 using Core.Infrastructure.VMD.Interfaces;
@@ -29,6 +30,8 @@ public static partial class IocRegistration
     
     private static IServiceCollection InfrServicesRegs(this IServiceCollection services) =>
         services
+            .AddTransient<IEncryptService, Base64EncryptService>()
+            .AddTransient<IDecryptService>(s=>s.GetRequiredService<IEncryptService>())
             .AddSingleton<IDialogService, DialogService>()
             .AddSingleton<IVmdDialogService>(s=>s.GetRequiredService<IDialogService>())
             .AddSingleton<IViewDialogService>(s=>s.GetRequiredService<IVmdDialogService>())

@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Core.Infrastructure.Models.Entities;
+using Core.Infrastructure.Services.EncryptService;
 using Core.Infrastructure.Services.Other;
 using Core.Infrastructure.Stores.Interfaces;
 using Interfaces.Entities;
@@ -25,6 +26,8 @@ public sealed class TokenService : ReactiveObject, ITokenService
 
     private readonly INotificationService _notifyService;
 
+    private readonly IEncryptService _encryptService;
+
     #endregion
 
     #region Constructors
@@ -34,19 +37,16 @@ public sealed class TokenService : ReactiveObject, ITokenService
         ILogger<TokenService> logger,
         IUiThreadOperation uiThreadOperation,
         ISaverStore<User, bool> userStore,
-        INotificationService notifyService)
+        INotificationService notifyService,
+        IEncryptService encryptService)
     {
         _authService = authService;
-        
         _logger = logger;
-        
         _uiThreadOperation = uiThreadOperation;
-        
         _userStore = userStore;
-        
         _account = userStore.CurrentValue;
-
         _notifyService = notifyService;
+        _encryptService = encryptService;
 
         userStore.CurrentValueChangedNotifier += _ => _account = userStore.CurrentValue;
     }
@@ -66,10 +66,16 @@ public sealed class TokenService : ReactiveObject, ITokenService
             _logger.LogWarning("Refresh tokens failed. Refresh token is null. Account: {acc}", _account.Name);
             return false;
         }
+
+        var decryptedTokens = new Tokens
+        {
+            Token = _encryptService.Decrypt(_account.Tokens.Token),
+            RefreshToken = _encryptService.Decrypt(_account.Tokens.RefreshToken),
+        };
         
         try
         {
-            tokens = await _authService.RefreshTokens((Tokens)_account.Tokens, cancel).ConfigureAwait(false);
+            tokens = await _authService.RefreshTokens(decryptedTokens, cancel).ConfigureAwait(false);
         }
         catch (HttpRequestException error)
         {
@@ -89,8 +95,8 @@ public sealed class TokenService : ReactiveObject, ITokenService
         {
             await _uiThreadOperation.InvokeAsync(() =>
             {
-                _account.Tokens.Token = tokens.Token;
-                _account.Tokens.RefreshToken = tokens.RefreshToken;
+                _account.Tokens.Token = _encryptService.Encrypt(tokens.Token);
+                _account.Tokens.RefreshToken = _encryptService.Encrypt(tokens.RefreshToken);
             });
             
             _logger.LogWarning("Refresh tokens success. Account: {acc}", _account.Name);

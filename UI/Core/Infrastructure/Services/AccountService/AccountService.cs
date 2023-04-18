@@ -1,5 +1,6 @@
 ﻿using AppInfrastructure.Stores.DefaultStore;
 using Core.Infrastructure.Models.Entities;
+using Core.Infrastructure.Services.EncryptService;
 using Core.Infrastructure.Services.Other;
 using Microsoft.Extensions.Logging;
 using Services.Identity;
@@ -17,6 +18,8 @@ internal sealed class AccountService : IAccountService<AuthUser, RegUser>
     private readonly IUiThreadOperation _uiThreadOperation;
     
     private readonly INotificationService _notifyService;
+    
+    private readonly IEncryptService _encryptService;
 
     private User _account; 
 
@@ -29,12 +32,14 @@ internal sealed class AccountService : IAccountService<AuthUser, RegUser>
         IAuthService<AuthUser,RegUser, Tokens> autService,
         IStore<User> userStore,
         IUiThreadOperation uiThreadOperation,
-        INotificationService notifyService)
+        INotificationService notifyService,
+        IEncryptService encryptService)
     {
         _logger = logger;
         _authService = autService;
         _uiThreadOperation = uiThreadOperation;
         _notifyService = notifyService;
+        _encryptService = encryptService;
         _account = userStore.CurrentValue;
 
         userStore.CurrentValueChangedNotifier += () =>
@@ -72,8 +77,8 @@ internal sealed class AccountService : IAccountService<AuthUser, RegUser>
             {
                 _account.Name = authUser.Name;
 
-                _account.Tokens.Token = tokens.Token;
-                _account.Tokens.RefreshToken = tokens.RefreshToken;
+                _account.Tokens.Token = _encryptService.Encrypt(tokens.Token);
+                _account.Tokens.RefreshToken = _encryptService.Encrypt(tokens.RefreshToken);
                 
                 _notifyService.Notify("Authorization success");
             });
@@ -115,8 +120,8 @@ internal sealed class AccountService : IAccountService<AuthUser, RegUser>
                 _account.Name = authUser.Name;
                 _account.Email = authUser.Email;
                 
-                _account.Tokens.Token = tokens.Token;
-                _account.Tokens.RefreshToken = tokens.RefreshToken;
+                _account.Tokens.Token = _encryptService.Encrypt(tokens.Token);
+                _account.Tokens.RefreshToken = _encryptService.Encrypt(tokens.RefreshToken);
             });
             
             _notifyService.Notify("Registration success");

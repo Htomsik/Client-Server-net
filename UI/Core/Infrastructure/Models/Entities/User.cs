@@ -1,4 +1,5 @@
 ﻿using System.Net.Mail;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 using Interfaces.Entities;
