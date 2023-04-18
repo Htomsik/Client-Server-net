@@ -67,11 +67,12 @@
 
         </styles:ColorZone>
 
-        <!--  Status line  -->
+        <!--  DEV Status line  -->
         <Border
             Grid.Row="2"
             Grid.Column="0"
             Grid.ColumnSpan="2"
+            IsVisible="{Binding Settings.IsDevMode}"
             BorderBrush="{DynamicResource PrimaryHueDarkBrush}"
             BorderThickness="0,2,0,0">
 
@@ -82,6 +83,7 @@
         <!--  Draver for menu/devPanel  -->
         <styles:NavigationDrawer
             Grid.Row="1"
+            Grid.RowSpan="2"
             Grid.Column="0"
             Grid.ColumnSpan="2"
             RightDrawerWidth="{Binding #MainWin.Width, Converter={StaticResource HalfSizeConverter}}"
