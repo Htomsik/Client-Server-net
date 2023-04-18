@@ -74,10 +74,7 @@
 
 
         <!--  Themes  -->
-        <styles:ColorZone
-            Margin="5"
-            Padding="3">
-
+        <styles:Card Classes="unitCard">
             <Grid RowDefinitions="25,*">
 
                 <TextBlock
@@ -94,7 +91,7 @@
 
             </Grid>
 
-        </styles:ColorZone>
+        </styles:Card>
 
     </WrapPanel>
 </UserControl>

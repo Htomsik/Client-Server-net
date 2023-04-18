@@ -5,13 +5,16 @@ using Avalonia.Controls.Templates;
 using AvaloniaUIClient.Infrastructure.Views;
 using AvaloniaUIClient.Infrastructure.Views.DevPanelViews;
 using AvaloniaUIClient.Infrastructure.Views.DevPanelViews.LogsPanel;
+using AvaloniaUIClient.Infrastructure.Views.MenuViews;
 using AvaloniaUIClient.Views;
 using AvaloniaUIClient.Views.Dialogs;
+using AvaloniaUIClient.Views.MenuViews;
 using AvaloniaUIClient.Views.TitleViews;
 using Core.Infrastructure.Services.DialogService;
 using Core.VMD;
 using Core.VMD.DevPanelVmds;
 using Core.VMD.DevPanelVmds.LogsVmds;
+using Core.VMD.MenuVmd;
 using Core.VMD.TitleVmds;
 using Core.VMD.TitleVmds.Account;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,7 +35,6 @@ public class ViewLocator : IDataTemplate
         {typeof(StoresVmd),typeof(StoresDevView)},
         {typeof(AboutProgramVmd),typeof(AboutProgramView)},
         {typeof(LogsSettingsVmd),typeof(LogsDevSettingsView)},
-        {typeof(StatusLineVmd),typeof(StatusLineView)},
         {typeof(AccountVmd), typeof(AccountView)},
         {typeof(DialogService), typeof(Dialog)},
         {typeof(AuthorizationVmd), typeof(AuthorizatonDialog)},
