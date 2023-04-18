@@ -6,5 +6,5 @@ public interface INotificationService
 {
     public TimeSpan TimeOut { get; set; }
     
-    public void Notify(string title,string message = "", NotifyLevel level = NotifyLevel.Information);
+    public void Notify(string message,string title = "", NotifyLevel level = NotifyLevel.Information);
 }
