@@ -29,7 +29,8 @@ public class ViewLocator : IDataTemplate
         {typeof(StoresVmd),typeof(StoresDevView)},
         {typeof(AboutProgramVmd),typeof(AboutProgramView)},
         {typeof(LogsSettingsVmd),typeof(LogsDevSettingsView)},
-        {typeof(StatusLineVmd),typeof(StatusLineView)}
+        {typeof(StatusLineVmd),typeof(StatusLineView)},
+        {typeof(NotificationsVmd), typeof(NotificationView)}
     };
 
     private ILogger? _logger;
