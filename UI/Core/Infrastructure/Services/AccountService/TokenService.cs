@@ -23,6 +23,8 @@ public sealed class TokenService : ReactiveObject, ITokenService
 
     private readonly ISaverStore<User, bool> _userStore;
 
+    private readonly INotificationService _notifyService;
+
     #endregion
 
     #region Constructors
@@ -31,7 +33,8 @@ public sealed class TokenService : ReactiveObject, ITokenService
         IAuthService<AuthUser, RegUser, Tokens> authService, 
         ILogger<TokenService> logger,
         IUiThreadOperation uiThreadOperation,
-        ISaverStore<User, bool> userStore)
+        ISaverStore<User, bool> userStore,
+        INotificationService notifyService)
     {
         _authService = authService;
         
@@ -42,6 +45,8 @@ public sealed class TokenService : ReactiveObject, ITokenService
         _userStore = userStore;
         
         _account = userStore.CurrentValue;
+
+        _notifyService = notifyService;
 
         userStore.CurrentValueChangedNotifier += _ => _account = userStore.CurrentValue;
     }
@@ -69,7 +74,10 @@ public sealed class TokenService : ReactiveObject, ITokenService
         catch (HttpRequestException error)
         {
             if (error.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                _notifyService.Notify("Authorization timed out");
                 await Logout();
+            }
             
             _logger.LogError(error, "{Source}:{Message}", error.Source, error.Message);
             ret = false;

@@ -15,6 +15,8 @@ internal sealed class AccountService : IAccountService<AuthUser, RegUser>
     private readonly IAuthService<AuthUser,RegUser, Tokens> _authService;
     
     private readonly IUiThreadOperation _uiThreadOperation;
+    
+    private readonly INotificationService _notifyService;
 
     private User _account; 
 
@@ -26,11 +28,13 @@ internal sealed class AccountService : IAccountService<AuthUser, RegUser>
         ILogger<AccountService> logger, 
         IAuthService<AuthUser,RegUser, Tokens> autService,
         IStore<User> userStore,
-        IUiThreadOperation uiThreadOperation)
+        IUiThreadOperation uiThreadOperation,
+        INotificationService notifyService)
     {
         _logger = logger;
         _authService = autService;
         _uiThreadOperation = uiThreadOperation;
+        _notifyService = notifyService;
         _account = userStore.CurrentValue;
 
         userStore.CurrentValueChangedNotifier += () =>
@@ -55,6 +59,7 @@ internal sealed class AccountService : IAccountService<AuthUser, RegUser>
         }
         catch (Exception error)
         {
+            _notifyService.Notify("Authorization failed");
             _logger.LogError(error, "{Source}:{Message}", error.Source, error.Message);
             ret = false;
         }
@@ -69,6 +74,8 @@ internal sealed class AccountService : IAccountService<AuthUser, RegUser>
 
                 _account.Tokens.Token = tokens.Token;
                 _account.Tokens.RefreshToken = tokens.RefreshToken;
+                
+                _notifyService.Notify("Authorization success");
             });
             
             _logger.LogInformation("Authorization success. Account: {acc}", _account.Name);
@@ -94,6 +101,7 @@ internal sealed class AccountService : IAccountService<AuthUser, RegUser>
         }
         catch (Exception error)
         {
+            _notifyService.Notify("Registration failed");
             _logger.LogError(error, "{Source}:{Message}", error.Source, error.Message);
             ret = false;
         }
@@ -110,6 +118,8 @@ internal sealed class AccountService : IAccountService<AuthUser, RegUser>
                 _account.Tokens.Token = tokens.Token;
                 _account.Tokens.RefreshToken = tokens.RefreshToken;
             });
+            
+            _notifyService.Notify("Registration success");
             
             _logger.LogInformation("Registration success. Account: {acc}", _account.Name);
         }
