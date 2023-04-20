@@ -10,13 +10,8 @@
     d:DataContext="{Binding SettingsVmd}"
     mc:Ignorable="d">
 
-    <WrapPanel
-        ItemHeight="250"
-        ItemWidth="250">
-
-        <styles:ColorZone
-            Margin="5"
-            Padding="3">
+    <WrapPanel ItemHeight="250" ItemWidth="250">
+        <styles:ColorZone Margin="5" Padding="3">
             <Grid RowDefinitions="25,*">
 
                 <TextBlock
@@ -27,48 +22,21 @@
                     Classes="Headline6"
                     Text="General" />
 
-                <StackPanel
-                    Grid.Row="1"
-                    Margin="5">
+                <StackPanel Grid.Row="1" Margin="5">
 
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Margin="3" Orientation="Horizontal">
+                        <ToggleSwitch IsChecked="{Binding Settings.IsDevMode}" />
+                        <TextBlock Classes="Body1" Text="Dev mode" />
+                    </StackPanel>
 
-                        <CheckBox IsChecked="{Binding Settings.IsDevMode}" />
-
-                        <TextBlock
-                            Classes="Body1"
-                            Text="Dev mode" />
-
+                    <StackPanel Margin="3" Orientation="Horizontal">
+                        <ToggleSwitch IsChecked="{Binding Settings.IsDarkTheme}" />
+                        <TextBlock Classes="Body1" Text="Dark theme" />
                     </StackPanel>
 
                 </StackPanel>
 
             </Grid>
         </styles:ColorZone>
-
-        <!--  Themes  -->
-        <styles:ColorZone
-            Margin="5"
-            Padding="3">
-
-            <Grid RowDefinitions="25,*">
-
-                <TextBlock
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Classes="Headline6"
-                    Text="Themes" />
-
-                <ContentControl
-                    Grid.Row="1"
-                    Content="{Binding ThemeVmd}" />
-
-            </Grid>
-
-        </styles:ColorZone>
-
     </WrapPanel>
 </UserControl>
-

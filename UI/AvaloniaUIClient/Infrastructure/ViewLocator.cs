@@ -6,8 +6,8 @@ using AvaloniaUIClient.Infrastructure.Views;
 using AvaloniaUIClient.Infrastructure.Views.DevPanelViews;
 using AvaloniaUIClient.Infrastructure.Views.DevPanelViews.LogsPanel;
 using AvaloniaUIClient.Views;
-using AvaloniaUIClient.Views.MenuViews;
 using AvaloniaUIClient.Views.TitleViews;
+using Core.Infrastructure.Services.Other;
 using Core.VMD;
 using Core.VMD.DevPanelVmds;
 using Core.VMD.DevPanelVmds.LogsVmds;
@@ -33,29 +33,36 @@ public class ViewLocator : IDataTemplate
         {typeof(AboutProgramVmd),typeof(AboutProgramView)},
         {typeof(LogsSettingsVmd),typeof(LogsDevSettingsView)},
         {typeof(StatusLineVmd),typeof(StatusLineView)},
-        {typeof(NotificationsVmd), typeof(NotificationView)},
-        {typeof(ThemeVmd),typeof(MenuView)}
+        {typeof(NotificationsVmd), typeof(NotificationView)}
     };
 
-    private ILogger? _logger;
-    
-    public ViewLocator() => _logger = App.Services.GetService<ILogger<ViewLocator>>();
+    private readonly ILogger _logger;
+
+    private readonly INotificationService _notifyService;
+
+    public ViewLocator()
+    {
+        _logger = App.Services.GetService<ILogger<ViewLocator>>();
+        
+        _notifyService = App.Services.GetService<INotificationService>();
+    } 
     
     public IControl Build(object vmd)
     {
-        Type? viewType = null;
+        IControl view = null!;
         
-        IControl? view = (Control)Activator.CreateInstance(typeof(NoDataView))!;
-
         try
         {
-            viewType = _vmdToViewTypes[vmd.GetType()];
+            view = (Control)Activator.CreateInstance(typeof(NoDataView))!;
+            
+            var viewType = _vmdToViewTypes[vmd.GetType()];
             
             view = (Control)Activator.CreateInstance(viewType)!;
         }
         catch(Exception error)
         {
-            _logger?.LogError(error, error.Message);
+            _logger.LogError(error, error.Message);
+            _notifyService.Notify("Something went wrong");
         }
         
         return view;

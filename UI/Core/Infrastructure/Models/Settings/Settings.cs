@@ -29,6 +29,12 @@ public class Settings : ReactiveObject
      
     #endregion
 
+    #region User settings
+
+    [Reactive] public bool IsDarkTheme { get; set; } = true;
+
+    #endregion
+
     #endregion
     
     #region Constructors
@@ -39,6 +45,7 @@ public class Settings : ReactiveObject
         this
             .WhenAnyValue(x => x.ShowedLogLevels)
             .Subscribe(_ => SetShowedLogLevelsSubscribes());
+        
     }
     #endregion
     

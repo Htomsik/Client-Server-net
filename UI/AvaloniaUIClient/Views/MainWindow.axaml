@@ -22,26 +22,16 @@
 
     </Window.Styles>
 
-    <Grid
-        ColumnDefinitions="*,*"
-        RowDefinitions="50,*,30">
+    <Grid ColumnDefinitions="*,*" RowDefinitions="50,*">
 
         <!--  Upper Bar  -->
-        <styles:ColorZone
-            Grid.ColumnSpan="2"
-            Mode="PrimaryDark">
+        <styles:ColorZone Grid.ColumnSpan="2" Mode="PrimaryDark">
 
-            <Grid
-                Margin="16"
-                ColumnDefinitions="25,*,25">
+            <Grid Margin="16" ColumnDefinitions="25,*,25">
 
                 <!--  Menu button  -->
-                <ToggleButton
-                    Name="NavDrawerSwitch"
-                    Classes="IconBar">
-                    <avalonia:MaterialIcon
-                        Classes="UpperBarIcon"
-                        Kind="Menu" />
+                <ToggleButton Name="NavDrawerSwitch" Classes="IconBar">
+                    <avalonia:MaterialIcon Classes="UpperBarIcon" Kind="Menu" />
                 </ToggleButton>
 
                 <!--  Current TitleVmd Name  -->
@@ -59,31 +49,16 @@
                     Grid.Column="2"
                     IsVisible="{Binding Settings.IsDevMode}"
                     Classes="IconBar">
-                    <avalonia:MaterialIcon
-                        Classes="UpperBarIcon"
-                        Kind="DevTo" />
+                    <avalonia:MaterialIcon Classes="UpperBarIcon" Kind="DevTo" />
                 </ToggleButton>
             </Grid>
 
         </styles:ColorZone>
 
-        <!--  DEV Status line  -->
-        <Border
-            Grid.Row="2"
-            Grid.Column="0"
-            Grid.ColumnSpan="2"
-            IsVisible="{Binding Settings.IsDevMode}"
-            BorderBrush="{DynamicResource PrimaryHueDarkBrush}"
-            BorderThickness="0,2,0,0">
-
-            <ContentControl Content="{Binding StatusLineVmd}" />
-
-        </Border>
 
         <!--  Draver for menu/devPanel  -->
         <styles:NavigationDrawer
             Grid.Row="1"
-            Grid.RowSpan="2"
             Grid.Column="0"
             Grid.ColumnSpan="2"
             RightDrawerWidth="{Binding #MainWin.Width, Converter={StaticResource HalfSizeConverter}}"
@@ -92,17 +67,32 @@
             RightDrawerContent="{Binding DevPanelVmd}"
             RightDrawerOpened="{Binding #DevPanelSwitch.IsChecked, Mode=TwoWay}">
 
-            <!--  Title vmds  -->
-            <ContentControl
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                HorizontalContentAlignment="Stretch"
-                VerticalContentAlignment="Stretch"
-                Content="{Binding TitleVmd}" />
+            <Grid RowDefinitions="*,30">
+
+                <!--  Title vmds  -->
+                <ContentControl
+                    Grid.Row="0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch"
+                    Content="{Binding TitleVmd}" />
+
+                <!--  DEV Status line  -->
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    IsVisible="{Binding Settings.IsDevMode}"
+                    BorderBrush="{DynamicResource PrimaryHueDarkBrush}"
+                    BorderThickness="0,2,0,0">
+
+                    <ContentControl Content="{Binding StatusLineVmd}" />
+
+                </Border>
+
+            </Grid>
 
         </styles:NavigationDrawer>
 
     </Grid>
-
-
 </Window>
