@@ -1,10 +1,12 @@
 <ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:other="clr-namespace:Core.Infrastructure.Models.Other;assembly=Client-Core">
+    xmlns:other="clr-namespace:Core.Infrastructure.Models.Other;assembly=Core">
     <!--  Add Resources Here  -->
 
-    <DataTemplate x:Key="ReflectionNodeDataTemplate" DataType="other:ReflectionNode">
+    <DataTemplate
+        x:Key="ReflectionNodeDataTemplate"
+        DataType="other:ReflectionNode">
 
         <Grid RowDefinitions="25,*">
 

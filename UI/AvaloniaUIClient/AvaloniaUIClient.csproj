@@ -10,7 +10,6 @@
         <AssemblyName>MVVM Base</AssemblyName>
         <AssemblyVersion>0.0.0.1</AssemblyVersion>
         <IsPackable>false</IsPackable>
-        <RootNamespace>AvaloniaUIClient</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -34,7 +33,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Client-Core\Client-Core.csproj" />
+      <ProjectReference Include="..\Core\Core.csproj" />
     </ItemGroup>
 
     <ItemGroup>
