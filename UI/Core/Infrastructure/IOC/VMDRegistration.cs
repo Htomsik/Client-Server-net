@@ -18,7 +18,6 @@ public partial class IocRegistration
 
     private static IServiceCollection TitleVmdRegs(this IServiceCollection services) =>
         services
-            .AddTransient<ThemeVmd>()
             .AddTransient<HomeVmd>()
             .AddTransient<SettingsVmd>()
             .AddTransient<AccountVmd>();

@@ -10,6 +10,7 @@
     d:DataContext="{Binding SettingsVmd}"
     mc:Ignorable="d">
 
+
     <UserControl.Styles>
 
         <Style Selector="styles|Card.unitCard">
@@ -24,9 +25,7 @@
 
     </UserControl.Styles>
 
-    <WrapPanel
-        ItemHeight="300"
-        ItemWidth="300">
+    <WrapPanel ItemHeight="300" ItemWidth="300">
 
         <!--  Account  -->
         <styles:Card Classes="unitCard">
@@ -38,9 +37,7 @@
                         Classes="Headline6 HeaderTb"
                         Text="{Binding AccountVmd.Title}" />
 
-                    <ContentControl
-                        Grid.Row="1"
-                        Content="{Binding AccountVmd}" />
+                    <ContentControl Grid.Row="1" Content="{Binding AccountVmd}" />
 
                 </Grid>
             </styles:Card.Content>
@@ -55,44 +52,21 @@
                     Classes="Headline6 HeaderTb"
                     Text="General" />
 
-                <StackPanel
-                    Grid.Row="1"
-                    Margin="5">
+                <StackPanel Grid.Row="1" Margin="5">
 
-                    <StackPanel Orientation="Horizontal">
-
-                        <CheckBox IsChecked="{Binding Settings.IsDevMode}" />
-                        <TextBlock
-                            Classes="Body1"
-                            Text="Dev mode" />
-
+                    <StackPanel Margin="3" Orientation="Horizontal">
+                        <ToggleSwitch IsChecked="{Binding Settings.IsDevMode}" />
+                        <TextBlock Classes="Body1" Text="Dev mode" />
                     </StackPanel>
+
+                    <StackPanel Margin="3" Orientation="Horizontal">
+                        <ToggleSwitch IsChecked="{Binding Settings.IsDarkTheme}" />
+                        <TextBlock Classes="Body1" Text="Dark theme" />
+                    </StackPanel>
+
                 </StackPanel>
-
             </Grid>
-        </styles:Card>
-
-
-        <!--  Themes  -->
-        <styles:Card Classes="unitCard">
-            <Grid RowDefinitions="25,*">
-
-                <TextBlock
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Classes="Headline6"
-                    Text="Themes" />
-
-                <ContentControl
-                    Grid.Row="1"
-                    Content="{Binding ThemeVmd}" />
-
-            </Grid>
-
         </styles:Card>
 
     </WrapPanel>
 </UserControl>
-

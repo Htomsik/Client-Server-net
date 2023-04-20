@@ -5,6 +5,7 @@ using Core.Infrastructure.Services.AccountService;
 using Core.Infrastructure.Services.DialogService;
 using Core.Infrastructure.Services.EncryptService;
 using Core.Infrastructure.Services.NavigationService;
+using Core.Infrastructure.Services.Other;
 using Core.Infrastructure.Services.ParseService;
 using Core.Infrastructure.VMD.Interfaces;
 using Core.Services;
@@ -37,6 +38,7 @@ public static partial class IocRegistration
             .AddSingleton<IViewDialogService>(s=>s.GetRequiredService<IVmdDialogService>())
             .AddTransient<IAccountService<AuthUser, RegUser>, AccountService>()
             .AddTransient<ITokenService, TokenService>()
+            .AddSingleton<SettingsService>()
             .AddTransient<ProjectInfo>()
             .AddTransient<IParseService,ParseService>()
             .AddSingleton<IObserver<Exception>,GlobalExceptionHandler>()
