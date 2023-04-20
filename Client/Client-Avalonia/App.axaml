@@ -7,8 +7,8 @@
     xmlns:infrastructure="clr-namespace:AvaloniaUIClient.Infrastructure"
     xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
     xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
-    xmlns:itemSelectors="clr-namespace:Core.Infrastructure.Models.ItemSelectors;assembly=Core"
-    xmlns:menu="clr-namespace:Core.Infrastructure.Models.Menu;assembly=Core"
+    xmlns:itemSelectors="clr-namespace:Core.Infrastructure.Models.ItemSelectors;assembly=Client-Core"
+    xmlns:menu="clr-namespace:Core.Infrastructure.Models.Menu;assembly=Client-Core"
     xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia">
 
     <Application.Resources>
@@ -69,9 +69,7 @@
         <!--  Default log  -->
         <DataTemplate DataType="events:LogEvent">
 
-            <StackPanel
-                VerticalAlignment="Center"
-                Orientation="Horizontal">
+            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
 
                 <ContentControl Content="{Binding Level, Converter={StaticResource LogLevelToMaterialIconConverter}}" />
 
@@ -86,9 +84,7 @@
         <!--  LogLevelSelector  -->
         <DataTemplate DataType="itemSelectors:LogLevelSelector">
 
-            <StackPanel
-                VerticalAlignment="Center"
-                Orientation="Horizontal">
+            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
 
                 <CheckBox IsChecked="{Binding IsAdd, Mode=TwoWay}" />
 
@@ -106,9 +102,7 @@
         <!--  IItemSelector  -->
         <DataTemplate DataType="itemSelectors:IItemSelector">
 
-            <StackPanel
-                VerticalAlignment="Center"
-                Orientation="Horizontal">
+            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
 
                 <CheckBox IsChecked="{Binding IsAdd, Mode=TwoWay}" />
 
