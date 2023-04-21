@@ -5,7 +5,7 @@ using Services.Identity;
 
 namespace HTTPClients.Services;
 
-public class AuthorizationHttpService<TAuthUser,TRegUser, TTokens> : IAuthService<TAuthUser,TRegUser, TTokens>
+public class AuthorizationHttpService<TAuthUser,TRegUser,TUser, TTokens> : IAuthService<TAuthUser,TRegUser,TUser, TTokens>
     where TTokens : ITokens
 {
     #region Fields
@@ -17,7 +17,7 @@ public class AuthorizationHttpService<TAuthUser,TRegUser, TTokens> : IAuthServic
     #region Constructors
 
     public AuthorizationHttpService(
-        ILogger<AuthorizationHttpService<TAuthUser,TRegUser,TTokens>> logger, 
+        ILogger<AuthorizationHttpService<TAuthUser,TRegUser,TUser,TTokens>> logger, 
         HttpClient client)
     {
  
@@ -71,5 +71,17 @@ public class AuthorizationHttpService<TAuthUser,TRegUser, TTokens> : IAuthServic
             .ReadFromJsonAsync<TTokens>(cancellationToken: cancel)
             .ConfigureAwait(false);
     }
+
+    public async Task<TUser?> Info(TAuthUser user, CancellationToken cancel = default)
+    {
+        var response = await _client.PostAsJsonAsync("Info", user, cancellationToken: cancel).ConfigureAwait(false);
+       
+        return await response
+            .EnsureSuccessStatusCode()
+            .Content
+            .ReadFromJsonAsync<TUser>(cancellationToken: cancel)
+            .ConfigureAwait(false);
+    }
+
     #endregion
 }

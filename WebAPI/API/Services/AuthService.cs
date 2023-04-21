@@ -12,7 +12,7 @@ using Services.Identity;
 
 namespace API.Services;
 
-public class AuthService : IAuthService<LoginUserDTO,RegistratonUserDTO, Tokens>
+public class AuthService : IAuthService<LoginUserDTO,RegistratonUserDTO,UserDTO, Tokens>
 {
     #region Fileds
     
@@ -187,6 +187,20 @@ public class AuthService : IAuthService<LoginUserDTO,RegistratonUserDTO, Tokens>
         await _userManager.UpdateSecurityStampAsync(user);
 
         return null;
+    }
+
+    public async Task<UserDTO?> Info(LoginUserDTO loginUserDto, CancellationToken cancel = default)
+    {
+        var user = await _userManager.FindByNameAsync(loginUserDto.Name);
+
+        if (user is null)
+            return null;
+        
+        var userDto = _mapper.Map<UserDTO>(user);
+        
+        userDto.Roles = await _userManager.GetRolesAsync(user);
+
+        return userDto;
     }
 
     private async Task<User?> GetUserFromToken(ITokens tokens)

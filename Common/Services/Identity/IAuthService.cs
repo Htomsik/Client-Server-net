@@ -2,7 +2,7 @@ using Interfaces.Other;
 
 namespace Services.Identity;
 
-public interface IAuthService<in TAuthUser, in TRegUser, TTokens>
+public interface IAuthService<in TAuthUser, in TRegUser, TUser, TTokens>
     where  TTokens : ITokens
 {
     Task<TTokens?> Authorize(TAuthUser user, CancellationToken cancel = default);
@@ -12,4 +12,6 @@ public interface IAuthService<in TAuthUser, in TRegUser, TTokens>
     Task<bool> Deactivate(TTokens tokens, CancellationToken cancel = default);
         
     Task<TTokens?> RefreshTokens(TTokens tokens, CancellationToken cancel = default);
+
+    Task<TUser?> Info(TAuthUser user, CancellationToken cancel = default);
 }

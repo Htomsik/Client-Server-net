@@ -16,7 +16,7 @@ public class AccountController : ControllerBase
 
     private readonly ILogger<AccountController> _logger;
     
-    private readonly IAuthService<LoginUserDTO,RegistratonUserDTO, Tokens> _authService;
+    private readonly IAuthService<LoginUserDTO,RegistratonUserDTO,UserDTO, Tokens> _authService;
     
     private readonly IMapper _mapper;
 
@@ -24,7 +24,7 @@ public class AccountController : ControllerBase
 
     #region Constructors
 
-    public AccountController(ILogger<AccountController> logger, IAuthService<LoginUserDTO,RegistratonUserDTO, Tokens> authService, IMapper mapper)
+    public AccountController(ILogger<AccountController> logger, IAuthService<LoginUserDTO,RegistratonUserDTO,UserDTO, Tokens> authService, IMapper mapper)
     {
         _logger = logger;
         _authService = authService;
@@ -158,6 +158,39 @@ public class AccountController : ControllerBase
         return Ok(true);
     }
     
+    #endregion
+
+    #region Info
+
+    [AllowAnonymous]
+    [HttpPost("Info")]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> Info(LoginUserDTO userDto)
+    {
+        _logger.LogInformation("Info attempt: {0}",userDto.Name);
+
+        if (!ModelState.IsValid)
+        {
+            _logger.LogInformation("User {0} model invalid", userDto.Name);
+            return BadRequest(null!);
+        }
+
+        var user = await _authService.Info(userDto);
+
+        if (user is null)
+        {
+            _logger.LogInformation("User {0} Info denied", userDto.Name);
+            return NotFound(null!);
+        }
+        
+        _logger.LogInformation("User {0} Info successful", userDto.Name);
+        
+        return Ok(user);
+    }
+
     #endregion
 
     #endregion
