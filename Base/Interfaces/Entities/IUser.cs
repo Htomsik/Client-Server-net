@@ -5,6 +5,7 @@ namespace Interfaces.Entities;
 public interface IUser : IAuthUser
 {
     public ITokens Tokens { get; set; }
+    
 }
 
 public interface IAuthUser : INamedEntity

@@ -14,6 +14,8 @@ namespace Core.Infrastructure.Models.Entities;
 public class User : RegUser, IUser
 {
     [Reactive] public ITokens Tokens { get; set; } = new Tokens();
+
+    [Reactive, XmlIgnore] public bool IsAuthorized { get; set; } = false;
     
     public User() : this(false){}
 

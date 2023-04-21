@@ -24,5 +24,4 @@ public sealed class AuthorizationVmd : BaseAccountOperationVmd<AuthUser>
     protected override void InitAccount() => Account = new AuthUser(true);
     
     #endregion
-    
 }

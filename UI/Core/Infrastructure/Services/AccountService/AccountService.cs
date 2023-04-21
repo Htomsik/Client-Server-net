@@ -82,7 +82,8 @@ internal sealed class AccountService : IAccountService<AuthUser, RegUser>
             await _uiThreadOperation.InvokeAsync(() =>
             {
                 _account.Name = authUser.Name;
-
+                _account.IsAuthorized = true;
+                
                 _account.Tokens.Token = _encryptService.Encrypt(tokens!.Token);
                 _account.Tokens.RefreshToken = _encryptService.Encrypt(tokens.RefreshToken);
                 
@@ -130,6 +131,7 @@ internal sealed class AccountService : IAccountService<AuthUser, RegUser>
             {
                 _account.Name = authUser.Name;
                 _account.Email = authUser.Email;
+                _account.IsAuthorized = true;
                 
                 _account.Tokens.Token = _encryptService.Encrypt(tokens!.Token);
                 _account.Tokens.RefreshToken = _encryptService.Encrypt(tokens.RefreshToken);

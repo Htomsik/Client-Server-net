@@ -20,7 +20,7 @@ public sealed class TokenService : ReactiveObject, ITokenService
     
     private readonly IUiThreadOperation _uiThreadOperation;
 
-    private IUser _account;
+    private User _account;
 
     private readonly ISaverStore<User, bool> _userStore;
 
@@ -84,7 +84,14 @@ public sealed class TokenService : ReactiveObject, ITokenService
                 _notifyService.Notify("Authorization timed out");
                 await Logout();
             }
-            
+            else
+            {
+                await _uiThreadOperation.InvokeAsync(() =>
+                {
+                    _account.IsAuthorized = false;
+                });
+            }
+
             _logger.LogError(error, "{Source}:{Message}", error.Source, error.Message);
             ret = false;
         }
@@ -97,6 +104,7 @@ public sealed class TokenService : ReactiveObject, ITokenService
             {
                 _account.Tokens.Token = _encryptService.Encrypt(tokens.Token);
                 _account.Tokens.RefreshToken = _encryptService.Encrypt(tokens.RefreshToken);
+                _account.IsAuthorized = true;
             });
             
             _logger.LogWarning("Refresh tokens success. Account: {acc}", _account.Name);

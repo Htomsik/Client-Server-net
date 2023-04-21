@@ -6,7 +6,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
     xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
-    xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
     d:DesignWidth="300"
     d:DesignHeight="300"
     mc:Ignorable="d">
@@ -42,16 +41,22 @@
             Kind="Account" />
 
         <StackPanel Grid.Row="1">
+
             <StackPanel
                 HorizontalAlignment="Left"
+                IsVisible="{Binding Account.Name, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
                 Orientation="Horizontal">
-                <TextBlock
-                    Classes="Body2 HeadTb"
-                    Text="Username:" />
 
+                <TextBlock Classes="Body1" Text="{Binding Account.Name}" />
                 <TextBlock
-                    Classes="Body1"
-                    Text="{Binding Account.Name}" />
+                    VerticalAlignment="Top"
+                    Classes="Body3"
+                    FontWeight="Bold"
+                    Foreground="{DynamicResource MaterialRed}"
+                    Text="[NoN]"
+                    ToolTip.Tip="UnAuthorized"
+                    IsVisible="{Binding !Account.IsAuthorized}" />
+
             </StackPanel>
         </StackPanel>
 

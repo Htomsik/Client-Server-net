@@ -15,6 +15,7 @@
         <ResourceDictionary>
 
             <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="/Infrastructure/Styles/Brushes.axaml" />
                 <ResourceInclude Source="/Infrastructure/DataTemplates/LogsDataTemplates.axaml" />
                 <ResourceInclude Source="/Infrastructure/DataTemplates/ReflectionNodeDataTemplate.axaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -69,9 +70,7 @@
         <!--  Default log  -->
         <DataTemplate DataType="events:LogEvent">
 
-            <StackPanel
-                VerticalAlignment="Center"
-                Orientation="Horizontal">
+            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
 
                 <ContentControl Content="{Binding Level, Converter={StaticResource LogLevelToMaterialIconConverter}}" />
 
@@ -86,9 +85,7 @@
         <!--  LogLevelSelector  -->
         <DataTemplate DataType="itemSelectors:LogLevelSelector">
 
-            <StackPanel
-                VerticalAlignment="Center"
-                Orientation="Horizontal">
+            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
 
                 <CheckBox IsChecked="{Binding IsAdd, Mode=TwoWay}" />
 
@@ -106,9 +103,7 @@
         <!--  IItemSelector  -->
         <DataTemplate DataType="itemSelectors:IItemSelector">
 
-            <StackPanel
-                VerticalAlignment="Center"
-                Orientation="Horizontal">
+            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
 
                 <CheckBox IsChecked="{Binding IsAdd, Mode=TwoWay}" />
 
