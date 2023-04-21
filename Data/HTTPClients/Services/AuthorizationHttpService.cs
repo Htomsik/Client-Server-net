@@ -50,6 +50,17 @@ public class AuthorizationHttpService<TAuthUser,TRegUser, TTokens> : IAuthServic
             .ConfigureAwait(false);
     }
 
+    public async Task<bool> Deactivate(TTokens tokens, CancellationToken cancel = default)
+    {
+        var response = await _client.PostAsJsonAsync("Deactivate", tokens, cancellationToken: cancel).ConfigureAwait(false);
+       
+        return await response
+            .EnsureSuccessStatusCode()
+            .Content
+            .ReadFromJsonAsync<bool>(cancellationToken: cancel)
+            .ConfigureAwait(false);
+    }
+
     public async Task<TTokens?> RefreshTokens(TTokens tokens, CancellationToken cancel = default)
     {
         var response = await _client.PostAsJsonAsync("RefreshTokens", tokens, cancellationToken: cancel).ConfigureAwait(false);

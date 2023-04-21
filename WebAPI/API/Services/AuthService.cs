@@ -126,7 +126,43 @@ public class AuthService : IAuthService<LoginUserDTO,RegistratonUserDTO, Tokens>
         return await Authorize(loginUser, cancel);
     }
 
-  
+    public async Task<bool> Deactivate(Tokens tokens, CancellationToken cancel = default)
+    {
+        var user = await GetUserFromToken(tokens);
+
+        if (user is null)
+            return false;
+        
+        var jwtSecurity = new JwtSecurityTokenHandler();
+        
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfiguration["Key"]));
+
+        try
+        {
+            jwtSecurity.ValidateToken(tokens.Token, new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidIssuer = _jwtConfiguration["Issuer"],
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = key,
+                ValidateLifetime = true,
+                ValidateAudience = false
+            }, out SecurityToken validToken);
+            
+        }
+        catch
+        {
+            return false;
+        }
+        
+        var result = await _userManager.SetLockoutEnabledAsync(user, true);
+
+        if (result.Succeeded)
+            result =  await _userManager.SetLockoutEndDateAsync(user, DateTime.Today.AddYears(100));
+            
+        return result.Succeeded;
+    }
+    
     public async Task<Tokens?> RefreshTokens(Tokens tokens, CancellationToken cancel = default)
     {
         var user = await GetUserFromToken(tokens);

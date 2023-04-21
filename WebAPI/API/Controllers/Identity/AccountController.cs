@@ -127,6 +127,38 @@ public class AccountController : ControllerBase
     }
 
     #endregion
+    
+    #region Deactivate
+    [Authorize]
+    [HttpDelete("Deactivate")]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> Deactivate(Tokens tokensDto)
+    {
+        _logger.LogInformation("Deactivate Account attempts");
+
+        if (!ModelState.IsValid)
+        {
+            _logger.LogInformation("Token model invalid");
+            return BadRequest(null!);
+        }
+
+        var tokens = await _authService.Deactivate(_mapper.Map<Tokens>(tokensDto));
+
+        if (tokens == false)
+        {
+            _logger.LogInformation("Deactivate Account denied");
+            return NotFound(null!);
+        }
+        
+        _logger.LogInformation("Deactivate Account successful");
+
+        return Ok(true);
+    }
+    
+    #endregion
 
     #endregion
 }
