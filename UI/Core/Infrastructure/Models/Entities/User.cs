@@ -13,7 +13,7 @@ namespace Core.Infrastructure.Models.Entities;
 
 public class User : RegUser, IUser
 {
-    [Reactive] public ITokens? Tokens { get; set; } = new Tokens();
+    [Reactive] public ITokens Tokens { get; set; } = new Tokens();
     
     public User() : this(false){}
 

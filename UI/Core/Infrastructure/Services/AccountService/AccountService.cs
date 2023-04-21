@@ -57,10 +57,15 @@ internal sealed class AccountService : IAccountService<AuthUser, RegUser>
         bool ret = true;
         
         _logger.LogInformation("Authorization attempt. Account: {acc}", authUser.Name);
-        
+
         try
         {
             tokens = await _authService.Authorize(authUser, cancel).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogWarning("Authorization canceled");
+            ret = false;
         }
         catch (Exception error)
         {
@@ -68,6 +73,7 @@ internal sealed class AccountService : IAccountService<AuthUser, RegUser>
             _logger.LogError(error, "{Source}:{Message}", error.Source, error.Message);
             ret = false;
         }
+      
 
         ret = ret && tokens != null;
         
@@ -77,7 +83,7 @@ internal sealed class AccountService : IAccountService<AuthUser, RegUser>
             {
                 _account.Name = authUser.Name;
 
-                _account.Tokens.Token = _encryptService.Encrypt(tokens.Token);
+                _account.Tokens.Token = _encryptService.Encrypt(tokens!.Token);
                 _account.Tokens.RefreshToken = _encryptService.Encrypt(tokens.RefreshToken);
                 
                 _notifyService.Notify("Authorization success");
@@ -104,6 +110,11 @@ internal sealed class AccountService : IAccountService<AuthUser, RegUser>
         {
             tokens = await _authService.Registration(authUser, cancel).ConfigureAwait(false);
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogWarning("Registration canceled");
+            ret = false;
+        }
         catch (Exception error)
         {
             _notifyService.Notify("Registration failed");
@@ -120,7 +131,7 @@ internal sealed class AccountService : IAccountService<AuthUser, RegUser>
                 _account.Name = authUser.Name;
                 _account.Email = authUser.Email;
                 
-                _account.Tokens.Token = _encryptService.Encrypt(tokens.Token);
+                _account.Tokens.Token = _encryptService.Encrypt(tokens!.Token);
                 _account.Tokens.RefreshToken = _encryptService.Encrypt(tokens.RefreshToken);
             });
             
