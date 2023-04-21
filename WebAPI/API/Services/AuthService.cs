@@ -1,8 +1,10 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using API.Infrastructure.Extensions;
 using AutoMapper;
 using Domain.identity;
+using Interfaces.Other;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Models.Identity;
@@ -121,22 +123,17 @@ public class AuthService : IAuthService<LoginUserDTO,RegistratonUserDTO, Tokens>
         
         await _userManager.AddToRoleAsync(user, Role.Users);
 
-        return await Authorize(loginUser);
+        return await Authorize(loginUser, cancel);
     }
 
+  
     public async Task<Tokens?> RefreshTokens(Tokens tokens, CancellationToken cancel = default)
     {
-        var jwtSecurity = new JwtSecurityTokenHandler();
+        var user = await GetUserFromToken(tokens);
 
-        var content = jwtSecurity.ReadJwtToken(tokens.Token);
-        
-        var userName = content.Claims.ToList().FirstOrDefault(elem => elem.Type == ClaimTypes.Name)?.Value;
-
-        if (string.IsNullOrEmpty(userName))
+        if (user is null)
             return null;
-
-        var user = await _userManager.FindByNameAsync(userName);
-
+        
         var isValid = await _userManager.VerifyUserTokenAsync(user, _jwtConfiguration.GetSection("Issuer").Value, 
             RefreshTokenName, tokens.RefreshToken);
 
@@ -154,6 +151,16 @@ public class AuthService : IAuthService<LoginUserDTO,RegistratonUserDTO, Tokens>
         await _userManager.UpdateSecurityStampAsync(user);
 
         return null;
+    }
+
+    private async Task<User?> GetUserFromToken(ITokens tokens)
+    {
+        var userName = tokens.UserName();
+        
+        if (string.IsNullOrEmpty(userName))
+            return null;
+
+        return await _userManager.FindByNameAsync(userName);
     }
     
     #endregion
