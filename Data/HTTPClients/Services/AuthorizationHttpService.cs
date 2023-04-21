@@ -72,9 +72,9 @@ public class AuthorizationHttpService<TAuthUser,TRegUser,TUser, TTokens> : IAuth
             .ConfigureAwait(false);
     }
 
-    public async Task<TUser?> Info(TAuthUser user, CancellationToken cancel = default)
+    public async Task<TUser?> Info(TTokens tokens, CancellationToken cancel = default)
     {
-        var response = await _client.PostAsJsonAsync("Info", user, cancellationToken: cancel).ConfigureAwait(false);
+        var response = await _client.PostAsJsonAsync("Info", tokens, cancellationToken: cancel).ConfigureAwait(false);
        
         return await response
             .EnsureSuccessStatusCode()

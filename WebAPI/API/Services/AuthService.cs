@@ -171,9 +171,12 @@ public class AuthService : IAuthService<LoginUserDTO,RegistratonUserDTO,UserDTO,
         return null;
     }
 
-    public async Task<UserDTO?> Info(LoginUserDTO loginUserDto, CancellationToken cancel = default)
+    public async Task<UserDTO?> Info(Tokens tokens, CancellationToken cancel = default)
     {
-        var user = await _userManager.FindByNameAsync(loginUserDto.Name);
+        if (!tokens.Validate(_jwtConfiguration))
+            return null;
+        
+        var user = await GetUserFromToken(tokens);
 
         if (user is null)
             return null;

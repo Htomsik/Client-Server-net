@@ -13,5 +13,5 @@ public interface IAuthService<in TAuthUser, in TRegUser, TUser, TTokens>
         
     Task<TTokens?> RefreshTokens(TTokens tokens, CancellationToken cancel = default);
 
-    Task<TUser?> Info(TAuthUser user, CancellationToken cancel = default);
+    Task<TUser?> Info(TTokens tokens, CancellationToken cancel = default);
 }

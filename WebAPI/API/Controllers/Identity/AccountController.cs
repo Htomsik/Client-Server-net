@@ -135,7 +135,7 @@ public class AccountController : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> Deactivate(Tokens tokensDto)
+    public async Task<IActionResult> Deactivate(TokensDTO tokensDto)
     {
         _logger.LogInformation("Deactivate Account attempts");
 
@@ -168,25 +168,25 @@ public class AccountController : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<IActionResult> Info(LoginUserDTO userDto)
+    public async Task<IActionResult> Info(TokensDTO tokensDto)
     {
-        _logger.LogInformation("Info attempt: {0}",userDto.Name);
+        _logger.LogInformation("Info attempt");
 
         if (!ModelState.IsValid)
         {
-            _logger.LogInformation("User {0} model invalid", userDto.Name);
+            _logger.LogInformation("Token model invalid");
             return BadRequest(null!);
         }
 
-        var user = await _authService.Info(userDto);
+        var user = await _authService.Info(_mapper.Map<Tokens>(tokensDto));
 
         if (user is null)
         {
-            _logger.LogInformation("User {0} Info denied", userDto.Name);
+            _logger.LogInformation("Info denied");
             return NotFound(null!);
         }
         
-        _logger.LogInformation("User {0} Info successful", userDto.Name);
+        _logger.LogInformation("User {0} Info successful", user.Name);
         
         return Ok(user);
     }
