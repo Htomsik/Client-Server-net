@@ -130,7 +130,7 @@ public class AccountController : ControllerBase
     
     #region Deactivate
     [Authorize]
-    [HttpDelete("Deactivate")]
+    [HttpPost("Deactivate")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
