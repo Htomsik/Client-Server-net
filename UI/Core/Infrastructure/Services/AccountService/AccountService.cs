@@ -2,6 +2,7 @@
 using Core.Infrastructure.Models.Entities;
 using Core.Infrastructure.Services.EncryptService;
 using Core.Infrastructure.Services.Other;
+using Core.Infrastructure.Stores.Interfaces;
 using Microsoft.Extensions.Logging;
 using Services.Identity;
 
@@ -21,7 +22,9 @@ internal sealed class AccountService : IAccountService<AuthUser, RegUser>
     
     private readonly IEncryptService _encryptService;
 
-    private User _account; 
+    private User _account;
+
+    private ISaverStore<User,bool> _userStore;
 
     #endregion
     
@@ -30,7 +33,7 @@ internal sealed class AccountService : IAccountService<AuthUser, RegUser>
     public AccountService(
         ILogger<AccountService> logger, 
         IAuthService<AuthUser, RegUser, User, Tokens> autService,
-        IStore<User> userStore,
+        ISaverStore<User, bool> userStore,
         IUiThreadOperation uiThreadOperation,
         INotificationService notifyService,
         IEncryptService encryptService)
@@ -40,9 +43,10 @@ internal sealed class AccountService : IAccountService<AuthUser, RegUser>
         _uiThreadOperation = uiThreadOperation;
         _notifyService = notifyService;
         _encryptService = encryptService;
+        _userStore = userStore;
         _account = userStore.CurrentValue;
 
-        userStore.CurrentValueChangedNotifier += () =>
+        userStore.CurrentValueChangedNotifier += _ =>
         {
             _account = userStore.CurrentValue;
         };
@@ -146,5 +150,51 @@ internal sealed class AccountService : IAccountService<AuthUser, RegUser>
         
 
         return ret;
+    }
+
+    public async Task<bool> Deactivate(CancellationToken cancel = default)
+    {
+        bool ret = true;
+
+        _logger.LogInformation("Deactivation attempt. Account: {acc}", _account.Name);
+        
+        try
+        {
+            ret = await _authService.Deactivate((Tokens)_account.Tokens, cancel).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogWarning("Deactivation canceled");
+            ret = false;
+        }
+        catch (Exception error)
+        {
+            _notifyService.Notify("Deactivation failed");
+            _logger.LogError(error, "{Source}:{Message}", error.Source, error.Message);
+            ret = false;
+        }
+
+        if (ret)
+        {
+            await Logout();
+            
+            _notifyService.Notify("Deactivation success");
+            
+            _logger.LogInformation("Deactivation success. Account: {acc}", _account.Name);
+        }
+        else
+            _logger.LogInformation("Deactivation failed. Account: {acc}", _account.Name);
+        
+
+        return ret;
+    }
+    
+    private async Task Logout()
+    {
+        await _uiThreadOperation.InvokeAsync(() =>
+        {
+            _userStore.CurrentValue = new User();
+            _userStore.SaveNow();
+        });
     }
 }

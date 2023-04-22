@@ -52,6 +52,8 @@ public class AccountVmd : BaseTitleVmd
             userStore.SaveNow();
         },CanLogout);
 
+        Deactivate = ReactiveCommand.Create(()=>_dialogService.ChangeVmdAndOpen(typeof(DeactivateAccountVmd)), CanLogout);
+
         Login = ReactiveCommand.Create(()=> _dialogService.ChangeVmdAndOpen(typeof(AuthorizationVmd)),CanLogin);
         
         Registration = ReactiveCommand.Create(()=> _dialogService.ChangeVmdAndOpen(typeof(RegistrationVmd)),CanLogin);
@@ -83,6 +85,12 @@ public class AccountVmd : BaseTitleVmd
 
     private IObservable<bool> CanLogout =>
         this.WhenAnyValue(x => x.Account.Name, acc=> !string.IsNullOrEmpty(acc));
+
+    #endregion
+
+    #region Deactivate
+
+    public IReactiveCommand Deactivate { get; }
 
     #endregion
     

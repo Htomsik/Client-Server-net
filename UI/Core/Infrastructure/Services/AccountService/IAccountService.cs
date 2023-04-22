@@ -9,4 +9,6 @@ public interface IAccountService<in TAuthUser, in TRegUser>
     public Task<bool> Authorization(TAuthUser authUser,CancellationToken cancel = default);
 
     public Task<bool> Registration(TRegUser authUser,CancellationToken cancel = default);
+
+    public Task<bool> Deactivate(CancellationToken cancel = default);
 }

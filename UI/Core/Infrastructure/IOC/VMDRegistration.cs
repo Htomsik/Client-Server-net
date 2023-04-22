@@ -24,6 +24,7 @@ public partial class IocRegistration
 
     private static IServiceCollection DialogVmdRegs(this IServiceCollection services) =>
         services
+            .AddTransient<DeactivateAccountVmd>()
             .AddTransient<AuthorizationVmd>()
             .AddTransient<RegistrationVmd>();
 

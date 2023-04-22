@@ -78,6 +78,13 @@
                 Classes="Outline"
                 Content="Logout"
                 Command="{Binding Logout}" />
+
+
+            <Button
+                Padding="0"
+                Classes="Outline"
+                Content="Deactivate"
+                Command="{Binding Deactivate}" />
         </WrapPanel>
     </Grid>
 </UserControl>

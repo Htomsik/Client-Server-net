@@ -41,7 +41,8 @@ public class ViewLocator : IDataTemplate
         {typeof(RegistrationVmd), typeof(RegistrationDialog)},
         {typeof(AccountDevVmd), typeof(AccountDevView)},
         {typeof(StatusLineVmd),typeof(StatusLineView)},
-        {typeof(NotificationsVmd), typeof(NotificationView)}
+        {typeof(NotificationsVmd), typeof(NotificationView)},
+        {typeof(DeactivateAccountVmd), typeof(DeactivateAccountDialog)}
     };
 
     private readonly ILogger _logger;
