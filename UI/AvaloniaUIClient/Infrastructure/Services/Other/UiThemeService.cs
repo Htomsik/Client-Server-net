@@ -8,11 +8,17 @@ namespace AvaloniaUIClient.Infrastructure.Services.Other;
 
 internal sealed class UiThemeService : IUiThemeService
 {
+    private readonly IUiThreadOperation _uiThreadOperation;
+    
     private readonly MaterialTheme _materialThemeStyles;
     
-    public UiThemeService()
-    {
+    public UiThemeService(IUiThreadOperation uiThreadOperation)
+    { 
+        _uiThreadOperation = uiThreadOperation;
         _materialThemeStyles =  Application.Current!.LocateMaterialTheme<MaterialTheme>();
-    }
-    public void ChangeMode(ThemeMode mode) => _materialThemeStyles.BaseTheme = (BaseThemeMode)mode;
+    }       
+    public async void ChangeMode(ThemeMode mode) => await _uiThreadOperation.InvokeAsync(() =>
+    {
+        _materialThemeStyles.BaseTheme = (BaseThemeMode)mode;
+    });
 }
