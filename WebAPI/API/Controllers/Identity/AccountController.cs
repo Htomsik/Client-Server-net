@@ -16,7 +16,7 @@ public class AccountController : ControllerBase
 
     private readonly ILogger<AccountController> _logger;
     
-    private readonly IAuthService<LoginUserDTO,RegistratonUserDTO, Tokens> _authService;
+    private readonly IAuthService<LoginUserDTO,RegistratonUserDTO,UserDTO, Tokens> _authService;
     
     private readonly IMapper _mapper;
 
@@ -24,7 +24,7 @@ public class AccountController : ControllerBase
 
     #region Constructors
 
-    public AccountController(ILogger<AccountController> logger, IAuthService<LoginUserDTO,RegistratonUserDTO, Tokens> authService, IMapper mapper)
+    public AccountController(ILogger<AccountController> logger, IAuthService<LoginUserDTO,RegistratonUserDTO,UserDTO, Tokens> authService, IMapper mapper)
     {
         _logger = logger;
         _authService = authService;
@@ -124,6 +124,71 @@ public class AccountController : ControllerBase
         _logger.LogInformation("Refresh token successful");
 
         return Accepted(_mapper.Map<TokensDTO>(tokens));
+    }
+
+    #endregion
+    
+    #region Deactivate
+    [Authorize]
+    [HttpDelete("Deactivate")]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> Deactivate(TokensDTO tokensDto)
+    {
+        _logger.LogInformation("Deactivate Account attempts");
+
+        if (!ModelState.IsValid)
+        {
+            _logger.LogInformation("Token model invalid");
+            return BadRequest(null!);
+        }
+
+        var tokens = await _authService.Deactivate(_mapper.Map<Tokens>(tokensDto));
+
+        if (tokens == false)
+        {
+            _logger.LogInformation("Deactivate Account denied");
+            return NotFound(null!);
+        }
+        
+        _logger.LogInformation("Deactivate Account successful");
+
+        return Ok(true);
+    }
+    
+    #endregion
+
+    #region Info
+
+    [AllowAnonymous]
+    [HttpPost("Info")]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> Info(TokensDTO tokensDto)
+    {
+        _logger.LogInformation("Info attempt");
+
+        if (!ModelState.IsValid)
+        {
+            _logger.LogInformation("Token model invalid");
+            return BadRequest(null!);
+        }
+
+        var user = await _authService.Info(_mapper.Map<Tokens>(tokensDto));
+
+        if (user is null)
+        {
+            _logger.LogInformation("Info denied");
+            return NotFound(null!);
+        }
+        
+        _logger.LogInformation("User {0} Info successful", user.Name);
+        
+        return Ok(user);
     }
 
     #endregion

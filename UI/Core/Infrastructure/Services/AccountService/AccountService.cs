@@ -13,7 +13,7 @@ internal sealed class AccountService : IAccountService<AuthUser, RegUser>
 
     private readonly ILogger _logger;
 
-    private readonly IAuthService<AuthUser,RegUser, Tokens> _authService;
+    private readonly IAuthService<AuthUser, RegUser, User, Tokens> _authService;
     
     private readonly IUiThreadOperation _uiThreadOperation;
     
@@ -29,7 +29,7 @@ internal sealed class AccountService : IAccountService<AuthUser, RegUser>
 
     public AccountService(
         ILogger<AccountService> logger, 
-        IAuthService<AuthUser,RegUser, Tokens> autService,
+        IAuthService<AuthUser, RegUser, User, Tokens> autService,
         IStore<User> userStore,
         IUiThreadOperation uiThreadOperation,
         INotificationService notifyService,

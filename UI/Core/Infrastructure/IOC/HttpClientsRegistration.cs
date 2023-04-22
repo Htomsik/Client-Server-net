@@ -11,7 +11,7 @@ public partial class IocRegistration
     public static IServiceCollection HttpClientsRegistration(this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddHttpClient<IAuthService<AuthUser,RegUser, Tokens>, AuthorizationHttpService<AuthUser,RegUser, Tokens>>(client =>
+        services.AddHttpClient<IAuthService<AuthUser, RegUser, User, Tokens>, AuthorizationHttpService<AuthUser,RegUser,User, Tokens>>(client =>
         {
             client.BaseAddress = new Uri($"{configuration["API"]}/api/Account/");
         });

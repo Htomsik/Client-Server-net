@@ -21,4 +21,4 @@ internal sealed class UiThemeService : IUiThemeService
     {
         _materialThemeStyles.BaseTheme = (BaseThemeMode)mode;
     });
-}
+}   

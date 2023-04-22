@@ -3,7 +3,6 @@ using Core.Infrastructure.Models.Entities;
 using Core.Infrastructure.Services.EncryptService;
 using Core.Infrastructure.Services.Other;
 using Core.Infrastructure.Stores.Interfaces;
-using Interfaces.Entities;
 using Microsoft.Extensions.Logging;
 using ReactiveUI;
 using Services.Identity;
@@ -14,7 +13,7 @@ public sealed class TokenService : ReactiveObject, ITokenService
 {
     #region Fields
 
-    private readonly IAuthService<AuthUser, RegUser, Tokens> _authService;
+    private readonly IAuthService<AuthUser, RegUser,User, Tokens> _authService;
     
     private readonly ILogger<TokenService> _logger;
     
@@ -33,7 +32,7 @@ public sealed class TokenService : ReactiveObject, ITokenService
     #region Constructors
 
     public TokenService(
-        IAuthService<AuthUser, RegUser, Tokens> authService, 
+        IAuthService<AuthUser, RegUser, User, Tokens> authService, 
         ILogger<TokenService> logger,
         IUiThreadOperation uiThreadOperation,
         ISaverStore<User, bool> userStore,

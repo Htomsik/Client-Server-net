@@ -12,8 +12,8 @@ public sealed class RegistrationVmd : BaseAccountOperationVmd<RegUser>
     #region Methods
 
     public override async Task<bool> Process(CancellationToken cancel = default) => await AccountService.Registration(Account,cancel);
+    
     protected override void InitAccount() => Account = new RegUser(true);
     
     #endregion
-    
 }

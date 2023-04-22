@@ -18,6 +18,19 @@ internal sealed class AutoMapperProfile : Profile
             dest => dest.UserName, 
             opt => opt.MapFrom(src => src.Name))
             .ReverseMap();
+        
+        CreateMap<RegistratonUserDTO, User>().ForMember(
+                dest => dest.UserName, 
+                opt => opt.MapFrom(src => src.Name))
+            .ReverseMap();
+        
+        CreateMap<UserDTO, User>()
+            .ForMember( 
+                dest => dest.UserName, 
+                opt=> opt.MapFrom(src=>src.Name))
+            .ForMember(dest => dest.Email,
+                opt => opt.MapFrom(src=>src.Email)).ReverseMap();
+
 
         CreateMap<TokensDTO,Tokens>().ReverseMap();
     }

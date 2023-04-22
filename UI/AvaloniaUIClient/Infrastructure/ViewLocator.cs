@@ -7,7 +7,6 @@ using AvaloniaUIClient.Infrastructure.Views.DevPanelViews;
 using AvaloniaUIClient.Infrastructure.Views.DevPanelViews.LogsPanel;
 using AvaloniaUIClient.Views;
 using AvaloniaUIClient.Views.Dialogs;
-using AvaloniaUIClient.Views.MenuViews;
 using AvaloniaUIClient.Views.TitleViews;
 using Core.Infrastructure.Services.DialogService;
 using Core.Infrastructure.Services.Other;

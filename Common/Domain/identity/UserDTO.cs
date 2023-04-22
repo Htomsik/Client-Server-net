@@ -30,5 +30,5 @@ public class UserDTO : RegistratonUserDTO, IUser
 {
     public ITokens Tokens { get; set; }
     
-    public ICollection<RoleDTO> Roles { get; set; }
+    public ICollection<string> Roles { get; set; }
 }
