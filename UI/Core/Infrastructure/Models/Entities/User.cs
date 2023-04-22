@@ -1,5 +1,4 @@
 ﻿using System.Net.Mail;
-using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 using Interfaces.Entities;
@@ -32,6 +31,8 @@ public class RegUser : AuthUser, IRegUser
     #region Properties
 
     [Reactive] public string? Email { get; set; }
+    
+    [XmlIgnore] [Reactive] public string PasswordConfirmation { get; set; }
 
     #endregion
 
@@ -63,7 +64,23 @@ public class RegUser : AuthUser, IRegUser
                     return false;
                 }
             },
-            "invalid email format");
+            "Invalid email format");
+
+        var passwordsObservable =
+            this.WhenAnyValue(
+                x => x.Password,
+                x => x.PasswordConfirmation,
+                (password, confirmation) =>
+                    new { Password = password, Confirmation = confirmation });
+        
+        this.ValidationRule(
+            vm => vm.PasswordConfirmation,
+            passwordsObservable,
+            state => 
+                    !string.IsNullOrEmpty(state.Password) && 
+                    !string.IsNullOrEmpty(state.Confirmation) &&
+                    state.Password == state.Confirmation,
+            _=>"Passwords must be same");
         
         base.SetValidation();
     }

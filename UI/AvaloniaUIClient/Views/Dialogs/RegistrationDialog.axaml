@@ -24,5 +24,12 @@
             Classes="revealPasswordButton"
             PasswordChar="*"
             Text="{Binding Account.Password}" />
+
+        <TextBox
+            Watermark="Password confirmation"
+            UseFloatingWatermark="True"
+            Classes="revealPasswordButton"
+            PasswordChar="*"
+            Text="{Binding Account.PasswordConfirmation}" />
     </StackPanel>
 </UserControl>
