@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Core.Infrastructure.Extensions;
 using Core.Infrastructure.Models.Entities;
 using Core.Infrastructure.Services.EncryptService;
 using Core.Infrastructure.Services.Other;
@@ -26,7 +27,7 @@ public sealed class TokenService : ReactiveObject, ITokenService
     private readonly INotificationService _notifyService;
 
     private readonly IEncryptService _encryptService;
-
+    
     #endregion
 
     #region Constructors
@@ -51,6 +52,8 @@ public sealed class TokenService : ReactiveObject, ITokenService
     }
 
     #endregion
+
+    #region Methods
     
     public async Task<bool> Refresh(CancellationToken cancel = default)
     {
@@ -65,16 +68,10 @@ public sealed class TokenService : ReactiveObject, ITokenService
             _logger.LogWarning("Refresh tokens failed. Refresh token is null. Account: {acc}", _account.Name);
             return false;
         }
-
-        var decryptedTokens = new Tokens
-        {
-            Token = _encryptService.Decrypt(_account.Tokens.Token),
-            RefreshToken = _encryptService.Decrypt(_account.Tokens.RefreshToken),
-        };
         
         try
         {
-            tokens = await _authService.RefreshTokens(decryptedTokens, cancel).ConfigureAwait(false);
+            tokens = await _authService.RefreshTokens((Tokens)_account.Tokens.Decrypt(_encryptService), cancel).ConfigureAwait(false);
         }
         catch (HttpRequestException error)
         {
@@ -122,4 +119,6 @@ public sealed class TokenService : ReactiveObject, ITokenService
             _userStore.SaveNow();
         });
     }
+
+    #endregion
 }

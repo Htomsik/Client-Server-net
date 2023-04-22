@@ -1,4 +1,4 @@
-﻿using AppInfrastructure.Stores.DefaultStore;
+﻿using Core.Infrastructure.Extensions;
 using Core.Infrastructure.Models.Entities;
 using Core.Infrastructure.Services.EncryptService;
 using Core.Infrastructure.Services.Other;
@@ -24,7 +24,7 @@ internal sealed class AccountService : IAccountService<AuthUser, RegUser>
 
     private User _account;
 
-    private ISaverStore<User,bool> _userStore;
+    private readonly ISaverStore<User,bool> _userStore;
 
     #endregion
     
@@ -160,7 +160,7 @@ internal sealed class AccountService : IAccountService<AuthUser, RegUser>
         
         try
         {
-            ret = await _authService.Deactivate((Tokens)_account.Tokens, cancel).ConfigureAwait(false);
+            ret = await _authService.Deactivate((Tokens)_account.Tokens.Decrypt(_encryptService), cancel).ConfigureAwait(false);
         }
         catch (OperationCanceledException)
         {
