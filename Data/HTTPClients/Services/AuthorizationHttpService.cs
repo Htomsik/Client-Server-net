@@ -5,12 +5,13 @@ using Services.Identity;
 
 namespace HTTPClients.Services;
 
-public class AuthorizationHttpService<TAuthUser,TRegUser,TUser, TTokens> : IAuthService<TAuthUser,TRegUser,TUser, TTokens>
+public class AuthorizationHttpService<TAuthUser,TRegUser,TUser, TTokens> 
+    : IAuthService<TAuthUser,TRegUser,TUser, TTokens>, IHttpService
     where TTokens : ITokens
 {
     #region Fields
     
-    private readonly HttpClient _client;
+    public  HttpClient Client { get; }
 
     #endregion
 
@@ -20,8 +21,7 @@ public class AuthorizationHttpService<TAuthUser,TRegUser,TUser, TTokens> : IAuth
         ILogger<AuthorizationHttpService<TAuthUser,TRegUser,TUser,TTokens>> logger, 
         HttpClient client)
     {
- 
-        _client = client;
+        Client = client;
     }
 
     #endregion
@@ -30,7 +30,7 @@ public class AuthorizationHttpService<TAuthUser,TRegUser,TUser, TTokens> : IAuth
 
     public async Task<TTokens?> Authorize(TAuthUser user, CancellationToken cancel = default)
     {
-       var response = await _client.PostAsJsonAsync("Authorization", user, cancellationToken: cancel).ConfigureAwait(false);
+       var response = await Client.PostAsJsonAsync("Authorization", user, cancellationToken: cancel).ConfigureAwait(false);
        
        return await response
            .EnsureSuccessStatusCode()
@@ -41,7 +41,7 @@ public class AuthorizationHttpService<TAuthUser,TRegUser,TUser, TTokens> : IAuth
 
     public async Task<TTokens?> Registration(TRegUser user, CancellationToken cancel = default)
     {
-        var response = await _client.PostAsJsonAsync("Registration", user, cancellationToken: cancel).ConfigureAwait(false);
+        var response = await Client.PostAsJsonAsync("Registration", user, cancellationToken: cancel).ConfigureAwait(false);
        
         return await response
             .EnsureSuccessStatusCode()
@@ -52,7 +52,7 @@ public class AuthorizationHttpService<TAuthUser,TRegUser,TUser, TTokens> : IAuth
 
     public async Task<bool> Deactivate(TTokens tokens, CancellationToken cancel = default)
     {
-        var response = await _client.PostAsJsonAsync("Deactivate", tokens, cancellationToken: cancel).ConfigureAwait(false);
+        var response = await Client.PostAsJsonAsync("Deactivate", tokens, cancellationToken: cancel).ConfigureAwait(false);
        
         return await response
             .EnsureSuccessStatusCode()
@@ -63,7 +63,7 @@ public class AuthorizationHttpService<TAuthUser,TRegUser,TUser, TTokens> : IAuth
 
     public async Task<TTokens?> RefreshTokens(TTokens tokens, CancellationToken cancel = default)
     {
-        var response = await _client.PostAsJsonAsync("RefreshTokens", tokens, cancellationToken: cancel).ConfigureAwait(false);
+        var response = await Client.PostAsJsonAsync("RefreshTokens", tokens, cancellationToken: cancel).ConfigureAwait(false);
        
         return await response
             .EnsureSuccessStatusCode()
@@ -74,7 +74,7 @@ public class AuthorizationHttpService<TAuthUser,TRegUser,TUser, TTokens> : IAuth
 
     public async Task<TUser?> Info(TTokens tokens, CancellationToken cancel = default)
     {
-        var response = await _client.PostAsJsonAsync("Info", tokens, cancellationToken: cancel).ConfigureAwait(false);
+        var response = await Client.PostAsJsonAsync("Info", tokens, cancellationToken: cancel).ConfigureAwait(false);
        
         return await response
             .EnsureSuccessStatusCode()
