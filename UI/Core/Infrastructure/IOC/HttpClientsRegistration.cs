@@ -16,6 +16,9 @@ public partial class IocRegistration
             client.BaseAddress = new Uri($"{configuration["API"]}/api/Account/");
         });
 
+        services.AddSingleton<AuthorizationHttpService<AuthUser, RegUser, User, Tokens>>(
+            s => (AuthorizationHttpService<AuthUser, RegUser, User, Tokens>)s.GetRequiredService<IAuthService<AuthUser, RegUser, User, Tokens>>());
+        
         return services;
     }
 }

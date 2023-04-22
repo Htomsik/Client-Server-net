@@ -53,5 +53,7 @@ public partial class App : Application
         Services.GetService<ITokenService>().Refresh();
         
         Services.GetService<BaseVmdNavigationService<ITitleVmd>>();
+
+        Services.GetService<HttpTokenService>();
     }
 }

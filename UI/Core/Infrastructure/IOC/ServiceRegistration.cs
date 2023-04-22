@@ -31,6 +31,7 @@ public static partial class IocRegistration
     
     private static IServiceCollection InfrServicesRegs(this IServiceCollection services) =>
         services
+            .AddTransient<IHttpTokenService, HttpTokenService>()
             .AddTransient<IEncryptService, Base64EncryptService>()
             .AddTransient<IDecryptService>(s=>s.GetRequiredService<IEncryptService>())
             .AddSingleton<IDialogService, DialogService>()

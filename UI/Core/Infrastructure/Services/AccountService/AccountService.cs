@@ -3,8 +3,8 @@ using Core.Infrastructure.Models.Entities;
 using Core.Infrastructure.Services.EncryptService;
 using Core.Infrastructure.Services.Other;
 using Core.Infrastructure.Stores.Interfaces;
+using HTTPClients.Services;
 using Microsoft.Extensions.Logging;
-using Services.Identity;
 
 namespace Core.Infrastructure.Services.AccountService;
 
@@ -14,13 +14,15 @@ internal sealed class AccountService : IAccountService<AuthUser, RegUser>
 
     private readonly ILogger _logger;
 
-    private readonly IAuthService<AuthUser, RegUser, User, Tokens> _authService;
+    private readonly AuthorizationHttpService<AuthUser, RegUser, User, Tokens> _authService;
     
     private readonly IUiThreadOperation _uiThreadOperation;
     
     private readonly INotificationService _notifyService;
     
     private readonly IEncryptService _encryptService;
+    
+    private readonly IHttpTokenService _httpTokenService;
 
     private User _account;
 
@@ -32,17 +34,19 @@ internal sealed class AccountService : IAccountService<AuthUser, RegUser>
 
     public AccountService(
         ILogger<AccountService> logger, 
-        IAuthService<AuthUser, RegUser, User, Tokens> autService,
+        AuthorizationHttpService<AuthUser, RegUser, User, Tokens> autService,
         ISaverStore<User, bool> userStore,
         IUiThreadOperation uiThreadOperation,
         INotificationService notifyService,
-        IEncryptService encryptService)
+        IEncryptService encryptService,
+        IHttpTokenService httpTokenService)
     {
         _logger = logger;
         _authService = autService;
         _uiThreadOperation = uiThreadOperation;
         _notifyService = notifyService;
         _encryptService = encryptService;
+        _httpTokenService = httpTokenService;
         _userStore = userStore;
         _account = userStore.CurrentValue;
 
@@ -157,6 +161,15 @@ internal sealed class AccountService : IAccountService<AuthUser, RegUser>
         bool ret = true;
 
         _logger.LogInformation("Deactivation attempt. Account: {acc}", _account.Name);
+        
+        ret =  _httpTokenService.SetToken(_authService.Client);
+
+        if (!ret)
+        {
+            _logger.LogError("Deactivation failed. Tokens null.");
+            _notifyService.Notify("Deactivation failed");
+            return ret;
+        }
         
         try
         {
