@@ -31,7 +31,8 @@ where TAccount : ReactiveValidationObject, IAuthUser, new()
 
         InitAccount();
         
-        CanProcess = Account.IsValid();
+        InitProcess();
+        
     }
 
     #endregion
@@ -43,6 +44,11 @@ where TAccount : ReactiveValidationObject, IAuthUser, new()
     public IObservable<bool> CanProcess { get; protected set; }
 
     protected abstract void InitAccount();
+
+    protected virtual void InitProcess()
+    {
+        CanProcess = Account.IsValid();   
+    }
 
     #endregion
 }
