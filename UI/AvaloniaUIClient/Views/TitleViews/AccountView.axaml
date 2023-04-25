@@ -63,25 +63,30 @@
         <WrapPanel Grid.Row="2">
             <Button
                 Padding="0"
+                IsVisible="{Binding CanLogin^}"
                 Classes="Outline"
                 Content="Login"
                 Command="{Binding Login}" />
 
             <Button
                 Padding="0"
+                IsVisible="{Binding CanLogin^}"
                 Classes="Outline"
                 Content="Registration"
                 Command="{Binding Registration}" />
 
             <Button
                 Padding="0"
+                IsVisible="{Binding CanLogout^}"
                 Classes="Outline"
                 Content="Logout"
                 Command="{Binding Logout}" />
 
-
             <Button
                 Padding="0"
+                Foreground="{DynamicResource MaterialRed}"
+                BorderBrush="{DynamicResource MaterialRed}"
+                IsVisible="{Binding CanLogout^}"
                 Classes="Outline"
                 Content="Deactivate"
                 Command="{Binding Deactivate}" />

@@ -31,7 +31,5 @@ public sealed class AccountDevVmd : AccountVmd
             rtoken=>!string.IsNullOrEmpty(rtoken));
 
     #endregion
-
-   
 }
    

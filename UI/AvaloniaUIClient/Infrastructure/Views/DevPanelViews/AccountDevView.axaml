@@ -19,9 +19,7 @@
                     Opacity="0.62"
                     Text="Id:" />
 
-                <TextBlock
-                    Classes="Body1"
-                    Text="{Binding Account.Id}" />
+                <TextBlock Classes="Body1" Text="{Binding Account.Id}" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
@@ -30,9 +28,7 @@
                     Opacity="0.62"
                     Text="UserName:" />
 
-                <TextBlock
-                    Classes="Body1"
-                    Text="{Binding Account.Name}" />
+                <TextBlock Classes="Body1" Text="{Binding Account.Name}" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
@@ -41,9 +37,7 @@
                     Opacity="0.62"
                     Text="Email:" />
 
-                <TextBlock
-                    Classes="Body1"
-                    Text="{Binding Account.Email}" />
+                <TextBlock Classes="Body1" Text="{Binding Account.Email}" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
@@ -52,9 +46,7 @@
                     Opacity="0.62"
                     Text="AToken:" />
 
-                <TextBlock
-                    Classes="Body1"
-                    Text="{Binding Account.Tokens.Token}" />
+                <TextBlock Classes="Body1" Text="{Binding Account.Tokens.Token}" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
@@ -63,15 +55,11 @@
                     Opacity="0.62"
                     Text="RToken:" />
 
-                <TextBlock
-                    Classes="Body1"
-                    Text="{Binding Account.Tokens.RefreshToken}" />
+                <TextBlock Classes="Body1" Text="{Binding Account.Tokens.RefreshToken}" />
             </StackPanel>
         </StackPanel>
 
-        <WrapPanel
-            Grid.Row="1"
-            Orientation="Vertical">
+        <WrapPanel Grid.Row="1" Orientation="Vertical">
             <Button
                 Margin="3"
                 Classes="Outline"
@@ -92,6 +80,13 @@
                 Classes="Outline"
                 Content="Logout"
                 Command="{Binding Logout}" />
+            <Button
+                Margin="3"
+                Foreground="{DynamicResource MaterialRed}"
+                BorderBrush="{DynamicResource MaterialRed}"
+                Classes="Outline"
+                Content="Deactivate"
+                Command="{Binding Deactivate}" />
         </WrapPanel>
     </Grid>
 </UserControl>
