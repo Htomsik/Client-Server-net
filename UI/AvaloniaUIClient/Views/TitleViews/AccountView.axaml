@@ -1,0 +1,95 @@
+﻿<UserControl
+    x:Class="AvaloniaUIClient.Views.TitleViews.AccountView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+    xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
+    d:DesignWidth="300"
+    d:DesignHeight="300"
+    mc:Ignorable="d">
+
+    <UserControl.Styles>
+        <Style Selector="styles|ColorZone">
+            <Setter Property="ClipToBounds" Value="True" />
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Padding" Value="3" />
+        </Style>
+
+        <Style Selector="TextBlock.HeadTb">
+            <Setter Property="Opacity" Value="0.62" />
+        </Style>
+    </UserControl.Styles>
+
+    <Grid
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        RowDefinitions="Auto,Auto,Auto">
+        <Grid.Styles>
+            <Style Selector=":is(Control)">
+                <Setter Property="Margin" Value="1" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+            </Style>
+        </Grid.Styles>
+
+        <avalonia:MaterialIcon
+            Grid.Row="0"
+            Width="100"
+            Height="100"
+            Kind="Account" />
+
+        <StackPanel Grid.Row="1">
+
+            <StackPanel
+                HorizontalAlignment="Left"
+                IsVisible="{Binding Account.Name, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                Orientation="Horizontal">
+
+                <TextBlock Classes="Body1" Text="{Binding Account.Name}" />
+                <TextBlock
+                    VerticalAlignment="Top"
+                    Classes="Body3"
+                    FontWeight="Bold"
+                    Foreground="{DynamicResource MaterialRed}"
+                    Text="[NoN]"
+                    ToolTip.Tip="UnAuthorized"
+                    IsVisible="{Binding !Account.IsAuthorized}" />
+
+            </StackPanel>
+        </StackPanel>
+
+        <WrapPanel Grid.Row="2">
+            <Button
+                Padding="0"
+                IsVisible="{Binding CanLogin^}"
+                Classes="Outline"
+                Content="Login"
+                Command="{Binding Login}" />
+
+            <Button
+                Padding="0"
+                IsVisible="{Binding CanLogin^}"
+                Classes="Outline"
+                Content="Registration"
+                Command="{Binding Registration}" />
+
+            <Button
+                Padding="0"
+                IsVisible="{Binding CanLogout^}"
+                Classes="Outline"
+                Content="Logout"
+                Command="{Binding Logout}" />
+
+            <Button
+                Padding="0"
+                Foreground="{DynamicResource MaterialRed}"
+                BorderBrush="{DynamicResource MaterialRed}"
+                IsVisible="{Binding CanLogout^}"
+                Classes="Outline"
+                Content="Deactivate"
+                Command="{Binding Deactivate}" />
+        </WrapPanel>
+    </Grid>
+</UserControl>

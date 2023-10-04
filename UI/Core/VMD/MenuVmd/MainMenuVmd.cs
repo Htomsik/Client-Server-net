@@ -10,7 +10,7 @@ using Core.VMD.TitleVmds;
 using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
 
-namespace Core.VMD;
+namespace Core.VMD.MenuVmd;
 
 public class MainMenuVmd : BaseMenuVmd<MenuParamCommandItem>
 {
@@ -42,7 +42,7 @@ public class MainMenuVmd : BaseMenuVmd<MenuParamCommandItem>
 
         MenuItems = new ObservableCollection<MenuParamCommandItem>
         {
-            new ("Home",(ICommand)NavigationCommand!,typeof(HomeVmd)),
+            new ("Home",(ICommand)NavigationCommand!,typeof(HomeVmd))
         };
 
         ProjectInfo = projectInfo;

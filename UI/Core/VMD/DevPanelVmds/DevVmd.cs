@@ -1,8 +1,5 @@
-﻿using Core.Infrastructure.Hosting;
-using Core.Infrastructure.VMD;
+﻿using Core.Infrastructure.VMD;
 using Core.VMD.DevPanelVmds.LogsVmds;
-using Microsoft.Extensions.DependencyInjection;
-
 
 namespace Core.VMD.DevPanelVmds;
 
@@ -12,10 +9,21 @@ public sealed class DevVmd : BaseVmd
     
     public StoresVmd StoresPanelVmd { get; }
     
-    public DevVmd()
+    public AccountDevVmd AccountDevVmd { get; }
+    public NotificationsVmd NotificationsPanelVmd { get; }
+    
+    public DevVmd(
+        LogsVmd logsVmd, 
+        StoresVmd storesVmd, 
+        AccountDevVmd accountDevVmd,
+        NotificationsVmd notificationsVmd)
     {
-        LogsPanelVmd = HostWorker.Services.GetRequiredService<LogsVmd>();
+        LogsPanelVmd = logsVmd;
+
+        StoresPanelVmd = storesVmd;
+
+        AccountDevVmd = accountDevVmd;
         
-        StoresPanelVmd = HostWorker.Services.GetRequiredService<StoresVmd>();
+        NotificationsPanelVmd = notificationsVmd;
     }
 }

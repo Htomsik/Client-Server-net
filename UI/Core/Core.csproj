@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>11</LangVersion>
@@ -15,9 +15,11 @@
       <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
       <PackageReference Include="ReactiveUI" Version="18.4.1" />
       <PackageReference Include="ReactiveUI.Fody" Version="18.4.1" />
+      <PackageReference Include="ReactiveUI.Validation" Version="3.0.22" />
       <PackageReference Include="Serilog" Version="2.12.1-dev-01635" />
       <PackageReference Include="Serilog.Extensions.Hosting" Version="5.0.1" />
       <PackageReference Include="Serilog.Sinks.File" Version="5.0.1-dev-00947" />
+      <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="5.0.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -26,4 +28,11 @@
       </None>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\Base\Interfaces\Interfaces.csproj" />
+      <ProjectReference Include="..\..\Common\Services\Services.csproj" />
+      <ProjectReference Include="..\..\Data\HTTPClients\HTTPClients.csproj" />
+    </ItemGroup>
+
+    
 </Project>

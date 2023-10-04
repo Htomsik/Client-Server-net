@@ -1,0 +1,92 @@
+﻿<UserControl
+    x:Class="AvaloniaUIClient.Infrastructure.Views.DevPanelViews.AccountDevView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignWidth="400"
+    d:DesignHeight="250"
+    mc:Ignorable="d">
+
+    <Grid RowDefinitions="*,*">
+
+        <!--  Info  -->
+        <StackPanel IsVisible="{Binding Settings.IsDevMode}">
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    Classes="Body2"
+                    Opacity="0.62"
+                    Text="Id:" />
+
+                <TextBlock Classes="Body1" Text="{Binding Account.Id}" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    Classes="Body2"
+                    Opacity="0.62"
+                    Text="UserName:" />
+
+                <TextBlock Classes="Body1" Text="{Binding Account.Name}" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    Classes="Body2"
+                    Opacity="0.62"
+                    Text="Email:" />
+
+                <TextBlock Classes="Body1" Text="{Binding Account.Email}" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    Classes="Body2"
+                    Opacity="0.62"
+                    Text="AToken:" />
+
+                <TextBlock Classes="Body1" Text="{Binding Account.Tokens.Token}" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    Classes="Body2"
+                    Opacity="0.62"
+                    Text="RToken:" />
+
+                <TextBlock Classes="Body1" Text="{Binding Account.Tokens.RefreshToken}" />
+            </StackPanel>
+        </StackPanel>
+
+        <WrapPanel Grid.Row="1" Orientation="Vertical">
+            <Button
+                Margin="3"
+                Classes="Outline"
+                Content="Login"
+                Command="{Binding Login}" />
+            <Button
+                Margin="3"
+                Classes="Outline"
+                Content="Registration"
+                Command="{Binding Registration}" />
+            <Button
+                Margin="3"
+                Classes="Outline"
+                Content="Refresh Tokens"
+                Command="{Binding RefreshTokens}" />
+            <Button
+                Margin="3"
+                Classes="Outline"
+                Content="Logout"
+                Command="{Binding Logout}" />
+            <Button
+                Margin="3"
+                Foreground="{DynamicResource MaterialRed}"
+                BorderBrush="{DynamicResource MaterialRed}"
+                Classes="Outline"
+                Content="Deactivate"
+                Command="{Binding Deactivate}" />
+        </WrapPanel>
+    </Grid>
+</UserControl>

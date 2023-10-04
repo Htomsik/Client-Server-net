@@ -8,12 +8,14 @@
     xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
     xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
     xmlns:itemSelectors="clr-namespace:Core.Infrastructure.Models.ItemSelectors;assembly=Core"
-    xmlns:menu="clr-namespace:Core.Infrastructure.Models.Menu;assembly=Core">
+    xmlns:menu="clr-namespace:Core.Infrastructure.Models.Menu;assembly=Core"
+    xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia">
 
     <Application.Resources>
         <ResourceDictionary>
 
             <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="/Infrastructure/Styles/Brushes.axaml" />
                 <ResourceInclude Source="/Infrastructure/DataTemplates/LogsDataTemplates.axaml" />
                 <ResourceInclude Source="/Infrastructure/DataTemplates/ReflectionNodeDataTemplate.axaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -35,15 +37,40 @@
         <StyleInclude Source="avares://Material.Icons.Avalonia/App.xaml" />
         <StyleInclude Source="/Infrastructure/Styles/ToggleButton.axaml" />
         <StyleInclude Source="/Infrastructure/Styles/Button.axaml" />
+        <StyleInclude Source="/Infrastructure/Styles/NotificationManager.axaml" />
+
     </Application.Styles>
 
     <Application.DataTemplates>
+
+        <!--  Main window notification  -->
+        <DataTemplate DataType="INotification">
+            <Grid ColumnDefinitions="Auto,*">
+                <avalonia:MaterialIcon
+                    Grid.Column="0"
+                    Width="24"
+                    Height="24"
+                    Margin="12,0,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Kind="InformationOutline" />
+
+                <TextBlock
+                    Grid.Column="1"
+                    Margin="3,0,12,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Classes="Body2"
+                    Text="{Binding Message}"
+                    TextWrapping="Wrap" />
+            </Grid>
+        </DataTemplate>
+
+
         <!--  Default log  -->
         <DataTemplate DataType="events:LogEvent">
 
-            <StackPanel
-                VerticalAlignment="Center"
-                Orientation="Horizontal">
+            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
 
                 <ContentControl Content="{Binding Level, Converter={StaticResource LogLevelToMaterialIconConverter}}" />
 
@@ -58,9 +85,7 @@
         <!--  LogLevelSelector  -->
         <DataTemplate DataType="itemSelectors:LogLevelSelector">
 
-            <StackPanel
-                VerticalAlignment="Center"
-                Orientation="Horizontal">
+            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
 
                 <CheckBox IsChecked="{Binding IsAdd, Mode=TwoWay}" />
 
@@ -78,9 +103,7 @@
         <!--  IItemSelector  -->
         <DataTemplate DataType="itemSelectors:IItemSelector">
 
-            <StackPanel
-                VerticalAlignment="Center"
-                Orientation="Horizontal">
+            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
 
                 <CheckBox IsChecked="{Binding IsAdd, Mode=TwoWay}" />
 

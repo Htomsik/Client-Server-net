@@ -2,9 +2,11 @@
 using Core.Infrastructure.Extensions;
 using Core.Infrastructure.Hosting;
 using Core.Infrastructure.Models.Settings;
+using Core.Infrastructure.Services.DialogService;
 using Core.Infrastructure.VMD;
 using Core.Infrastructure.VMD.Interfaces;
 using Core.VMD.DevPanelVmds;
+using Core.VMD.MenuVmd;
 using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI.Fody.Helpers;
 
@@ -30,12 +32,15 @@ public class MainVmd : BaseVmd
     
     [Reactive]
     public ITitleVmd? TitleVmd { get; private set; }
+    
+    public IViewDialogService DialogService { get; private set; }
 
     #endregion
 
     #region Constructors
 
     public MainVmd(
+        IViewDialogService dialogService,
         IStore<ITitleVmd> titleVmdStore,
         IStore<Settings> settings, 
         ProjectInfo projectInfo)
@@ -53,6 +58,8 @@ public class MainVmd : BaseVmd
         Settings = settings.CurrentValue;
 
         ProjectInfo = projectInfo;
+
+        DialogService = dialogService;
         
         #endregion
 

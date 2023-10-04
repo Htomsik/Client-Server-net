@@ -5,7 +5,9 @@ using Avalonia.Markup.Xaml;
 using AvaloniaUIClient.Infrastructure.IOC;
 using AvaloniaUIClient.Views;
 using Core.Infrastructure.Hosting;
+using Core.Infrastructure.Services.AccountService;
 using Core.Infrastructure.Services.NavigationService;
+using Core.Infrastructure.Services.Other;
 using Core.Infrastructure.VMD.Interfaces;
 using Core.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,7 +34,7 @@ public partial class App : Application
 
             desktop.MainWindow = Services.GetRequiredService<MainWindow>();
             
-           await Host!.StartAsync();
+            await Host!.StartAsync();
         }
         
         base.OnFrameworkInitializationCompleted();
@@ -43,7 +45,15 @@ public partial class App : Application
     private void StartupEvents()
     {
         Services.GetService<SettingsFileService>().Get();
+        
+        Services.GetService<UserFleService>().Get();
+        
+        Services.GetService<SettingsService>();
 
+        Services.GetService<ITokenService>().Refresh();
+        
         Services.GetService<BaseVmdNavigationService<ITitleVmd>>();
+
+        Services.GetService<HttpTokenService>();
     }
 }

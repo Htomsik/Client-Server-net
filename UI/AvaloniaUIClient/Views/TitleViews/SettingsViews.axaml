@@ -10,42 +10,63 @@
     d:DataContext="{Binding SettingsVmd}"
     mc:Ignorable="d">
 
-    <WrapPanel
-        ItemHeight="250"
-        ItemWidth="250">
 
-        <styles:ColorZone
-            Margin="5"
-            Padding="3">
+    <UserControl.Styles>
+
+        <Style Selector="styles|Card.unitCard">
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Padding" Value="3" />
+        </Style>
+
+        <Style Selector="TextBlock.HeaderTb">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+    </UserControl.Styles>
+
+    <WrapPanel ItemHeight="300" ItemWidth="300">
+
+        <!--  Account  -->
+        <styles:Card Classes="unitCard">
+            <styles:Card.Content>
+                <Grid RowDefinitions="25,*">
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Classes="Headline6 HeaderTb"
+                        Text="{Binding AccountVmd.Title}" />
+
+                    <ContentControl Grid.Row="1" Content="{Binding AccountVmd}" />
+
+                </Grid>
+            </styles:Card.Content>
+        </styles:Card>
+
+        <!--  General  -->
+        <styles:Card Classes="unitCard">
             <Grid RowDefinitions="25,*">
-
                 <TextBlock
                     Grid.Row="0"
                     Grid.Column="0"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Classes="Headline6"
+                    Classes="Headline6 HeaderTb"
                     Text="General" />
 
-                <StackPanel
-                    Grid.Row="1"
-                    Margin="5">
+                <StackPanel Grid.Row="1" Margin="5">
 
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Margin="3" Orientation="Horizontal">
+                        <ToggleSwitch IsChecked="{Binding Settings.IsDevMode}" />
+                        <TextBlock Classes="Body1" Text="Dev mode" />
+                    </StackPanel>
 
-                        <CheckBox IsChecked="{Binding Settings.IsDevMode}" />
-
-                        <TextBlock
-                            Classes="Body1"
-                            Text="Dev mode" />
-
+                    <StackPanel Margin="3" Orientation="Horizontal">
+                        <ToggleSwitch IsChecked="{Binding Settings.IsDarkTheme}" />
+                        <TextBlock Classes="Body1" Text="Dark theme" />
                     </StackPanel>
 
                 </StackPanel>
-
             </Grid>
-        </styles:ColorZone>
+        </styles:Card>
 
     </WrapPanel>
 </UserControl>
-

@@ -7,4 +7,5 @@ riderModule.iml
 **/wwwroot/lib-*
 **/wwwroot/css
 /.idea/
-logs/ 
+logs/
+*.db*
