@@ -46,9 +46,4 @@
       <_ContentIncludedByDefault Remove="WebApplication1\Properties\launchSettings.json" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Resources" />
-      <Folder Include="Resources\" />
-    </ItemGroup>
-
 </Project>
